@@ -40,20 +40,6 @@ export const QUESTIONS = [
   },
   {
     "tier": 90,
-    "q": "Four people are in a maze trying to reach the centre. Which of them is going the wrong way?",
-    "a": "B",
-    "d": [
-      "A",
-      "C",
-      "D"
-    ],
-    "explain": null,
-    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
-    "image": "images/questions/circle-maze.svg",
-    "imageAlt": "A solid dark circular maze block with light winding tunnels carved through it. The tunnels for A, C, and D each wind inward and open directly into the teal GOAL chamber at the centre. The tunnel for B winds inward but ends at a small dead-end marker, clearly short of the goal chamber."
-  },
-  {
-    "tier": 90,
     "q": "Which of these words does NOT make a real word when its letters are read in reverse order: STUN, DUST, or SNUB?",
     "a": "DUST",
     "d": [

@@ -247,3 +247,25 @@
       (no new images — the bank already has good image coverage from
       Phases 9/14/15). Bank is now 145 questions across 17 tiers, still 0
       tiers at 100% image. `node --test` 32/32.
+
+## Phase 18 - Maze image: three recreation attempts, then removed
+
+- [x] After the Phase 17 rebuild, the reporter shared a reference photo of
+      the real puzzle's maze graphic and asked to use it directly (with a
+      corner icon cropped out). Declined: this project's images are
+      original recreations only, never screenshots or lightly-edited
+      copies of someone else's graphic (a rule held across all prior
+      images, and the photo's origin/copyright status wasn't known) —
+      minor edits like cropping a watermark don't change that it's still
+      someone else's file.
+      Attempted one more from-scratch original recreation using the photo
+      only as a structural/style reference (positions, colors, general
+      "thick black walls, red letter badges, blue arrows" look), built as
+      a directly-authored carved-tunnel design so correctness didn't
+      depend on inferred wall-gap geometry — still not judged an accurate
+      enough match.
+- [x] Given three attempts without a satisfying result, removed the maze
+      question and `circle-maze.svg` entirely rather than continue
+      guessing. Bank is now 144 questions across 17 tiers, 16 image-backed,
+      still 0 tiers at 100% image (tier 90 has 4 remaining). `node --test`
+      32/32.

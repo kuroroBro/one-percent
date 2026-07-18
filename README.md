@@ -53,7 +53,7 @@ no backend authority to restore.
 
 ## Question bank
 
-145 questions across 17 difficulty tiers (from THE LINE at ~92% down to 1%),
+144 questions across 17 difficulty tiers (from THE LINE at ~92% down to 1%),
 adapted from publicly reported episode recaps of *The 1% Club* (UK and US),
 each tagged with the difficulty percentage as reported by the source. The
 real show is often free-response and not always 4-option (True/False and
@@ -62,7 +62,7 @@ options, distractor answers were authored to match the real answer's
 format. Some questions carry a short logic explanation shown on the reveal
 screen.
 
-17 questions include artwork — the show's visual puzzles (rebuses, grids,
+16 questions include artwork — the show's visual puzzles (rebuses, grids,
 mazes, matchstick puzzles, shape patterns, optical illusions, a Venn
 diagram, and one AI-illustrated set of foil balloon numerals) recreated as
 original local images, never screenshots of the real broadcast, from

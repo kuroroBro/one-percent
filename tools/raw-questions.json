@@ -14,7 +14,7 @@
   },
   {
     "tier": 5,
-    "question": "If a name reversed spells a real word — for example, LIAM reversed is MAIL — what do you get if you reverse the name DENNIS?",
+    "question": "If a name reversed spells a real word \u2014 for example, LIAM reversed is MAIL \u2014 what do you get if you reverse the name DENNIS?",
     "answer": "SINNED",
     "choices": [
       "SINNED",
@@ -261,7 +261,7 @@
   },
   {
     "tier": 1,
-    "question": "Listen carefully: which letter of the alphabet is logically missing from this list — B, C, D, E, G, P, T, Z?",
+    "question": "Listen carefully: which letter of the alphabet is logically missing from this list \u2014 B, C, D, E, G, P, T, Z?",
     "answer": "V (all the given letters rhyme with 'ee' when said aloud, but V does not fit that same rhyming group with the missing letter)",
     "choices": [
       "V",
@@ -431,7 +431,7 @@
   {
     "tier": 1,
     "question": "What is the lowest whole number that is equal to ten times the number of letters in its own name when spelled out?",
-    "answer": "FIFTY (50 = 10 × 5 letters)",
+    "answer": "FIFTY (50 = 10 \u00d7 5 letters)",
     "choices": [
       "FIFTY",
       "FORTY",
@@ -469,7 +469,7 @@
   },
   {
     "tier": 1,
-    "question": "Using the same rule throughout — replace the word 'times' with the multiplication symbol X to form words with similar meanings — TE x T equals MESSAGE, and TO x IN equals POISON. What two letters make E x ?? equal LEAVE?",
+    "question": "Using the same rule throughout \u2014 replace the word 'times' with the multiplication symbol X to form words with similar meanings \u2014 TE x T equals MESSAGE, and TO x IN equals POISON. What two letters make E x ?? equal LEAVE?",
     "answer": "IT (EXIT)",
     "choices": [
       "IT",
@@ -509,7 +509,7 @@
   {
     "tier": 1,
     "question": "If January = 717, March = 5315, and June = 4624 (based on the number of letters in the month's name, its position in the calendar, and the product of those two numbers), what does August equal?",
-    "answer": "6848 (August has 6 letters, is the 8th month, and 6 × 8 = 48)",
+    "answer": "6848 (August has 6 letters, is the 8th month, and 6 \u00d7 8 = 48)",
     "choices": [
       "6848",
       "8648",
@@ -533,7 +533,7 @@
   },
   {
     "tier": "line",
-    "question": "At a zoo, the aardvark is called Adam, the meerkat is called Michelle, and the rhino is called Rochelle — each name starts with the same letter as the animal's name. What is the zebra called: Annabelle or Zachary?",
+    "question": "At a zoo, the aardvark is called Adam, the meerkat is called Michelle, and the rhino is called Rochelle \u2014 each name starts with the same letter as the animal's name. What is the zebra called: Annabelle or Zachary?",
     "answer": "Zachary",
     "choices": [
       "Annabelle",
@@ -544,7 +544,7 @@
   },
   {
     "tier": "line",
-    "question": "Logically, given this exclusive guest list — Doja Cat, Megan Fox, Sheryl Crow — which of these celebrities also belongs on it: Bad Bunny, Ariana Grande, Post Malone, or Elton John?",
+    "question": "Logically, given this exclusive guest list \u2014 Doja Cat, Megan Fox, Sheryl Crow \u2014 which of these celebrities also belongs on it: Bad Bunny, Ariana Grande, Post Malone, or Elton John?",
     "answer": "Bad Bunny (each name hides an animal: CAT, FOX, CROW, BUNNY)",
     "choices": [
       "Bad Bunny",
@@ -638,7 +638,7 @@
     "choices": [
       "Kay",
       "May",
-      "Timothée Chalamet"
+      "Timoth\u00e9e Chalamet"
     ],
     "choicesInvented": false,
     "source": "https://moviedelic.com/the-1-club-episode-8-recap/"
@@ -721,7 +721,7 @@
   },
   {
     "tier": 70,
-    "question": "Selena and Camila are going to a 3-floor mall to shop for shoes, eat dinner, and see a movie — each activity is on a different floor. The theater is not on the 1st floor. Neither the 2nd nor 3rd floor has a shoe store. The food court is on the 2nd floor. Which floor is the shoe store on?",
+    "question": "Selena and Camila are going to a 3-floor mall to shop for shoes, eat dinner, and see a movie \u2014 each activity is on a different floor. The theater is not on the 1st floor. Neither the 2nd nor 3rd floor has a shoe store. The food court is on the 2nd floor. Which floor is the shoe store on?",
     "answer": "1st floor",
     "choices": [
       "1st floor",
@@ -746,7 +746,7 @@
   {
     "tier": 70,
     "question": "One of these three famous movie quotes has been misquoted. Which one? A) 'You can't handle the truth!' B) 'May the Force be with you.' C) 'Toto, I've a feeling we're in not Kansas anymore.'",
-    "answer": "C (it should read 'we're not in Kansas anymore' — the words 'in' and 'not' are swapped)",
+    "answer": "C (it should read 'we're not in Kansas anymore' \u2014 the words 'in' and 'not' are swapped)",
     "choices": [
       "A",
       "B",
@@ -757,7 +757,7 @@
   },
   {
     "tier": 70,
-    "question": "Two animal names can be joined together to spell a longer word that is NOT itself an animal. One of the animals is SEAL — what's the other animal, and what word do they make?",
+    "question": "Two animal names can be joined together to spell a longer word that is NOT itself an animal. One of the animals is SEAL \u2014 what's the other animal, and what word do they make?",
     "answer": "ANT, making SEALANT",
     "choices": [
       "ANT (SEALANT)",
@@ -808,7 +808,7 @@
   {
     "tier": 70,
     "question": "True or False: It would be False to say that the word 'True' appears more than the word 'False' in this True/False question?",
-    "answer": "True (the word 'False' actually appears more often, so it IS false that 'True' appears more — making the overall statement True)",
+    "answer": "True (the word 'False' actually appears more often, so it IS false that 'True' appears more \u2014 making the overall statement True)",
     "choices": [
       "True",
       "False"
@@ -1347,21 +1347,6 @@
     "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
   },
   {
-    "tier": 90,
-    "question": "Four people are in a maze trying to reach the centre. Which of them is going the wrong way?",
-    "answer": "B",
-    "choices": [
-      "A",
-      "B",
-      "C",
-      "D"
-    ],
-    "choicesInvented": false,
-    "image": "images/questions/circle-maze.svg",
-    "imageAlt": "A solid dark circular maze block with light winding tunnels carved through it. The tunnels for A, C, and D each wind inward and open directly into the teal GOAL chamber at the centre. The tunnel for B winds inward but ends at a small dead-end marker, clearly short of the goal chamber.",
-    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
-  },
-  {
     "tier": 45,
     "question": "Look at this floor covered in square tiles. If each square tile is made of eight triangles, how many square tiles were used to cover the floor?",
     "answer": "20",
@@ -1406,7 +1391,7 @@
   {
     "tier": 90,
     "question": "Which of these is the 'largest': CIRCLE, TRIANGLE, RECTANGLE, or SQUARE?",
-    "answer": "RECTANGLE (it has the most letters of the four words — 9 — making it the 'largest' word)",
+    "answer": "RECTANGLE (it has the most letters of the four words \u2014 9 \u2014 making it the 'largest' word)",
     "choices": [
       "CIRCLE",
       "TRIANGLE",
@@ -1696,7 +1681,7 @@
   },
   {
     "tier": 40,
-    "question": "May 5, 2025 (5/5/25) was a 'square root day' — the month and day are equal, and multiplying them gives the last two digits of the year (5x5=25). In which month did the previous square root day fall?",
+    "question": "May 5, 2025 (5/5/25) was a 'square root day' \u2014 the month and day are equal, and multiplying them gives the last two digits of the year (5x5=25). In which month did the previous square root day fall?",
     "answer": "April (4/4/16, since 4x4=16)",
     "choices": [
       "April",
@@ -1748,7 +1733,7 @@
   },
   {
     "tier": 25,
-    "question": "OWN means 'possess' and NOW means 'immediately' — both are anagrams of the same three letters. Which word, also an anagram of those same letters, means 'victorious' (the past tense of 'win')?",
+    "question": "OWN means 'possess' and NOW means 'immediately' \u2014 both are anagrams of the same three letters. Which word, also an anagram of those same letters, means 'victorious' (the past tense of 'win')?",
     "answer": "WON",
     "choices": [
       "WON",
@@ -1878,7 +1863,7 @@
   {
     "tier": 15,
     "question": "Roll three standard dice. If their face values must add up to exactly 10, what is the highest 3-digit number you could form by arranging them in the best order?",
-    "answer": "631 (6, 3, 1 — no other combination summing to 10 with faces 1-6 arranges to a bigger number)",
+    "answer": "631 (6, 3, 1 \u2014 no other combination summing to 10 with faces 1-6 arranges to a bigger number)",
     "choices": [
       "631",
       "622",
