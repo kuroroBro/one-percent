@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" role="img" aria-labelledby="title desc">
+  <title id="title">Five rows of six symbols, one row reads the same forwards and backwards</title>
+  <desc id="desc">Row A: bracket close bracket open bracket close bracket open bracket close bracket. Row B: exclamation pound exclamation pound exclamation pound. Row C: less-than greater-than greater-than greater-than greater-than less-than. Row D: percent slash percent slash percent slash. Row E: plus plus minus minus minus plus.</desc>
+  <rect width="700" height="380" rx="28" fill="#fffaf0"/>
+  <text x="350" y="34" font-family="system-ui, sans-serif" text-anchor="middle" font-size="17" font-weight="700" fill="#241d42">Which row reads the same left-to-right as it does right-to-left?</text>
+
+  <g font-family="ui-monospace, monospace" font-size="30" font-weight="700" fill="#241d42">
+    <circle cx="70" cy="80" r="18" fill="#e8b64c"/>
+    <text x="70" y="88" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="800">A</text>
+    <text x="120" y="90">[ ]  [ ]  [ ]</text>
+
+    <circle cx="70" cy="140" r="18" fill="#e8b64c"/>
+    <text x="70" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="800">B</text>
+    <text x="120" y="150">!  £  !  £  !  £</text>
+
+    <circle cx="70" cy="200" r="18" fill="#e8b64c"/>
+    <text x="70" y="208" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="800">C</text>
+    <text x="120" y="210">&lt;  &gt;  &gt;  &gt;  &gt;  &lt;</text>
+
+    <circle cx="70" cy="260" r="18" fill="#e8b64c"/>
+    <text x="70" y="268" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="800">D</text>
+    <text x="120" y="270">%  /  %  /  %  /</text>
+
+    <circle cx="70" cy="320" r="18" fill="#e8b64c"/>
+    <text x="70" y="328" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="800">E</text>
+    <text x="120" y="330">+  +  –  –  –  +</text>
+  </g>
+</svg>

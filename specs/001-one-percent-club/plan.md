@@ -344,3 +344,47 @@ rematch.
   since a blind-guessing Playwright playthrough proved too unreliable at
   surviving far enough into a real deck to reliably land on every new
   image organically.
+- **v5 / Phase 15** (2026-07-18): Fixed a real bug reported after v4
+  shipped: "all image question comes first, it should be mixed." Root
+  cause was a content-distribution issue, not a `buildDeck()` logic bug —
+  `buildDeck()` already picks randomly within a tier and always sorts the
+  final deck by tier descending exactly as documented (see Rules Engine
+  above; that ordering is intentional and unchanged). The problem was that
+  v4 had added exactly one question at the 90% tier and exactly one at the
+  40% tier, and both happened to be the new image puzzle. Since a tier with
+  only one candidate is a 100%-guaranteed pick whenever that tier is
+  selected at all, and `questionCount` defaults to 15 out of 17 available
+  tiers (so nearly every tier gets selected most games), those two tiers'
+  images appeared at fixed, predictable positions in nearly every single
+  game. Compounding it, v4's 12 image-bearing tiers skewed 6-easy/2-hard,
+  so even the *probabilistic* (non-guaranteed) tiers leaned toward
+  appearing in the ladder's first half.
+
+  Diagnosed with a script auditing `image count === total count` per tier
+  (found exactly two: 90% and 40%), then confirmed statistically with a
+  500-game `buildDeck()` simulation tallying which ladder position (1-15)
+  each image landed on — the original distribution clustered almost
+  entirely in positions 1-8. Fixed by researching and adding 11 real
+  text-only questions at the 85-95%/35-45% tiers (eliminating every
+  100%-image tier) and 5 more real image questions at the harder 5-25%
+  range (a seven-segment-display digit puzzle, a suit-symbol counting
+  puzzle, a symmetric-row puzzle, a Poggendorff illusion, and a three-circle
+  Venn diagram — all new hand-authored SVGs, same sourcing bar as v4: real
+  aired questions with enough source detail to redraw faithfully, never
+  screenshots of the broadcast). Re-ran the 500-game simulation after the
+  fix: 0 tiers are 100%-image, and image sightings now land across nearly
+  every position 2-15, skewing slightly toward the harder second half
+  rather than the easier first half — the reverse of the original bug.
+
+  One process note: while visually QA'ing the five new SVGs the same way
+  as v4 (headless-browser screenshot), the seven-segment-digits.svg
+  screenshot looked badly broken (content split and overflowing) when
+  opened as a standalone `file://` document. Re-checked by rendering it
+  through an actual `<img>` tag with the same CSS the real app uses instead
+  — it rendered perfectly. The standalone-file discrepancy turned out to be
+  because the SVG has no explicit `width`/`height` attributes (only
+  `viewBox`), which browsers handle differently for a top-level document
+  than for a sized `<img>`; this is a lesson for future visual QA on this
+  project — always verify via `<img>`, since that's the only way these
+  assets are actually consumed, not by opening the file directly. Bank is
+  now 120 questions across 17 tiers, 17 image-backed, all 32 tests passing.

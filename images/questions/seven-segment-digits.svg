@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-labelledby="title desc">
+  <title id="title">Ten seven-segment digits from 0 to 9</title>
+  <desc id="desc">Digits 0 through 9 rendered as illuminated seven-segment displays. Digit 4 lights four segments, digit 5 lights five segments, digit 6 lights six segments; every other digit's lit segment count differs from its value.</desc>
+  <rect width="760" height="220" rx="28" fill="#fffaf0"/>
+  <text x="380" y="30" font-family="system-ui, sans-serif" text-anchor="middle" font-size="16" font-weight="700" fill="#241d42">How many of these digits light the same number of segments as their own value?</text>
+  <rect x="20" y="46" width="720" height="150" rx="14" fill="#20242b"/>
+
+  <defs>
+    <g id="segTop"><rect x="10" y="-4" width="40" height="8" rx="3"/></g>
+    <g id="segTL"><rect x="6" y="0" width="8" height="46" rx="3"/></g>
+    <g id="segTR"><rect x="46" y="0" width="8" height="46" rx="3"/></g>
+    <g id="segMid"><rect x="10" y="46" width="40" height="8" rx="3"/></g>
+    <g id="segBL"><rect x="6" y="54" width="8" height="46" rx="3"/></g>
+    <g id="segBR"><rect x="46" y="54" width="8" height="46" rx="3"/></g>
+    <g id="segBot"><rect x="10" y="96" width="40" height="8" rx="3"/></g>
+  </defs>
+
+  <!-- 10 digit slots, translate x = 40 + i*70, y=60 -->
+  <g fill="#3a3f4a">
+    <g transform="translate(40,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(110,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(180,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(250,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(320,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(390,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(460,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(530,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(600,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <g transform="translate(670,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+  </g>
+
+  <g fill="#5fd08a">
+    <!-- 0: top,TL,TR,BL,BR,bot -->
+    <g transform="translate(40,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <!-- 1: TR,BR -->
+    <g transform="translate(110,60)"><use href="#segTR"/><use href="#segBR"/></g>
+    <!-- 2: top,TR,mid,BL,bot -->
+    <g transform="translate(180,60)"><use href="#segTop"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBot"/></g>
+    <!-- 3: top,TR,mid,BR,bot -->
+    <g transform="translate(250,60)"><use href="#segTop"/><use href="#segTR"/><use href="#segMid"/><use href="#segBR"/><use href="#segBot"/></g>
+    <!-- 4: TL,TR,mid,BR -->
+    <g transform="translate(320,60)"><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBR"/></g>
+    <!-- 5: top,TL,mid,BR,bot -->
+    <g transform="translate(390,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segMid"/><use href="#segBR"/><use href="#segBot"/></g>
+    <!-- 6: top,TL,mid,BL,BR,bot -->
+    <g transform="translate(460,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <!-- 7: top,TR,BR -->
+    <g transform="translate(530,60)"><use href="#segTop"/><use href="#segTR"/><use href="#segBR"/></g>
+    <!-- 8: all -->
+    <g transform="translate(600,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBL"/><use href="#segBR"/><use href="#segBot"/></g>
+    <!-- 9: top,TL,TR,mid,BR,bot -->
+    <g transform="translate(670,60)"><use href="#segTop"/><use href="#segTL"/><use href="#segTR"/><use href="#segMid"/><use href="#segBR"/><use href="#segBot"/></g>
+  </g>
+
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#9a92b8" font-size="13">
+    <text x="65" y="215">0</text><text x="135" y="215">1</text><text x="205" y="215">2</text><text x="275" y="215">3</text><text x="345" y="215">4</text>
+    <text x="415" y="215">5</text><text x="485" y="215">6</text><text x="555" y="215">7</text><text x="625" y="215">8</text><text x="695" y="215">9</text>
+  </g>
+</svg>

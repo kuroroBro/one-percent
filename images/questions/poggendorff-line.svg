@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" role="img" aria-labelledby="title desc">
+  <title id="title">A diagonal line hidden behind a vertical bar, with three candidate continuations</title>
+  <desc id="desc">A thin diagonal line rises from lower left toward a thick vertical bar covering the middle of the image. On the right of the bar, three labeled diagonal segments (A, B, C) continue at the same angle but at different heights; only one truly lines up with the original.</desc>
+  <rect width="700" height="380" rx="28" fill="#fffaf0"/>
+  <text x="350" y="34" font-family="system-ui, sans-serif" text-anchor="middle" font-size="16" font-weight="700" fill="#241d42">Which line (A, B, or C) is the true continuation of the diagonal?</text>
+
+  <g stroke="#241d42" stroke-width="4" fill="none" stroke-linecap="round">
+    <line x1="60" y1="300" x2="280" y2="220"/>
+  </g>
+  <rect x="280" y="70" width="60" height="280" fill="#241d42"/>
+
+  <g stroke="#c0392b" stroke-width="4" fill="none" stroke-linecap="round">
+    <line x1="340" y1="198" x2="560" y2="118"/>
+  </g>
+  <text x="575" y="118" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#c0392b">A</text>
+
+  <g stroke="#2f6fb0" stroke-width="4" fill="none" stroke-linecap="round">
+    <line x1="340" y1="218" x2="560" y2="138"/>
+  </g>
+  <text x="575" y="138" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#2f6fb0">B</text>
+
+  <g stroke="#3c9a5f" stroke-width="4" fill="none" stroke-linecap="round">
+    <line x1="340" y1="178" x2="560" y2="98"/>
+  </g>
+  <text x="575" y="98" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#3c9a5f">C</text>
+</svg>

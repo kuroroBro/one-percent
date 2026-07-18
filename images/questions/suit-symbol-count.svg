@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" role="img" aria-labelledby="title desc">
+  <title id="title">Rows of playing card suit symbols</title>
+  <desc id="desc">Row 1: eight red diamonds. Row 2: six black spades. Row 3: six red hearts. Row 4: clubs, count unknown, marked with a question mark.</desc>
+  <rect width="700" height="400" rx="28" fill="#fffaf0"/>
+  <text x="350" y="34" font-family="system-ui, sans-serif" text-anchor="middle" font-size="17" font-weight="700" fill="#241d42">Following the hidden pattern, how many club symbols belong in row 4?</text>
+
+  <g font-family="system-ui, sans-serif" font-size="36">
+    <text x="60" y="105" fill="#c0392b">♦ ♦ ♦ ♦ ♦ ♦ ♦ ♦</text>
+    <text x="60" y="165" fill="#241d42">♠ ♠ ♠ ♠ ♠ ♠</text>
+    <text x="60" y="225" fill="#c0392b">♥ ♥ ♥ ♥ ♥ ♥</text>
+    <text x="60" y="285" fill="#9a92b8" font-weight="800">♣ ?</text>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="15" fill="#9a92b8" text-anchor="end">
+    <text x="630" y="105">DIAMONDS</text>
+    <text x="630" y="165">SPADES</text>
+    <text x="630" y="225">HEARTS</text>
+    <text x="630" y="285">CLUBS</text>
+  </g>
+</svg>

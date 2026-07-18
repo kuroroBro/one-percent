@@ -53,6 +53,52 @@ export const QUESTIONS = [
     "imageAlt": "A circular ring maze with four labeled arrows. B points straight into a solid wall while A, C, and D point along open paths toward the centre."
   },
   {
+    "tier": 90,
+    "q": "Which of these words does NOT make a real word when its letters are read in reverse order: STUN, DUST, or SNUB?",
+    "a": "DUST",
+    "d": [
+      "STUN",
+      "SNUB"
+    ],
+    "explain": "reversed it spells TSUD, which is not a word; STUN reversed is NUTS and SNUB reversed is BUNS",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 90,
+    "q": "Which of these is the 'largest': CIRCLE, TRIANGLE, RECTANGLE, or SQUARE?",
+    "a": "RECTANGLE",
+    "d": [
+      "CIRCLE",
+      "TRIANGLE",
+      "SQUARE"
+    ],
+    "explain": "it has the most letters of the four words — 9 — making it the 'largest' word",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 90,
+    "q": "If you swap the first letter of the word for the next letter of the alphabet, which of these becomes a valid new word: PAGE, RAGE, or WAGE?",
+    "a": "RAGE",
+    "d": [
+      "PAGE",
+      "WAGE"
+    ],
+    "explain": "becomes SAGE, a valid word; PAGE would become QAGE and WAGE would become XAGE, neither of which are real words",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 90,
+    "q": "What single term is both a Marvel superhero and a triathlon event?",
+    "a": "Iron Man",
+    "d": [
+      "Spider-Man",
+      "Batman",
+      "Aquaman"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-australia-065849278.html"
+  },
+  {
     "tier": 80,
     "q": "Which name comes next in this sequence, where each surname's initials advance one letter through the alphabet: Ashley Banjo, Charles Dickens, Ella Fitzgerald, ____ ____?",
     "a": "Gloria Hunniford",
@@ -508,6 +554,30 @@ export const QUESTIONS = [
     "imageAlt": "A grid of pinwheel-patterned floor tiles, four tiles wide by five tiles tall, each tile made of eight small triangles."
   },
   {
+    "tier": 45,
+    "q": "Given Miss Tep, Miss Poke, and Miss Ing, who logically is the fourth woman: Miss Robb, Miss Lyle, Miss Wells, or Miss Pell?",
+    "a": "Miss Pell",
+    "d": [
+      "Miss Robb",
+      "Miss Lyle",
+      "Miss Wells"
+    ],
+    "explain": "each name is 'Miss' plus a suffix that forms a word when read together: Miss+Tep=misstep, Miss+Poke=mispoke, Miss+Ing=missing, Miss+Pell=misspell",
+    "source": "https://bobbymgsk.wordpress.com/2026/05/19/the-1-club-5-18/"
+  },
+  {
+    "tier": 45,
+    "q": "What word can be put after each of these three words to make three new words: SAUSAGE, DRUM, SPRING?",
+    "a": "Roll",
+    "d": [
+      "Stick",
+      "Beat",
+      "Time"
+    ],
+    "explain": "sausage roll, drum roll, spring roll",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 40,
     "q": "The two digits below read 24, made of matchsticks. Move exactly ONE matchstick to a different position to create a new 3-digit number. What is that number?",
     "a": "211",
@@ -522,6 +592,30 @@ export const QUESTIONS = [
     "imageAlt": "A digit 2 made of five matchsticks and an open-style digit 4 made of three matchsticks, laid out on a dark background, together reading 24."
   },
   {
+    "tier": 40,
+    "q": "Which two letters are missing to complete this musical instrument: _K_L_L_?",
+    "a": "U and E",
+    "d": [
+      "O and A",
+      "I and O",
+      "E and I"
+    ],
+    "explain": "spelling UKULELE",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html"
+  },
+  {
+    "tier": 40,
+    "q": "You set your alarm clock 5 minutes ahead so you'll arrive 5 minutes early for a meeting the next day. You forgot the clocks spring forward an hour overnight for daylight saving time. How will you actually arrive for the meeting?",
+    "a": "55 min late",
+    "d": [
+      "5 min early",
+      "5 min late",
+      "55 min early"
+    ],
+    "explain": "you set your clock 5 minutes early, but the clocks also sprang forward an hour overnight, so you actually arrive 55 minutes after the meeting starts",
+    "source": "https://bobbymgsk.wordpress.com/2026/06/02/the-1-club-6-1/"
+  },
+  {
     "tier": 35,
     "q": "What word is spelled by the first letters of this clue: FIRST LETTERS OF WORDS EACH REALLY SPELL?",
     "a": "FLOWERS",
@@ -532,6 +626,30 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 35,
+    "q": "What single word means all three of these things: a loud noise, a piece of tennis equipment, and a fraudulent scheme?",
+    "a": "Racket",
+    "d": [
+      "Scam",
+      "Bat",
+      "Noise"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 35,
+    "q": "What item of clothing can you add after the letters 'A D' to make a commonly used word?",
+    "a": "Dress",
+    "d": [
+      "Coat",
+      "Suit",
+      "Robe"
+    ],
+    "explain": "forming ADDRESS",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html"
   },
   {
     "tier": 30,
@@ -645,6 +763,19 @@ export const QUESTIONS = [
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
+    "tier": 25,
+    "q": "A thick bar covers the middle of a diagonal line. Which of the three lines on the other side (A, B, or C) is the true unbroken continuation?",
+    "a": "A",
+    "d": [
+      "B",
+      "C"
+    ],
+    "explain": null,
+    "source": "https://yahoo.com/entertainment/1-club-questions-answers-australia-065849278.html",
+    "image": "images/questions/poggendorff-line.svg",
+    "imageAlt": "A thin diagonal line rises toward a thick vertical bar. On the other side of the bar, three labeled diagonal lines continue at the same angle but at different heights; only line A truly aligns with the original line's trajectory."
+  },
+  {
     "tier": 20,
     "q": "How many syllables are there in total when you say the names of all 26 letters of the English alphabet?",
     "a": "28",
@@ -655,6 +786,34 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 20,
+    "q": "On a seven-segment digital display, how many digits from 0 to 9 light exactly as many segments as their own numeric value?",
+    "a": "3",
+    "d": [
+      "1",
+      "2",
+      "4"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html",
+    "image": "images/questions/seven-segment-digits.svg",
+    "imageAlt": "Ten seven-segment display digits, 0 through 9, in green on a dark panel with unlit segments shown dimly. Digit 4 lights four segments, digit 5 lights five segments, and digit 6 lights six segments; no other digit's lit segment count equals its own value."
+  },
+  {
+    "tier": 20,
+    "q": "A Venn diagram shows three overlapping circles: PALINDROME, FOUR LETTERS, and ENDS IN P. Which word belongs in the very centre, where all three circles overlap: STOP, BRING, LEVEL, or PEEP?",
+    "a": "PEEP",
+    "d": [
+      "STOP",
+      "BRING",
+      "LEVEL"
+    ],
+    "explain": "it is a palindrome, has exactly four letters, and ends in P, satisfying all three circles at once",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html",
+    "image": "images/questions/venn-diagram-peep.svg",
+    "imageAlt": "A three-circle Venn diagram labeled PALINDROME, ENDS IN P, and FOUR LETTERS. LEVEL sits only in PALINDROME. STOP sits where ENDS IN P and FOUR LETTERS overlap. BRING sits outside all three circles. PEEP sits in the centre where all three circles overlap."
   },
   {
     "tier": 15,
@@ -679,6 +838,20 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 15,
+    "q": "Which of these five rows of six symbols reads exactly the same left-to-right as it does right-to-left?",
+    "a": "C",
+    "d": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html",
+    "image": "images/questions/symbol-symmetry-rows.svg",
+    "imageAlt": "Five labeled rows of six symbols each. Row A: bracket close, bracket open, repeated. Row B: exclamation, pound sign, repeated. Row C: less-than, greater-than, greater-than, greater-than, greater-than, less-than. Row D: percent, slash, repeated. Row E: plus, plus, minus, minus, minus, plus. Only row C is a palindrome."
   },
   {
     "tier": 10,
@@ -839,6 +1012,20 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 5,
+    "q": "Rows show eight diamonds, six spades, and six hearts. Following the same hidden logic, how many club symbols belong in the fourth row?",
+    "a": "5",
+    "d": [
+      "4",
+      "6",
+      "7"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html",
+    "image": "images/questions/suit-symbol-count.svg",
+    "imageAlt": "Four rows of card suit symbols with labels: eight red diamonds, six black spades, six red hearts, and a row of clubs marked with a question mark. The count of symbols in each row equals the number of letters in that suit's name."
   },
   {
     "tier": 2,

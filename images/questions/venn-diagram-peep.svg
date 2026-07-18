@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" role="img" aria-labelledby="title desc">
+  <title id="title">A three-circle Venn diagram with candidate words placed by property</title>
+  <desc id="desc">Three overlapping circles labeled PALINDROME, ENDS IN P, and FOUR LETTERS. LEVEL sits only in PALINDROME. STOP sits where ENDS IN P and FOUR LETTERS overlap but not PALINDROME. BRING sits outside all three circles. PEEP sits in the center where all three circles overlap.</desc>
+  <rect width="700" height="480" rx="28" fill="#fffaf0"/>
+  <text x="350" y="34" font-family="system-ui, sans-serif" text-anchor="middle" font-size="17" font-weight="700" fill="#241d42">Which word belongs in the centre, where all three circles overlap?</text>
+
+  <g fill="none" stroke-width="3" opacity="0.85">
+    <circle cx="280" cy="230" r="150" stroke="#2f6fb0"/>
+    <circle cx="420" cy="230" r="150" stroke="#c0392b"/>
+    <circle cx="350" cy="350" r="150" stroke="#3c9a5f"/>
+  </g>
+
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="700">
+    <text x="150" y="130" fill="#2f6fb0">PALINDROME</text>
+    <text x="500" y="130" fill="#c0392b" text-anchor="end">ENDS IN P</text>
+    <text x="350" y="470" fill="#3c9a5f" text-anchor="middle">FOUR LETTERS</text>
+  </g>
+
+  <g font-family="system-ui, sans-serif" font-size="19" font-weight="800" fill="#241d42" text-anchor="middle">
+    <text x="205" y="175">LEVEL</text>
+    <text x="410" y="330">STOP</text>
+    <text x="350" y="270">PEEP</text>
+  </g>
+  <text x="620" y="80" font-family="system-ui, sans-serif" font-size="19" font-weight="800" fill="#9a92b8" text-anchor="middle">BRING</text>
+</svg>

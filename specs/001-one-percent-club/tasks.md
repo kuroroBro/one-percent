@@ -175,3 +175,30 @@
       JPEG loads with correct dimensions via a direct `<img>` check.
 - [x] `node --test` (32/32); update README's question-bank counts and
       artwork-sourcing description.
+
+## Phase 15 - Fix image clustering at the start of the ladder
+
+- [x] Diagnose a real player-reported bug ("all image questions come
+      first"): tiers 90% and 40% each had exactly one question total, and
+      both happened to be the newly-added image puzzle — since the deck is
+      always dealt difficulty-descending, those tiers landed at fixed,
+      predictable early-ish ladder positions in nearly every game,
+      guaranteed to be an image every time. Confirmed via a script auditing
+      every tier's image/total ratio, then a 500-game deck-build simulation
+      showing image sightings concentrated in the ladder's first half.
+- [x] Research and add 11 real text-only questions at the 85-95%, 35-45%
+      tiers to dilute the two singleton tiers (and their thin neighbors) so
+      no tier is 100% image-only anymore.
+- [x] Research and add 5 more real image questions at the harder 5-25%
+      tiers (seven-segment digits, suit-symbol count, symbol-row symmetry,
+      Poggendorff illusion, three-circle Venn diagram) as new hand-authored
+      SVGs, to correct the easy/hard skew rather than just diluting it.
+- [x] Re-verify visually via headless-browser `<img>` rendering (not
+      standalone file viewing, which distorts SVGs with no explicit
+      width/height); confirmed the Venn diagram's word placements are
+      mathematically inside/outside the correct circles.
+- [x] Re-ran the 500-game simulation after the fix: zero tiers are 100%
+      image, and image sightings now hit nearly every ladder position
+      (2 through 15) with more weight in the second half than the first —
+      the reverse of the original bug. Bank is now 120 questions across 17
+      tiers, 17 image-backed. `node --test` 32/32.
