@@ -180,6 +180,29 @@ export const QUESTIONS = [
     "source": "https://moviedelic.com/the-1-club-episode-8-recap/"
   },
   {
+    "tier": 80,
+    "q": "Which four-letter word completes all three of these: dress ____, Green Cross ____, and bar____?",
+    "a": "CODE",
+    "d": [
+      "COLD",
+      "CURL"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 80,
+    "q": "The letters of a common food have been sorted into alphabetical order to spell ABDER. What is the food?",
+    "a": "BREAD",
+    "d": [
+      "BEARD",
+      "READS",
+      "DEBAR"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 70,
     "q": "GERMANY contains the word MAN, and ARGENTINA contains the word GENT. Which of these countries has the word LAD hidden inside it: Spain, Morocco, or Bangladesh?",
     "a": "Bangladesh",
@@ -445,6 +468,29 @@ export const QUESTIONS = [
     "imageAlt": "Four identical square outlines sharing a centre point, each rotated further than the last, forming a 16-pointed star."
   },
   {
+    "tier": 60,
+    "q": "In which of these words does every single letter appear more than once, with none appearing only once: NONSENSE, MURMUR, or ENDANGERED?",
+    "a": "MURMUR",
+    "d": [
+      "NONSENSE",
+      "ENDANGERED"
+    ],
+    "explain": "every letter M, U, and R appears exactly twice; NONSENSE has a lone O and ENDANGERED has a lone A, G, and R",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 60,
+    "q": "Which of these names does NOT contain a hidden time of day: Carl Noonan, Dan Thomas, Meg Nightingale, or Becky Morningside?",
+    "a": "Dan Thomas",
+    "d": [
+      "Carl Noonan",
+      "Meg Nightingale",
+      "Becky Morningside"
+    ],
+    "explain": "the others hide NOON, NIGHT, and MORNING",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 50,
     "q": "What common two-word object do you get by combining the concepts of a SAFE, a TEABAG, and a BOWLING PIN?",
     "a": "Safety pin",
@@ -516,6 +562,28 @@ export const QUESTIONS = [
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
+    "tier": 50,
+    "q": "Which single letter, added to CONTACT, makes a word meaning 'to become smaller'?",
+    "a": "R",
+    "d": [
+      "S",
+      "E",
+      "T"
+    ],
+    "explain": "making CONTRACT",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 50,
+    "q": "In a coding system, even numbers are colored blue and odd numbers are colored red. If you add two red numbers together, what color represents the result?",
+    "a": "Blue",
+    "d": [
+      "Red"
+    ],
+    "explain": "odd plus odd always equals an even number",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 45,
     "q": "If the final question of the show was statistically twice as difficult (meaning half as many people could answer it), what would the new name of the show have to be?",
     "a": "The Half a % Club",
@@ -578,6 +646,18 @@ export const QUESTIONS = [
     "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
   },
   {
+    "tier": 45,
+    "q": "How many different letters appear more than once in the phrase 'ONE PERCENT CLUB'?",
+    "a": "3",
+    "d": [
+      "2",
+      "4",
+      "5"
+    ],
+    "explain": "E, N, and C each repeat",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 40,
     "q": "The two digits below read 24, made of matchsticks. Move exactly ONE matchstick to a different position to create a new 3-digit number. What is that number?",
     "a": "211",
@@ -616,6 +696,30 @@ export const QUESTIONS = [
     "source": "https://bobbymgsk.wordpress.com/2026/06/02/the-1-club-6-1/"
   },
   {
+    "tier": 40,
+    "q": "If GOAL minus the letters A and L, plus the letters L and F, spells a sport, what is it?",
+    "a": "GOLF",
+    "d": [
+      "POLO",
+      "RUGBY",
+      "BOXING"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 40,
+    "q": "May 5, 2025 (5/5/25) was a 'square root day' — the month and day are equal, and multiplying them gives the last two digits of the year (5x5=25). In which month did the previous square root day fall?",
+    "a": "April",
+    "d": [
+      "March",
+      "June",
+      "September"
+    ],
+    "explain": "4/4/16, since 4x4=16",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 35,
     "q": "What word is spelled by the first letters of this clue: FIRST LETTERS OF WORDS EACH REALLY SPELL?",
     "a": "FLOWERS",
@@ -650,6 +754,30 @@ export const QUESTIONS = [
     ],
     "explain": "forming ADDRESS",
     "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html"
+  },
+  {
+    "tier": 35,
+    "q": "UK coins ordered from smallest to largest by physical size are: 5p, 1p, 20p, old round GBP1, 10p, 2p, 50p, GBP2. If instead ordered from lowest to highest by value, how many coins stay in the exact same position?",
+    "a": "1",
+    "d": [
+      "0",
+      "2",
+      "3"
+    ],
+    "explain": "only the GBP2 coin, since it's both the largest and the highest-value",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 35,
+    "q": "Adding the same single vowel to each of these words makes a new word: BY, FUR, LOG, PEN. Which vowel is it?",
+    "a": "O",
+    "d": [
+      "A",
+      "E",
+      "I"
+    ],
+    "explain": "BOY, FOUR, LOGO, PEON",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
   },
   {
     "tier": 30,
@@ -727,6 +855,18 @@ export const QUESTIONS = [
     "imageAlt": "Eight colored boxes arranged in a loop, each box's word naming the fill colour of the next box in the chain."
   },
   {
+    "tier": 30,
+    "q": "Which single word can mean the same as all three of these: FINAL, ENDURE, and PREVIOUS?",
+    "a": "LAST",
+    "d": [
+      "END",
+      "STAY",
+      "OLD"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 25,
     "q": "In what year would someone born in 1990 turn the age equal to the sum of the digits in 1990?",
     "a": "2009",
@@ -776,6 +916,53 @@ export const QUESTIONS = [
     "imageAlt": "A thin diagonal line rises toward a thick vertical bar. On the other side of the bar, three labeled diagonal lines continue at the same angle but at different heights; only line A truly aligns with the original line's trajectory."
   },
   {
+    "tier": 25,
+    "q": "OWN means 'possess' and NOW means 'immediately' — both are anagrams of the same three letters. Which word, also an anagram of those same letters, means 'victorious' (the past tense of 'win')?",
+    "a": "WON",
+    "d": [
+      "NOW",
+      "OWN"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 25,
+    "q": "Jim is 6'3\" tall. Erica stands on a 1-foot stool and becomes 2 inches taller than Jim. How tall is Erica really?",
+    "a": "5'5\"",
+    "d": [
+      "5'7\"",
+      "5'3\"",
+      "5'9\""
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 25,
+    "q": "Which three different positive whole numbers give you the exact same total whether you add them together or multiply them together?",
+    "a": "1, 2, and 3",
+    "d": [
+      "1, 2, and 4",
+      "2, 2, and 2",
+      "1, 3, and 5"
+    ],
+    "explain": "1+2+3=6, and 1x2x3=6",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 25,
+    "q": "There's a nine-letter word: remove its first five letters and 'some' remains; remove its last four letters and it becomes 'whole'. What is the word?",
+    "a": "WHOLESOME",
+    "d": [
+      "HANDSOME",
+      "AWESOME",
+      "GRUESOME"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 20,
     "q": "How many syllables are there in total when you say the names of all 26 letters of the English alphabet?",
     "a": "28",
@@ -816,6 +1003,54 @@ export const QUESTIONS = [
     "imageAlt": "A three-circle Venn diagram labeled PALINDROME, ENDS IN P, and FOUR LETTERS. LEVEL sits only in PALINDROME. STOP sits where ENDS IN P and FOUR LETTERS overlap. BRING sits outside all three circles. PEEP sits in the centre where all three circles overlap."
   },
   {
+    "tier": 20,
+    "q": "What number replaces the question mark in this sequence, where each number is the letter-count of a month's name in calendar order: 7, 8, 5, 5, 3, 4, 4, ?, 9, 7, 8, 8",
+    "a": "6",
+    "d": [
+      "5",
+      "7",
+      "8"
+    ],
+    "explain": "August has 6 letters",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 20,
+    "q": "What weather-related phrase do these four royal titles represent: Emperor Tiger, King Tabby, Queen Spaniel, Empress Labrador?",
+    "a": "Raining cats and dogs",
+    "d": [
+      "Reign of cats and dogs",
+      "It's raining animals",
+      "Cats and dogs rule"
+    ],
+    "explain": "royalty 'reigns', a homophone of 'rains'; Tiger and Tabby are cats, Spaniel and Labrador are dogs",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 20,
+    "q": "2025's digits add up to 9 (2+0+2+5). What is the NEXT year whose digits also add up to 9?",
+    "a": "2034",
+    "d": [
+      "2033",
+      "2043",
+      "2044"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 20,
+    "q": "Change the first letter of DOG, PAIN, FIST, and MAIL to make four weather-related words. Which weather word do you get from PAIN?",
+    "a": "RAIN",
+    "d": [
+      "DRAIN",
+      "GRAIN",
+      "BRAIN"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
     "tier": 15,
     "q": "What vowel appears exactly four times in total when you write out the names of all seven days of the week?",
     "a": "U",
@@ -852,6 +1087,42 @@ export const QUESTIONS = [
     "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-083757014.html",
     "image": "images/questions/symbol-symmetry-rows.svg",
     "imageAlt": "Five labeled rows of six symbols each. Row A: bracket close, bracket open, repeated. Row B: exclamation, pound sign, repeated. Row C: less-than, greater-than, greater-than, greater-than, greater-than, less-than. Row D: percent, slash, repeated. Row E: plus, plus, minus, minus, minus, plus. Only row C is a palindrome."
+  },
+  {
+    "tier": 15,
+    "q": "Which everyday saying is being described by this alliterative riddle: 'Illustrious intellects imagine identically'?",
+    "a": "Great minds think alike",
+    "d": [
+      "Two heads are better than one",
+      "Birds of a feather flock together",
+      "Actions speak louder than words"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 15,
+    "q": "What two-letter combination can go before APED, INK, ONE, OWNED, and OUGHT to make five new words?",
+    "a": "DR",
+    "d": [
+      "TR",
+      "GR",
+      "SH"
+    ],
+    "explain": "DRAPED, DRINK, DRONE, DROWNED, DROUGHT",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 15,
+    "q": "Roll three standard dice. If their face values must add up to exactly 10, what is the highest 3-digit number you could form by arranging them in the best order?",
+    "a": "631",
+    "d": [
+      "622",
+      "613",
+      "550"
+    ],
+    "explain": "6, 3, 1 — no other combination summing to 10 with faces 1-6 arranges to a bigger number",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
   },
   {
     "tier": 10,
@@ -904,6 +1175,18 @@ export const QUESTIONS = [
     "source": "https://puzzleaday.wordpress.com/2025/01/03/a-rebus-from-the-1-club/",
     "image": "images/questions/football-scores-rebus.svg",
     "imageAlt": "A box of four football scorelines all reading 4 dash 1, the word AND, and a second box with one scoreline reading 4 dash 4."
+  },
+  {
+    "tier": 10,
+    "q": "The sum of the first 10 odd numbers (1+3+5+...+19) is 100. What is the sum of the first 10 even numbers (2+4+6+...+20)?",
+    "a": "110",
+    "d": [
+      "100",
+      "105",
+      "120"
+    ],
+    "explain": null,
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
   },
   {
     "tier": 5,
@@ -1026,6 +1309,18 @@ export const QUESTIONS = [
     "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html",
     "image": "images/questions/suit-symbol-count.svg",
     "imageAlt": "Four rows of card suit symbols with labels: eight red diamonds, six black spades, six red hearts, and a row of clubs marked with a question mark. The count of symbols in each row equals the number of letters in that suit's name."
+  },
+  {
+    "tier": 5,
+    "q": "If you sort all 52 playing cards (no jokers) alphabetically by their full name, e.g. 'Ace of Clubs', which card comes last?",
+    "a": "Two of Spades",
+    "d": [
+      "King of Spades",
+      "Ten of Spades",
+      "Two of Hearts"
+    ],
+    "explain": "rank names sort with 'Two' last alphabetically, and among the four 'Two of ___' cards, 'Spades' sorts last",
+    "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
   },
   {
     "tier": 2,

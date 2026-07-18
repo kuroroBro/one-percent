@@ -223,3 +223,27 @@
 - [x] Verified live: hero renders correctly with legible text on the home
       screen, reverts to the plain gradient with no stray link on every
       other screen (checked via the lobby). `node --test` still 32/32.
+
+## Phase 17 - Maze fix + 25-question bank expansion
+
+- [x] Fixed a real reported bug in the circular maze image: the concentric
+      rings were drawn as fully closed circles with no actual openings, so
+      no route from any labeled point ever reached the center — rebuilt
+      with explicit color-coded dotted routes (A/C/D visibly reach the
+      GOAL, B visibly stops at a drawn dead-end wall) instead of relying on
+      inferred ring-gap connectivity.
+- [x] Checked a large 16-episode UK Season 4 question compilation for
+      content not already in the bank; a first attempt via a background
+      research agent hit an account-level session limit mid-task, so the
+      episodes were instead fetched directly (4 episodes per fetch, 4
+      fetches) and reviewed by hand.
+- [x] Verified each candidate's stated logic independently before adding it
+      (recomputed the math/wordplay from scratch) and dropped anything with
+      ambiguous mechanics, a scenario missing key details, or dependence on
+      exact source text (headline wording, tongue-twister text, underlined
+      letters) that couldn't be reproduced reliably — quality/confidence
+      bar over quantity, consistent with prior research passes.
+- [x] Added 25 new text-only questions spread across tiers 80 down to 5
+      (no new images — the bank already has good image coverage from
+      Phases 9/14/15). Bank is now 145 questions across 17 tiers, still 0
+      tiers at 100% image. `node --test` 32/32.

@@ -53,7 +53,7 @@ no backend authority to restore.
 
 ## Question bank
 
-120 questions across 17 difficulty tiers (from THE LINE at ~92% down to 1%),
+145 questions across 17 difficulty tiers (from THE LINE at ~92% down to 1%),
 adapted from publicly reported episode recaps of *The 1% Club* (UK and US),
 each tagged with the difficulty percentage as reported by the source. The
 real show is often free-response and not always 4-option (True/False and
