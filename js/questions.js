@@ -279,6 +279,29 @@ export const QUESTIONS = [
     "source": "https://moviedelic.com/the-1-club-episode-8-recap/"
   },
   {
+    "tier": 70,
+    "q": "If a standard traffic light's colors were arranged alphabetically from top to bottom, what would the order be?",
+    "a": "Green, red, yellow",
+    "d": [
+      "Green, yellow, red",
+      "Red, green, yellow"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/06/09/the-1-club-6-8/"
+  },
+  {
+    "tier": 70,
+    "q": "What is the only month whose name becomes another common English word when spelled backwards?",
+    "a": "May",
+    "d": [
+      "June",
+      "March",
+      "April"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
     "tier": 60,
     "q": "Four sisters get their hair cut one at a time. Steph goes sometime after Alisha. Holly goes first. Eliza goes sometime after Steph. Which order are they cut in: Holly, Alisha, Steph, Eliza; Alisha, Holly, Eliza, Steph; or Steph, Holly, Alisha, Eliza?",
     "a": "Holly, Alisha, Steph, Eliza",
@@ -395,7 +418,7 @@ export const QUESTIONS = [
   },
   {
     "tier": 50,
-    "q": "A picture of a CAT, the letter D, and an ANT together represent the word PENDANT. Using the same idea, what single letter completes a seven-letter word represented by a CAT and a LOG?",
+    "q": "The first row combines pictures and a letter to make PENDANT. Which single letter completes the word in the second row?",
     "a": "A",
     "d": [
       "O",
@@ -403,7 +426,20 @@ export const QUESTIONS = [
       "I"
     ],
     "explain": "CATALOG",
-    "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
+    "source": "https://moviedelic.com/the-1-club-episode-5-recap/",
+    "image": "images/questions/cat-a-log.svg",
+    "imageAlt": "A rebus diagram. The example row shows a pen, the letter D, and an ant, making PENDANT. The question row shows a cat, a blank box, and a log."
+  },
+  {
+    "tier": 50,
+    "q": "What animal logically comes next: Aardvark, Rabbit, Raccoon, Haddock, Honeybee, ___?",
+    "a": "Giraffe",
+    "d": [
+      "Octopus",
+      "Lobster"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
     "tier": 45,
@@ -416,6 +452,30 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://moviedelic.com/the-1-club-episode-4-recap/"
+  },
+  {
+    "tier": 45,
+    "q": "Interlock your ten fingers with your left hand on the bottom. Starting with your lowest finger, which finger is sixth?",
+    "a": "Right middle finger",
+    "d": [
+      "Right pinkie",
+      "Left pointer finger",
+      "Right ring finger"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 35,
+    "q": "What word is spelled by the first letters of this clue: FIRST LETTERS OF WORDS EACH REALLY SPELL?",
+    "a": "FLOWERS",
+    "d": [
+      "FIRST",
+      "WORDS",
+      "SPELL"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
     "tier": 30,
@@ -442,6 +502,77 @@ export const QUESTIONS = [
     "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
   },
   {
+    "tier": 30,
+    "q": "A wheel has three sections labeled 3 and three sections labeled 4. If you spin it twice, what percentage chance is there that the two spins total 7?",
+    "a": "50%",
+    "d": [
+      "25%",
+      "33%",
+      "75%"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 30,
+    "q": "A town named STATE is in a state named COUNTRY, which is in a country named TOWN. Which named place has the largest area?",
+    "a": "TOWN",
+    "d": [
+      "STATE",
+      "COUNTRY"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 25,
+    "q": "In what year would someone born in 1990 turn the age equal to the sum of the digits in 1990?",
+    "a": "2009",
+    "d": [
+      "1999",
+      "2019",
+      "2028"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 25,
+    "q": "Someone's favorite instrument is TAMBOURINE, college major is EDUCATION, and favorite building is JAILHOUSE. By the same logic, which is their favorite vegetable?",
+    "a": "CAULIFLOWER",
+    "d": [
+      "ASPARAGUS",
+      "BRUSSELS SPROUTS",
+      "RUTABAGA"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 25,
+    "q": "CUSP, PINTO, QUARTS, ___, GALLEON: which word fills the blank so that removing one letter from each makes a unit of liquid measurement?",
+    "a": "LOITER",
+    "d": [
+      "WINCE",
+      "CINDER",
+      "TEAL"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 20,
+    "q": "How many syllables are there in total when you say the names of all 26 letters of the English alphabet?",
+    "a": "28",
+    "d": [
+      "26",
+      "29",
+      "30"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
     "tier": 15,
     "q": "What vowel appears exactly four times in total when you write out the names of all seven days of the week?",
     "a": "U",
@@ -454,6 +585,18 @@ export const QUESTIONS = [
     "source": "https://moviedelic.com/the-1-club-episode-4-recap/"
   },
   {
+    "tier": 15,
+    "q": "Zora's birthday is the second-to-last day of the year and Lana's is the second day of the year. If today is Zora's birthday, how many days until Lana's?",
+    "a": "3 days",
+    "d": [
+      "2 days",
+      "4 days",
+      "5 days"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
     "tier": 10,
     "q": "Delete the three letters of a horned farm animal from the word GERANIUMS to leave a common six-letter word. What is it?",
     "a": "GENIUS",
@@ -464,6 +607,18 @@ export const QUESTIONS = [
     ],
     "explain": "remove RAM",
     "source": "https://moviedelic.com/the-1-club-episode-4-recap/"
+  },
+  {
+    "tier": 10,
+    "q": "Combine the silent letters in INDICTED, HALFWAY, GUARD, AUTUMN, and KNUCKLE, in that order. What sound word do they spell?",
+    "a": "CLUNK",
+    "d": [
+      "CLICK",
+      "CLANG",
+      "THUNK"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
   },
   {
     "tier": 5,
@@ -548,6 +703,30 @@ export const QUESTIONS = [
     ],
     "explain": "PHEASANT, SEAL, SEALION, ANT, TORTOISE, LION",
     "source": "https://www.yahoo.com/entertainment/1-club-questions-answers-uk-144833708.html"
+  },
+  {
+    "tier": 5,
+    "q": "Counting down from 100, what is the first number you say whose name is not contained within the name of another number with exactly one syllable?",
+    "a": "Twelve",
+    "d": [
+      "Twenty",
+      "Sixteen",
+      "Ten"
+    ],
+    "explain": null,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 5,
+    "q": "If A = 25, B = 24, C = 23, and so on, what do you get when you multiply the values of all the letters in MEGAHERTZ?",
+    "a": "0",
+    "d": [
+      "25",
+      "100",
+      "1,000"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
     "tier": 2,

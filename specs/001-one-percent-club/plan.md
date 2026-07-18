@@ -16,7 +16,8 @@
 index.html               screens: Home, Lobby, Question, Reveal, Over
 css/style.css             mobile-first styling, shared visual language with sibling games
 js/game.js                pure rules engine
-js/questions.js           question bank (tier, question, answer, 3 distractors, source)
+js/questions.js           question bank (tier, question, answers, optional image, source)
+images/questions/         locally hosted question artwork
 js/main.js                DOM rendering, host-authoritative event handling, P2P glue
 js/room.js                PeerJS wrapper (full-participant, adapted from attack-attack)
 js/storage.js             local settings + used-question dedupe
@@ -31,7 +32,7 @@ vendor/peerjs.min.js      vendored PeerJS client
 Each question in the pool (`js/questions.js`) is:
 
 ```js
-{ tier: 92, q: "…", a: "Correct answer", d: ["Wrong 1", "Wrong 2", "Wrong 3"], source: "https://…" }
+{ tier: 92, q: "…", a: "Correct answer", d: ["Wrong 1", "Wrong 2"], image: "images/questions/example.svg", imageAlt: "…", source: "https://…" }
 ```
 
 The real show is often free-response (contestants write an answer rather than
@@ -40,6 +41,11 @@ choice options, three distractor answers were authored to match the answer's
 format (same units/word type) — see `tools/gen-questions.js` and the
 Changelog below for the sourcing pass. `tier` is the reported/estimated
 percentage of the public who answered correctly; higher tier = easier.
+
+`image` and `imageAlt` are optional as a pair. The generator rejects an
+image-backed entry without alt text. Assets use local, site-relative paths,
+so peers receive only stable path strings in public state and load the same
+static files; text-only generated entries omit both fields.
 
 ## Rules Engine
 
@@ -152,7 +158,9 @@ roster, host-only ladder-length/timer settings, and a "reset question
 history" control backed by `js/storage.js`. Question shows the tier badge
 (styled distinctly when it's THE LINE), the question, four large tap
 targets, a live countdown bar when a timer is set, and the roster with a
-"locked in" indicator per player. An eliminated player sees the round play
+"locked in" indicator per player. Optional question artwork appears between
+the prompt and choices with responsive, contained sizing, and is repeated on
+the reveal screen to preserve context. An eliminated player sees the round play
 out with an "you're eliminated" banner but no active choices. Reveal shows
 the correct answer, a per-player right/wrong list, and a Host-only advance
 button whose label depends on whether the next tap ends the game. Over
@@ -176,6 +184,22 @@ rematch.
   the configured timer elapses, without any client-side action.
 
 ## Changelog
+
+- **v5** (2026-07-18): Expanded the bank from 79 questions across 12 tiers
+  to 94 questions across 15 tiers using 2025 US episode guides and 2026 US
+  recap sources. Added 15 questions with directly reported answers and
+  difficulty percentages; retained reported answer choices when available
+  and marked authored multiple-choice distractors in the raw data. Visual
+  questions whose complete layouts could not be reconstructed accurately
+  from the recap text were deliberately not imported.
+
+- **v4** (2026-07-18): Added optional image-backed questions end to end.
+  `tools/gen-questions.js` now accepts `image`/`imageAlt` and rejects artwork
+  without an accessible description; `buildDeck()`, open-question public
+  state, and reveal summaries preserve those fields. Both play and reveal
+  screens render the same contained responsive image and remove the element's
+  `src` for text-only questions. Added the sourced CAT + letter + LOG puzzle
+  with locally hosted SVG artwork and engine coverage for image propagation.
 
 - **v1** (2026-07-18): Initial build. Ported the P2P full-participant room
   model from `attack-attack` and pure-engine/test-harness conventions from

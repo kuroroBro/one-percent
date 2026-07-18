@@ -44,8 +44,10 @@
 - [x] Normalize into `js/questions.js`'s `{ tier, q, a, d, source }` shape,
       inventing plausible distractors only where the source didn't report
       the show's own multiple-choice options (flagged during research).
-- [x] Exclude any question that fundamentally requires an image/diagram
-      (text-only game).
+- [x] Support optional local question images with required alt text through
+      normalization, deck construction, public state, and reveal.
+- [x] Add the sourced CAT + letter + LOG rebus as the first image-backed
+      question with local SVG artwork.
 - [x] Record sourcing/attribution in the README.
 
 ## Phase 5 - Styling
@@ -53,6 +55,7 @@
 - [x] Shared dark/gold visual language with sibling games (`--gold`,
       `--panel`, `.btn-gold`, etc. from `attack-attack/css/style.css`).
 - [x] Tier badge styling, distinct treatment for THE LINE.
+- [x] Responsive, uncropped question artwork on question and reveal screens.
 - [x] Countdown bar, question choice grid, reveal result rows, roster chips
       with "locked in" status.
 
@@ -98,3 +101,22 @@
 - [x] Live Playwright verification: manual/non-spectator regression check,
       and a combined spectator-Host + 5s-auto-advance run with two real
       players confirming zero taps were needed after Start.
+
+## Phase 9 - Image-backed questions
+
+- [x] Extend raw/generated question schemas with optional `image` and
+      `imageAlt`, rejecting inaccessible image entries.
+- [x] Preserve image metadata in dealt questions, open-question public state,
+      and reveal summaries.
+- [x] Render image questions accessibly without affecting text-only questions.
+- [x] Add engine coverage for propagation and rerun the suite.
+
+## Phase 10 - Internet-sourced bank expansion
+
+- [x] Review current public episode guides and recaps for additional
+      questions with reported tiers and answers.
+- [x] Add 15 reproducible questions from 2025 US episode guides and 2026 US
+      recaps; preserve reported choices and flag authored distractors.
+- [x] Exclude image-only questions when recap text does not contain enough
+      information to recreate the puzzle faithfully.
+- [x] Regenerate the bank: 94 questions across 15 tiers; rerun all tests.

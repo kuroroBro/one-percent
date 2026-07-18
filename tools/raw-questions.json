@@ -943,7 +943,7 @@
   },
   {
     "tier": 50,
-    "question": "A picture of a CAT, the letter D, and an ANT together represent the word PENDANT. Using the same idea, what single letter completes a seven-letter word represented by a CAT and a LOG?",
+    "question": "The first row combines pictures and a letter to make PENDANT. Which single letter completes the word in the second row?",
     "answer": "A (CATALOG)",
     "choices": [
       "A",
@@ -952,6 +952,8 @@
       "I"
     ],
     "choicesInvented": true,
+    "image": "images/questions/cat-a-log.svg",
+    "imageAlt": "A rebus diagram. The example row shows a pen, the letter D, and an ant, making PENDANT. The question row shows a cat, a blank box, and a log.",
     "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
   },
   {
@@ -1031,5 +1033,197 @@
     ],
     "choicesInvented": true,
     "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
+  },
+  {
+    "tier": 70,
+    "question": "If a standard traffic light's colors were arranged alphabetically from top to bottom, what would the order be?",
+    "answer": "Green, red, yellow",
+    "choices": [
+      "Green, red, yellow",
+      "Green, yellow, red",
+      "Red, green, yellow"
+    ],
+    "choicesInvented": false,
+    "source": "https://bobbymgsk.wordpress.com/2026/06/09/the-1-club-6-8/"
+  },
+  {
+    "tier": 45,
+    "question": "Interlock your ten fingers with your left hand on the bottom. Starting with your lowest finger, which finger is sixth?",
+    "answer": "Right middle finger",
+    "choices": [
+      "Right pinkie",
+      "Right middle finger",
+      "Left pointer finger",
+      "Right ring finger"
+    ],
+    "choicesInvented": false,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 30,
+    "question": "A wheel has three sections labeled 3 and three sections labeled 4. If you spin it twice, what percentage chance is there that the two spins total 7?",
+    "answer": "50%",
+    "choices": [
+      "25%",
+      "33%",
+      "50%",
+      "75%"
+    ],
+    "choicesInvented": true,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 25,
+    "question": "In what year would someone born in 1990 turn the age equal to the sum of the digits in 1990?",
+    "answer": "2009",
+    "choices": [
+      "1999",
+      "2009",
+      "2019",
+      "2028"
+    ],
+    "choicesInvented": true,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 20,
+    "question": "How many syllables are there in total when you say the names of all 26 letters of the English alphabet?",
+    "answer": "28",
+    "choices": [
+      "26",
+      "28",
+      "29",
+      "30"
+    ],
+    "choicesInvented": false,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
+  },
+  {
+    "tier": 10,
+    "question": "Combine the silent letters in INDICTED, HALFWAY, GUARD, AUTUMN, and KNUCKLE, in that order. What sound word do they spell?",
+    "answer": "CLUNK",
+    "choices": [
+      "CLUNK",
+      "CLICK",
+      "CLANG",
+      "THUNK"
+    ],
+    "choicesInvented": true,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 5,
+    "question": "Counting down from 100, what is the first number you say whose name is not contained within the name of another number with exactly one syllable?",
+    "answer": "Twelve",
+    "choices": [
+      "Twenty",
+      "Sixteen",
+      "Twelve",
+      "Ten"
+    ],
+    "choicesInvented": true,
+    "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 70,
+    "question": "What is the only month whose name becomes another common English word when spelled backwards?",
+    "answer": "May",
+    "choices": [
+      "May",
+      "June",
+      "March",
+      "April"
+    ],
+    "choicesInvented": true,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 50,
+    "question": "What animal logically comes next: Aardvark, Rabbit, Raccoon, Haddock, Honeybee, ___?",
+    "answer": "Giraffe",
+    "choices": [
+      "Octopus",
+      "Giraffe",
+      "Lobster"
+    ],
+    "choicesInvented": false,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 35,
+    "question": "What word is spelled by the first letters of this clue: FIRST LETTERS OF WORDS EACH REALLY SPELL?",
+    "answer": "FLOWERS",
+    "choices": [
+      "FLOWERS",
+      "FIRST",
+      "WORDS",
+      "SPELL"
+    ],
+    "choicesInvented": true,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 30,
+    "question": "A town named STATE is in a state named COUNTRY, which is in a country named TOWN. Which named place has the largest area?",
+    "answer": "TOWN",
+    "choices": [
+      "TOWN",
+      "STATE",
+      "COUNTRY"
+    ],
+    "choicesInvented": false,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 25,
+    "question": "Someone's favorite instrument is TAMBOURINE, college major is EDUCATION, and favorite building is JAILHOUSE. By the same logic, which is their favorite vegetable?",
+    "answer": "CAULIFLOWER",
+    "choices": [
+      "ASPARAGUS",
+      "BRUSSELS SPROUTS",
+      "CAULIFLOWER",
+      "RUTABAGA"
+    ],
+    "choicesInvented": false,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 25,
+    "question": "CUSP, PINTO, QUARTS, ___, GALLEON: which word fills the blank so that removing one letter from each makes a unit of liquid measurement?",
+    "answer": "LOITER",
+    "choices": [
+      "WINCE",
+      "CINDER",
+      "LOITER",
+      "TEAL"
+    ],
+    "choicesInvented": false,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 15,
+    "question": "Zora's birthday is the second-to-last day of the year and Lana's is the second day of the year. If today is Zora's birthday, how many days until Lana's?",
+    "answer": "3 days",
+    "choices": [
+      "2 days",
+      "3 days",
+      "4 days",
+      "5 days"
+    ],
+    "choicesInvented": true,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 5,
+    "question": "If A = 25, B = 24, C = 23, and so on, what do you get when you multiply the values of all the letters in MEGAHERTZ?",
+    "answer": "0",
+    "choices": [
+      "0",
+      "25",
+      "100",
+      "1,000"
+    ],
+    "choicesInvented": true,
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   }
 ]

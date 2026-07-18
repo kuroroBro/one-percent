@@ -47,15 +47,16 @@ initial tap of Start with no one managing the pace.
 
 ## Question bank
 
-79 questions across 12 difficulty tiers (from THE LINE at ~92% down to 1%),
+94 questions across 15 difficulty tiers (from THE LINE at ~92% down to 1%),
 adapted from publicly reported episode recaps of *The 1% Club* (UK and US),
 each tagged with the difficulty percentage as reported by the source. The
 real show is often free-response and not always 4-option (True/False and
 3-way questions do occur); where a source didn't report the on-screen
 options, distractor answers were authored to match the real answer's
 format. Some questions carry a short logic explanation shown on the reveal
-screen. Visual/diagram-based questions were excluded — this is a text-only
-game. See `js/questions.js` for the per-question `source` field,
+screen. Questions may also include locally hosted artwork with accessible
+alt text; text-only questions render as before. See `js/questions.js` for
+the per-question `source`, `image`, and `imageAlt` fields,
 `tools/gen-questions.js`/`tools/raw-questions.json` for the sourcing
 pipeline, and `specs/001-one-percent-club/plan.md`'s Data Model section and
 Changelog for the full methodology (including two data-quality bugs caught

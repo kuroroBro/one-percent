@@ -2,7 +2,7 @@
 // js/questions.js. Run with: node tools/gen-questions.js
 //
 // Raw entry shape (from research): { tier, question, answer, choices,
-// choicesInvented, source }. `tier` may be the string "line" (folded to 92,
+// choicesInvented, source, image?, imageAlt? }. `tier` may be the string "line" (folded to 92,
 // the reported percentage the show's own "line" questions tend to sit at)
 // or an integer 1-99. `choices` may have as few as 2 entries — the real
 // show isn't always 4-option (True/False and 3-way questions do occur) — so
@@ -16,7 +16,8 @@
 // the answer, before anything is compared or written out.
 //
 // Output entry shape (js/questions.js, consumed by js/game.js buildDeck()):
-// { tier: number, q, a, d: [1-3 distractors], explain: string|null, source }.
+// { tier: number, q, a, d: [1-3 distractors], explain: string|null,
+//   source, image: string|null, imageAlt: string|null }.
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -96,7 +97,22 @@ function normalizeEntry(raw) {
     return null;
   }
 
-  return { tier, q, a, d, explain: answerExplain, source: raw.source || null };
+  const image = clean(raw.image) || null;
+  const imageAlt = clean(raw.imageAlt) || null;
+  if (image && !imageAlt) {
+    skipped.push({ reason: "image is missing accessible alt text", q });
+    return null;
+  }
+
+  return {
+    tier,
+    q,
+    a,
+    d,
+    explain: answerExplain,
+    source: raw.source || null,
+    ...(image ? { image, imageAlt } : {}),
+  };
 }
 
 function dedupeByQuestion(entries) {

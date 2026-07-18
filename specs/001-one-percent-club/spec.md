@@ -172,6 +172,9 @@ Acceptance criteria:
   both excluded from every outbound message until the question resolves.
 - **FR-5** No ads, no analytics, no tracking, no accounts, no real-money
   stakes.
+- **FR-6** A question may include an optional locally hosted image. The same
+  image is visible while answering and on reveal, scales without cropping,
+  and has meaningful alt text. Text-only questions show no placeholder.
 
 ## Key Entities
 
@@ -180,10 +183,11 @@ Acceptance criteria:
   (array of 1–3 distractor answer texts — some real questions are True/False
   or 3-way, not always 4-option), optional `explain` (a short logic
   explanation shown on the reveal screen), optional `source` (attribution
-  URL).
+  URL), and optional `image` plus `imageAlt` (site-relative asset path and
+  accessible description; `imageAlt` is required when `image` is set).
 - **DeckEntry**: one `QuestionEntry` resolved into a dealt question — `tier`,
   `question`, `choices` (2–4 texts, shuffled), `correctIndex`, `explain`,
-  `key` (dedupe key), `source`.
+  `image`, `imageAlt`, `key` (dedupe key), `source`.
 - **Player**: `id`, `name`, `alive`, `left`, `choiceIndex` (pending answer,
   hidden from everyone but that player pre-reveal).
 - **Room**: `code`, `phase` (`lobby` \| `question` \| `reveal` \| `over`),
@@ -202,6 +206,7 @@ Acceptance criteria:
   `guess-antok-phrases`'s Display.
 - No real-money or points-based scoring — outcome is binary per game
   (reached the 1% or didn't).
-- No visual/image-based puzzles — the question bank is text-only.
+- No remote or player-uploaded images — artwork is curated with the question
+  bank and served as a local static asset.
 - No reconnection/session-resume support — a dropped connection means
   rejoin fresh.

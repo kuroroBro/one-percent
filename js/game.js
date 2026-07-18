@@ -151,6 +151,8 @@ export function buildDeck(pool, ladderLength, usedKeys, rng = Math.random) {
     deck.push({
       tier: entry.tier,
       question: entry.q,
+      image: entry.image || null,
+      imageAlt: entry.imageAlt || null,
       choices: shuffled.map((s) => s[1]),
       correctIndex: shuffled.findIndex((s) => s[2] === 0),
       explain: entry.explain || null,
@@ -264,6 +266,8 @@ export function resolveQuestion(room, now) {
     tier: q.tier,
     isLine: room.qIndex === 0,
     question: q.question,
+    image: q.image,
+    imageAlt: q.imageAlt,
     choices: q.choices,
     correctIndex: q.correctIndex,
     explain: q.explain || null,
@@ -356,7 +360,14 @@ export function toPublicState(room, viewerId, now) {
     lastResult: room.lastResult,
     question:
       room.phase === "question" && q
-        ? { tier: q.tier, isLine: room.qIndex === 0, question: q.question, choices: q.choices }
+        ? {
+            tier: q.tier,
+            isLine: room.qIndex === 0,
+            question: q.question,
+            image: q.image,
+            imageAlt: q.imageAlt,
+            choices: q.choices,
+          }
         : null,
     players: room.players.map((p) => ({
       id: p.id,

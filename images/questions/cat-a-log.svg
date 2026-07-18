@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" role="img" aria-labelledby="title desc">
+  <title id="title">Picture word puzzle</title>
+  <desc id="desc">An example shows a pen, D, and ant making pendant. Below, a cat, blank, and log form a word.</desc>
+  <rect width="900" height="440" rx="28" fill="#fffaf0"/>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#241d42">
+    <text x="450" y="52" font-size="28" font-weight="700">EXAMPLE</text>
+    <text x="160" y="150" font-size="76">🖊️</text>
+    <text x="310" y="145" font-size="38">+</text>
+    <rect x="375" y="90" width="110" height="82" rx="12" fill="#e8b64c"/>
+    <text x="430" y="148" font-size="54" font-weight="800">D</text>
+    <text x="550" y="145" font-size="38">+</text>
+    <text x="700" y="150" font-size="76">🐜</text>
+    <text x="450" y="215" font-size="30" font-weight="700">PEN + D + ANT = PENDANT</text>
+    <line x1="70" y1="245" x2="830" y2="245" stroke="#d8ceb8" stroke-width="3"/>
+    <text x="450" y="290" font-size="28" font-weight="700">QUESTION</text>
+    <text x="160" y="390" font-size="76">🐈</text>
+    <text x="310" y="380" font-size="38">+</text>
+    <rect x="375" y="325" width="110" height="82" rx="12" fill="#fff" stroke="#b8862b" stroke-width="5" stroke-dasharray="10 8"/>
+    <text x="430" y="383" font-size="48" font-weight="800">?</text>
+    <text x="550" y="380" font-size="38">+</text>
+    <text x="700" y="388" font-size="76">🪵</text>
+  </g>
+</svg>

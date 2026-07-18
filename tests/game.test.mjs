@@ -16,7 +16,7 @@ function seeded(seed) {
 }
 
 const POOL = [
-  { tier: 92, q: "Line Q1", a: "Right1", d: ["Wrong1a", "Wrong1b", "Wrong1c"] },
+  { tier: 92, q: "Line Q1", a: "Right1", d: ["Wrong1a", "Wrong1b", "Wrong1c"], image: "images/questions/test.svg", imageAlt: "A test diagram" },
   { tier: 92, q: "Line Q2", a: "Right1b", d: ["Wrong1d", "Wrong1e", "Wrong1f"] },
   { tier: 70, q: "Mid Q1", a: "Right2", d: ["Wrong2a", "Wrong2b", "Wrong2c"] },
   { tier: 30, q: "Hard Q1", a: "Right3", d: ["Wrong3a", "Wrong3b", "Wrong3c"] },
@@ -101,6 +101,13 @@ test("buildDeck skips already-used questions via usedKeys", () => {
   const used = new Set([g.questionKey(POOL[0]), g.questionKey(POOL[1])]);
   const deck = g.buildDeck(POOL, "full", used, seeded(1));
   assert.strictEqual(deck.some((q) => q.tier === 92), false);
+});
+
+test("buildDeck carries optional question image metadata without affecting text-only questions", () => {
+  const deck = g.buildDeck(POOL, "full", new Set([g.questionKey(POOL[1])]), seeded(1));
+  assert.strictEqual(deck[0].image, "images/questions/test.svg");
+  assert.strictEqual(deck[0].imageAlt, "A test diagram");
+  assert.strictEqual(deck.find((q) => q.tier === 70).image, null);
 });
 
 test("buildDeck 'quick' spreads across available tiers within LADDER_TARGET_LENGTH", () => {
@@ -291,4 +298,6 @@ test("toPublicState reveals the answer only after resolveQuestion, via lastResul
   g.resolveQuestion(room, 1002);
   const state = g.toPublicState(room, "p1", 1003);
   assert.strictEqual(state.lastResult.correctIndex, q.correctIndex);
+  assert.strictEqual(state.lastResult.image, q.image);
+  assert.strictEqual(state.lastResult.imageAlt, q.imageAlt);
 });
