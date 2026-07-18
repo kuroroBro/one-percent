@@ -176,11 +176,13 @@ roster, host-only ladder-length/timer settings, and a "reset question
 history" control backed by `js/storage.js`. Question shows the tier badge
 (styled distinctly when it's THE LINE), the question, four large tap
 targets, a live countdown bar when a timer is set, and the roster with a
-"locked in" indicator per player. Optional question artwork appears between
+"locked in" indicator per player. A submitted choice remains highlighted on
+that player's own screen with an explicit locked-answer marker. Optional question artwork appears between
 the prompt and choices with responsive, contained sizing, and is repeated on
 the reveal screen to preserve context. An eliminated player sees the round play
 out with an "you're eliminated" banner but no active choices. Reveal shows
-the correct answer, a per-player right/wrong list, and a Host-only advance
+the correct answer, a per-player right/wrong list whose submitted answers
+are prominent color-coded badges, and a Host-only advance
 button whose label depends on whether the next tap ends the game. Over
 declares winners (or "no one cleared the line") and offers a Host-only
 rematch.
@@ -201,6 +203,12 @@ rematch.
   the configured timer elapses, without any client-side action.
 
 ## Changelog
+
+- **v8** (2026-07-18): Made submitted answers visually explicit. A player's
+  own locked choice stays highlighted after Host state is broadcast, using
+  the private `myChoice` already present in viewer-specific public state.
+  Reveal rows now separate contestant names from green/red answer badges,
+  including a clear "no answer" badge for timeouts.
 
 - **v7** (2026-07-18): Replaced Quick/Full with an explicit 6–15 questions
   setting, defaulting to the full 15-round ladder. Deck building now returns

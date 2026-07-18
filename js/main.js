@@ -156,12 +156,24 @@ function renderQuestion() {
   const box = $("question-choices");
   box.innerHTML = "";
   if (isPlayer) {
+    const chosenIndex = my.answered ? my.myChoice : selectedChoice;
     q.choices.forEach((choiceText, i) => {
       const btn = document.createElement("button");
       btn.className = "btn choice-btn";
       btn.textContent = choiceText;
       btn.disabled = !alive || my.answered;
-      if (selectedChoice === i) btn.classList.add("selected");
+      const isChosen = chosenIndex === i;
+      btn.setAttribute("aria-pressed", String(isChosen));
+      if (isChosen) {
+        btn.classList.add("selected");
+        if (my.answered) {
+          btn.classList.add("locked");
+          const marker = document.createElement("span");
+          marker.className = "answer-marker";
+          marker.textContent = "✓ Your locked answer";
+          btn.appendChild(marker);
+        }
+      }
       btn.addEventListener("click", () => pickChoice(i));
       box.appendChild(btn);
     });
@@ -214,7 +226,14 @@ function renderReveal() {
       res.choiceIndex === null || res.choiceIndex === undefined
         ? "no answer"
         : r.choices[res.choiceIndex];
-    row.textContent = `${res.correct ? "✅" : "❌"} ${res.name} — ${pickedText}`;
+    const player = document.createElement("span");
+    player.className = "result-player";
+    player.textContent = `${res.correct ? "✅" : "❌"} ${res.name}`;
+    const answer = document.createElement("strong");
+    answer.className = "result-answer";
+    answer.textContent = pickedText;
+    answer.title = `${res.name}'s submitted answer`;
+    row.append(player, answer);
     list.appendChild(row);
   }
   const stillIn = state.players.filter((p) => p.alive);

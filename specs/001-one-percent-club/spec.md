@@ -69,6 +69,8 @@ Acceptance criteria:
   options depending on the question).
 - Other players' chosen answer is never visible before the question
   resolves — only whether they've locked in yet.
+- After submitting, a player continues to see their own chosen button
+  highlighted and explicitly labeled as their locked answer.
 - A question resolves the instant every still-alive player has answered, or
   when the timer runs out (whichever comes first). Not answering in time
   counts as wrong.
@@ -83,6 +85,8 @@ Acceptance criteria:
   answer and each player's pick, even when every remaining player got it
   wrong together (a full wipeout) — the game never jumps straight to a
   result screen without showing the answer first.
+- Each contestant's submitted answer is visually separated from their name
+  as a prominent green or red answer badge; a timeout shows "no answer."
 - Only the Host can advance from the reveal screen. Advancing either deals
   the next question, or — if that was a wipeout or the last tier in the
   ladder — ends the game.

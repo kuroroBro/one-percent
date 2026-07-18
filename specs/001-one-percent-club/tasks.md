@@ -143,3 +143,10 @@
 - [x] Keep every dealt deck sorted from easiest reported tier to hardest and
       spread selections across the full available range.
 - [x] Add coverage for six-round and fifteen-round multi-question-tier decks.
+
+## Phase 13 - Submitted-answer highlighting
+
+- [x] Keep the current player's submitted choice highlighted after lock-in
+      and label it as "Your locked answer."
+- [x] Render every contestant's revealed answer as a distinct green/red
+      badge, including "no answer" for a timeout.
