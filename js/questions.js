@@ -39,6 +39,20 @@ export const QUESTIONS = [
     "source": "https://bobbymgsk.wordpress.com/category/the-1-club/"
   },
   {
+    "tier": 90,
+    "q": "Four people are in a maze trying to reach the centre. Which of them is going the wrong way?",
+    "a": "B",
+    "d": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
+    "image": "images/questions/circle-maze.svg",
+    "imageAlt": "A circular ring maze with four labeled arrows. B points straight into a solid wall while A, C, and D point along open paths toward the centre."
+  },
+  {
     "tier": 80,
     "q": "Which name comes next in this sequence, where each surname's initials advance one letter through the alphabet: Ashley Banjo, Charles Dickens, Ella Fitzgerald, ____ ____?",
     "a": "Gloria Hunniford",
@@ -371,6 +385,20 @@ export const QUESTIONS = [
     "source": "https://moviedelic.com/the-1-club-episode-8-recap/"
   },
   {
+    "tier": 60,
+    "q": "How many squares make up this pattern?",
+    "a": "4",
+    "d": [
+      "2",
+      "3",
+      "5"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
+    "image": "images/questions/four-square-star.svg",
+    "imageAlt": "Four identical square outlines sharing a centre point, each rotated further than the last, forming a 16-pointed star."
+  },
+  {
     "tier": 50,
     "q": "What common two-word object do you get by combining the concepts of a SAFE, a TEABAG, and a BOWLING PIN?",
     "a": "Safety pin",
@@ -466,6 +494,34 @@ export const QUESTIONS = [
     "source": "https://bobbymgsk.wordpress.com/2026/04/28/the-1-club-4-27/"
   },
   {
+    "tier": 45,
+    "q": "Look at this floor covered in square tiles. If each square tile is made of eight triangles, how many square tiles were used to cover the floor?",
+    "a": "20",
+    "d": [
+      "16",
+      "18",
+      "24"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
+    "image": "images/questions/floor-tile-pinwheels.svg",
+    "imageAlt": "A grid of pinwheel-patterned floor tiles, four tiles wide by five tiles tall, each tile made of eight small triangles."
+  },
+  {
+    "tier": 40,
+    "q": "The two digits below read 24, made of matchsticks. Move exactly ONE matchstick to a different position to create a new 3-digit number. What is that number?",
+    "a": "211",
+    "d": [
+      "112",
+      "214",
+      "241"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/matchstick-digits.svg",
+    "imageAlt": "A digit 2 made of five matchsticks and an open-style digit 4 made of three matchsticks, laid out on a dark background, together reading 24."
+  },
+  {
     "tier": 35,
     "q": "What word is spelled by the first letters of this clue: FIRST LETTERS OF WORDS EACH REALLY SPELL?",
     "a": "FLOWERS",
@@ -523,6 +579,34 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 30,
+    "q": "Amrit and his grandad share the same birthday. Their birthday balloons arrive muddled up. Amrit's grandad is three times older than him. How old is Amrit?",
+    "a": "26",
+    "d": [
+      "24",
+      "29",
+      "32"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/balloon-digits.jpg",
+    "imageAlt": "Four glossy gold foil number balloons floating in a row on a cream background, reading the digits 6, 8, 7, 2."
+  },
+  {
+    "tier": 30,
+    "q": "Each box below names the fill colour of the NEXT box in the loop. What word replaces the question mark?",
+    "a": "GREEN",
+    "d": [
+      "GREY",
+      "BLUE",
+      "BLACK"
+    ],
+    "explain": null,
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
+    "image": "images/questions/color-word-chain.svg",
+    "imageAlt": "Eight colored boxes arranged in a loop, each box's word naming the fill colour of the next box in the chain."
   },
   {
     "tier": 25,
@@ -619,6 +703,34 @@ export const QUESTIONS = [
     ],
     "explain": null,
     "source": "https://bobbymgsk.wordpress.com/2026/04/14/the-1-club-3rd-s-p/"
+  },
+  {
+    "tier": 10,
+    "q": "If both dice keep rolling the way the arrows show, what will the two top faces total at the end?",
+    "a": "5",
+    "d": [
+      "4",
+      "6",
+      "7"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/dice-roll-arrows.svg",
+    "imageAlt": "A checkerboard with two dice. Die A follows a longer curved arrow to a highlighted tile and lands on 4. Die B follows a shorter curved arrow to a highlighted tile and lands on 1."
+  },
+  {
+    "tier": 10,
+    "q": "What phrase is represented here? (You don't need football knowledge to work it out.)",
+    "a": "ALL FOR ONE AND ONE FOR ALL",
+    "d": [
+      "ONE FOR ALL AND ALL FOR ONE",
+      "UNITED WE STAND DIVIDED WE FALL",
+      "TOGETHER WE RISE AS ONE"
+    ],
+    "explain": null,
+    "source": "https://puzzleaday.wordpress.com/2025/01/03/a-rebus-from-the-1-club/",
+    "image": "images/questions/football-scores-rebus.svg",
+    "imageAlt": "A box of four football scorelines all reading 4 dash 1, the word AND, and a second box with one scoreline reading 4 dash 4."
   },
   {
     "tier": 5,
@@ -1111,5 +1223,47 @@ export const QUESTIONS = [
     ],
     "explain": "the letters F, O, and X do not appear in the sentence",
     "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
+  },
+  {
+    "tier": 1,
+    "q": "Which number replaces the question mark in this grid?",
+    "a": "1614",
+    "d": [
+      "1613",
+      "4161",
+      "6141"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/position-code-grid.svg",
+    "imageAlt": "A 4 column by 6 row grid. Row 2 column 2 holds 2253. Row 3 column 4 holds 4341. Row 6 column 1 holds a highlighted question mark. Row 6 column 4 holds 4611."
+  },
+  {
+    "tier": 1,
+    "q": "In the diagram, LLL = A and RRR = H. What word is represented by the path LLR LLL LRR RRL RLL?",
+    "a": "BADGE",
+    "d": [
+      "BUDGE",
+      "BRIDGE",
+      "BADGER"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/badge-binary-tree.svg",
+    "imageAlt": "A binary tree branching left or right three times from START down to eight leaves labeled A through H."
+  },
+  {
+    "tier": 1,
+    "q": "What word is represented by this picture?",
+    "a": "INCUBATE",
+    "d": [
+      "INDICATE",
+      "EDUCATE",
+      "INCUBATOR"
+    ],
+    "explain": null,
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/",
+    "image": "images/questions/incubate-cube.svg",
+    "imageAlt": "A single semi-transparent teal glass cube drawn in 3D isometric style, with a large bold numeral 8 on its front-right face."
   }
 ];

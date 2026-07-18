@@ -1225,5 +1225,170 @@
     ],
     "choicesInvented": true,
     "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
+  },
+  {
+    "tier": 30,
+    "question": "Amrit and his grandad share the same birthday. Their birthday balloons arrive muddled up. Amrit's grandad is three times older than him. How old is Amrit?",
+    "answer": "26",
+    "choices": [
+      "24",
+      "26",
+      "29",
+      "32"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/balloon-digits.jpg",
+    "imageAlt": "Four glossy gold foil number balloons floating in a row on a cream background, reading the digits 6, 8, 7, 2.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 1,
+    "question": "Which number replaces the question mark in this grid?",
+    "answer": "1614",
+    "choices": [
+      "1614",
+      "1613",
+      "4161",
+      "6141"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/position-code-grid.svg",
+    "imageAlt": "A 4 column by 6 row grid. Row 2 column 2 holds 2253. Row 3 column 4 holds 4341. Row 6 column 1 holds a highlighted question mark. Row 6 column 4 holds 4611.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 10,
+    "question": "If both dice keep rolling the way the arrows show, what will the two top faces total at the end?",
+    "answer": "5",
+    "choices": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/dice-roll-arrows.svg",
+    "imageAlt": "A checkerboard with two dice. Die A follows a longer curved arrow to a highlighted tile and lands on 4. Die B follows a shorter curved arrow to a highlighted tile and lands on 1.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 40,
+    "question": "The two digits below read 24, made of matchsticks. Move exactly ONE matchstick to a different position to create a new 3-digit number. What is that number?",
+    "answer": "211",
+    "choices": [
+      "112",
+      "211",
+      "214",
+      "241"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/matchstick-digits.svg",
+    "imageAlt": "A digit 2 made of five matchsticks and an open-style digit 4 made of three matchsticks, laid out on a dark background, together reading 24.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 1,
+    "question": "In the diagram, LLL = A and RRR = H. What word is represented by the path LLR LLL LRR RRL RLL?",
+    "answer": "BADGE",
+    "choices": [
+      "BADGE",
+      "BUDGE",
+      "BRIDGE",
+      "BADGER"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/badge-binary-tree.svg",
+    "imageAlt": "A binary tree branching left or right three times from START down to eight leaves labeled A through H.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 1,
+    "question": "What word is represented by this picture?",
+    "answer": "INCUBATE",
+    "choices": [
+      "INCUBATE",
+      "INDICATE",
+      "EDUCATE",
+      "INCUBATOR"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/incubate-cube.svg",
+    "imageAlt": "A single semi-transparent teal glass cube drawn in 3D isometric style, with a large bold numeral 8 on its front-right face.",
+    "source": "https://www.tvguide.co.uk/articles/the-1-club-hardest-questions/"
+  },
+  {
+    "tier": 30,
+    "question": "Each box below names the fill colour of the NEXT box in the loop. What word replaces the question mark?",
+    "answer": "GREEN",
+    "choices": [
+      "GREEN",
+      "GREY",
+      "BLUE",
+      "BLACK"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/color-word-chain.svg",
+    "imageAlt": "Eight colored boxes arranged in a loop, each box's word naming the fill colour of the next box in the chain.",
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
+  },
+  {
+    "tier": 60,
+    "question": "How many squares make up this pattern?",
+    "answer": "4",
+    "choices": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/four-square-star.svg",
+    "imageAlt": "Four identical square outlines sharing a centre point, each rotated further than the last, forming a 16-pointed star.",
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
+  },
+  {
+    "tier": 90,
+    "question": "Four people are in a maze trying to reach the centre. Which of them is going the wrong way?",
+    "answer": "B",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "choicesInvented": false,
+    "image": "images/questions/circle-maze.svg",
+    "imageAlt": "A circular ring maze with four labeled arrows. B points straight into a solid wall while A, C, and D point along open paths toward the centre.",
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
+  },
+  {
+    "tier": 45,
+    "question": "Look at this floor covered in square tiles. If each square tile is made of eight triangles, how many square tiles were used to cover the floor?",
+    "answer": "20",
+    "choices": [
+      "16",
+      "18",
+      "20",
+      "24"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/floor-tile-pinwheels.svg",
+    "imageAlt": "A grid of pinwheel-patterned floor tiles, four tiles wide by five tiles tall, each tile made of eight small triangles.",
+    "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025"
+  },
+  {
+    "tier": 10,
+    "question": "What phrase is represented here? (You don't need football knowledge to work it out.)",
+    "answer": "ALL FOR ONE AND ONE FOR ALL",
+    "choices": [
+      "ALL FOR ONE AND ONE FOR ALL",
+      "ONE FOR ALL AND ALL FOR ONE",
+      "UNITED WE STAND DIVIDED WE FALL",
+      "TOGETHER WE RISE AS ONE"
+    ],
+    "choicesInvented": true,
+    "image": "images/questions/football-scores-rebus.svg",
+    "imageAlt": "A box of four football scorelines all reading 4 dash 1, the word AND, and a second box with one scoreline reading 4 dash 4.",
+    "source": "https://puzzleaday.wordpress.com/2025/01/03/a-rebus-from-the-1-club/"
   }
 ]

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560" role="img" aria-labelledby="title desc">
+  <title id="title">Two dice rolling across a checkerboard</title>
+  <desc id="desc">A 6 by 6 checkerboard. Die A starts near the top and takes four hops along a curved arrow to a highlighted tile near the right edge, ending on 4. Die B starts near the bottom left and takes two hops along a curved arrow to a highlighted tile near the middle, ending on 1. Together the two top faces total five.</desc>
+  <rect width="700" height="560" rx="28" fill="#fffaf0"/>
+  <text x="350" y="42" font-family="system-ui, sans-serif" text-anchor="middle" font-size="21" font-weight="700" fill="#241d42">If both dice keep rolling the way the arrows show,</text>
+  <text x="350" y="68" font-family="system-ui, sans-serif" text-anchor="middle" font-size="21" font-weight="700" fill="#241d42">what will the two top faces total?</text>
+  <!-- checkerboard: 6x6, cell 70x70, origin x=80 y=95 -->
+  <g>
+    <!-- squares -->
+    <g id="board"></g>
+  </g>
+  <g stroke="#d8ceb8" stroke-width="1.5">
+    <rect x="80" y="95" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="150" y="95" width="70" height="70" fill="#e3eef7"/>
+    <rect x="220" y="95" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="290" y="95" width="70" height="70" fill="#e3eef7"/>
+    <rect x="360" y="95" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="430" y="95" width="70" height="70" fill="#e3eef7"/>
+
+    <rect x="80" y="165" width="70" height="70" fill="#e3eef7"/>
+    <rect x="150" y="165" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="220" y="165" width="70" height="70" fill="#e3eef7"/>
+    <rect x="290" y="165" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="360" y="165" width="70" height="70" fill="#e3eef7"/>
+    <rect x="430" y="165" width="70" height="70" fill="#bcd4ea"/>
+
+    <rect x="80" y="235" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="150" y="235" width="70" height="70" fill="#e3eef7"/>
+    <rect x="220" y="235" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="290" y="235" width="70" height="70" fill="#e3eef7"/>
+    <rect x="360" y="235" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="430" y="235" width="70" height="70" fill="#e3eef7"/>
+
+    <rect x="80" y="305" width="70" height="70" fill="#e3eef7"/>
+    <rect x="150" y="305" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="220" y="305" width="70" height="70" fill="#e3eef7"/>
+    <rect x="290" y="305" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="360" y="305" width="70" height="70" fill="#e3eef7"/>
+    <rect x="430" y="305" width="70" height="70" fill="#bcd4ea"/>
+
+    <rect x="80" y="375" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="150" y="375" width="70" height="70" fill="#e3eef7"/>
+    <rect x="220" y="375" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="290" y="375" width="70" height="70" fill="#e3eef7"/>
+    <rect x="360" y="375" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="430" y="375" width="70" height="70" fill="#e3eef7"/>
+
+    <rect x="80" y="445" width="70" height="70" fill="#e3eef7"/>
+    <rect x="150" y="445" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="220" y="445" width="70" height="70" fill="#e3eef7"/>
+    <rect x="290" y="445" width="70" height="70" fill="#bcd4ea"/>
+    <rect x="360" y="445" width="70" height="70" fill="#e3eef7"/>
+    <rect x="430" y="445" width="70" height="70" fill="#bcd4ea"/>
+  </g>
+  <rect x="80" y="95" width="420" height="420" fill="none" stroke="#b8862b" stroke-width="3" rx="6"/>
+
+  <!-- destination highlights -->
+  <rect x="290" y="235" width="70" height="70" fill="#8fd6c2" opacity="0.75"/>
+  <rect x="430" y="165" width="70" height="70" fill="#8fd6c2" opacity="0.75"/>
+
+  <!-- Die B: bottom-left, short 2-hop path to middle tile -->
+  <g transform="translate(115,480)">
+    <rect x="-24" y="-24" width="48" height="48" rx="8" fill="#e8b64c" stroke="#b8862b" stroke-width="3"/>
+    <circle cx="0" cy="0" r="6" fill="#241d42"/>
+    <text x="0" y="42" font-family="system-ui, sans-serif" text-anchor="middle" font-size="15" font-weight="700" fill="#241d42">Die B</text>
+  </g>
+  <path d="M 115 456 Q 200 380 250 330 Q 290 300 315 270" fill="none" stroke="#c9508f" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <!-- Die A: top area, longer 4-hop path to right-edge tile -->
+  <g transform="translate(115,130)">
+    <rect x="-24" y="-24" width="48" height="48" rx="8" fill="#e8b64c" stroke="#b8862b" stroke-width="3"/>
+    <circle cx="0" cy="0" r="6" fill="#241d42"/>
+    <text x="0" y="-34" font-family="system-ui, sans-serif" text-anchor="middle" font-size="15" font-weight="700" fill="#241d42">Die A</text>
+  </g>
+  <path d="M 140 130 Q 260 110 340 150 Q 420 190 465 200" fill="none" stroke="#c9508f" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#c9508f"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#241d42" font-size="14">
+    <text x="325" y="252">B lands on 1</text>
+    <text x="465" y="182">A lands on 4</text>
+  </g>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-labelledby="title desc">
+  <title id="title">A grid of pinwheel-patterned floor tiles</title>
+  <desc id="desc">A grid four tiles wide by five tiles tall. Each tile is a pinwheel made from four small squares, each split diagonally into a periwinkle and a cream triangle, rotated so the four small squares spin around the tile's centre. A thin border separates each of the twenty countable tiles.</desc>
+  <rect width="500" height="500" rx="28" fill="#fffaf0"/>
+  <text x="250" y="26" font-family="system-ui, sans-serif" text-anchor="middle" font-size="15" font-weight="700" fill="#241d42">Each tile below is made of eight triangles.</text>
+  <text x="250" y="46" font-family="system-ui, sans-serif" text-anchor="middle" font-size="15" font-weight="700" fill="#241d42">How many tiles cover this floor?</text>
+
+  <defs>
+    <symbol id="pinwheel" viewBox="0 0 70 70">
+      <g id="motif">
+        <polygon points="0,0 35,0 35,35" fill="#b9b3e0"/>
+        <polygon points="0,0 0,35 35,35" fill="#fdf6e3"/>
+      </g>
+      <use href="#motif" transform="rotate(90,35,35)"/>
+      <use href="#motif" transform="rotate(180,35,35)"/>
+      <use href="#motif" transform="rotate(270,35,35)"/>
+    </symbol>
+  </defs>
+
+  <g transform="translate(110,64)">
+    <rect x="-4" y="-4" width="288" height="358" fill="none" stroke="#b8862b" stroke-width="3" rx="6"/>
+    <g stroke="#241d42" stroke-width="1.5">
+      <use href="#pinwheel" x="0" y="0" width="70" height="70"/>
+      <use href="#pinwheel" x="70" y="0" width="70" height="70"/>
+      <use href="#pinwheel" x="140" y="0" width="70" height="70"/>
+      <use href="#pinwheel" x="210" y="0" width="70" height="70"/>
+
+      <use href="#pinwheel" x="0" y="70" width="70" height="70"/>
+      <use href="#pinwheel" x="70" y="70" width="70" height="70"/>
+      <use href="#pinwheel" x="140" y="70" width="70" height="70"/>
+      <use href="#pinwheel" x="210" y="70" width="70" height="70"/>
+
+      <use href="#pinwheel" x="0" y="140" width="70" height="70"/>
+      <use href="#pinwheel" x="70" y="140" width="70" height="70"/>
+      <use href="#pinwheel" x="140" y="140" width="70" height="70"/>
+      <use href="#pinwheel" x="210" y="140" width="70" height="70"/>
+
+      <use href="#pinwheel" x="0" y="210" width="70" height="70"/>
+      <use href="#pinwheel" x="70" y="210" width="70" height="70"/>
+      <use href="#pinwheel" x="140" y="210" width="70" height="70"/>
+      <use href="#pinwheel" x="210" y="210" width="70" height="70"/>
+
+      <use href="#pinwheel" x="0" y="280" width="70" height="70"/>
+      <use href="#pinwheel" x="70" y="280" width="70" height="70"/>
+      <use href="#pinwheel" x="140" y="280" width="70" height="70"/>
+      <use href="#pinwheel" x="210" y="280" width="70" height="70"/>
+    </g>
+    <!-- tile-unit borders for countability -->
+    <g fill="none" stroke="#241d42" stroke-width="2.5">
+      <rect x="0" y="0" width="70" height="70"/><rect x="70" y="0" width="70" height="70"/><rect x="140" y="0" width="70" height="70"/><rect x="210" y="0" width="70" height="70"/>
+      <rect x="0" y="70" width="70" height="70"/><rect x="70" y="70" width="70" height="70"/><rect x="140" y="70" width="70" height="70"/><rect x="210" y="70" width="70" height="70"/>
+      <rect x="0" y="140" width="70" height="70"/><rect x="70" y="140" width="70" height="70"/><rect x="140" y="140" width="70" height="70"/><rect x="210" y="140" width="70" height="70"/>
+      <rect x="0" y="210" width="70" height="70"/><rect x="70" y="210" width="70" height="70"/><rect x="140" y="210" width="70" height="70"/><rect x="210" y="210" width="70" height="70"/>
+      <rect x="0" y="280" width="70" height="70"/><rect x="70" y="280" width="70" height="70"/><rect x="140" y="280" width="70" height="70"/><rect x="210" y="280" width="70" height="70"/>
+    </g>
+  </g>
+</svg>

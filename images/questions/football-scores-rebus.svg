@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" role="img" aria-labelledby="title desc">
+  <title id="title">Two boxes of football scorelines with AND between them</title>
+  <desc id="desc">Left box lists four football scorelines, each 4 dash 1: Liverpool 4-1 Arsenal, Brighton 4-1 Luton, West Ham 4-1 Millwall, Newcastle 4-1 Rochdale. The word AND sits in the middle. The right box lists one scoreline, Chelsea 4-4 Man Utd.</desc>
+  <rect width="760" height="400" rx="28" fill="#fffaf0"/>
+  <text x="380" y="36" font-family="system-ui, sans-serif" text-anchor="middle" font-size="19" font-weight="700" fill="#241d42">What phrase is represented here?</text>
+
+  <rect x="30" y="70" width="330" height="220" rx="12" fill="#ffffff" stroke="#b8862b" stroke-width="3"/>
+  <g font-family="system-ui, sans-serif" font-size="19" fill="#241d42">
+    <text x="50" y="115">Liverpool <tspan font-weight="800">4 – 1</tspan> Arsenal</text>
+    <text x="50" y="160">Brighton <tspan font-weight="800">4 – 1</tspan> Luton</text>
+    <text x="50" y="205">West Ham <tspan font-weight="800">4 – 1</tspan> Millwall</text>
+    <text x="50" y="250">Newcastle <tspan font-weight="800">4 – 1</tspan> Rochdale</text>
+  </g>
+
+  <text x="400" y="188" font-family="system-ui, sans-serif" text-anchor="middle" font-size="26" font-weight="800" fill="#b8862b">AND</text>
+
+  <rect x="440" y="140" width="290" height="90" rx="12" fill="#ffffff" stroke="#b8862b" stroke-width="3"/>
+  <text x="460" y="192" font-family="system-ui, sans-serif" font-size="19" fill="#241d42">Chelsea <tspan font-weight="800">4 – 4</tspan> Man Utd</text>
+
+  <text x="380" y="345" font-family="system-ui, sans-serif" text-anchor="middle" font-size="14" fill="#9a92b8">(you don't need football knowledge to work it out)</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" role="img" aria-labelledby="title desc">
+  <title id="title">A loop of eight colored boxes, each naming the fill color of the next box</title>
+  <desc id="desc">Top row left to right: black box reading RED, red box reading BLUE, blue box reading a question mark, green box reading RED. Bottom row left to right: blue box reading BLACK, grey box reading BLUE, green box reading GREY, red box reading GREEN. Arrows chain top row left to right, bottom row right to left, and connect top-left to bottom-left and top-right to bottom-right, forming one loop.</desc>
+  <rect width="700" height="420" rx="28" fill="#fffaf0"/>
+  <text x="350" y="28" font-family="system-ui, sans-serif" text-anchor="middle" font-size="16" font-weight="700" fill="#241d42">Each box names the fill colour of the NEXT box in the loop.</text>
+  <text x="350" y="50" font-family="system-ui, sans-serif" text-anchor="middle" font-size="16" font-weight="700" fill="#241d42">What replaces the ?</text>
+
+  <defs>
+    <marker id="carrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#9a92b8"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" text-anchor="middle" font-weight="800" font-size="20">
+    <!-- top row y=90-160, x centers 140,290,440,590 -->
+    <rect x="80" y="90" width="120" height="70" rx="10" fill="#241d42"/>
+    <text x="140" y="132" fill="#ffffff">RED</text>
+    <rect x="230" y="90" width="120" height="70" rx="10" fill="#c0392b"/>
+    <text x="290" y="132" fill="#ffffff">BLUE</text>
+    <rect x="380" y="90" width="120" height="70" rx="10" fill="#2f6fb0"/>
+    <text x="440" y="132" fill="#ffffff">?</text>
+    <rect x="530" y="90" width="120" height="70" rx="10" fill="#3c9a5f"/>
+    <text x="590" y="132" fill="#ffffff">RED</text>
+
+    <!-- bottom row y=260-330 -->
+    <rect x="80" y="260" width="120" height="70" rx="10" fill="#2f6fb0"/>
+    <text x="140" y="302" fill="#ffffff">BLACK</text>
+    <rect x="230" y="260" width="120" height="70" rx="10" fill="#8a8f98"/>
+    <text x="290" y="302" fill="#ffffff">BLUE</text>
+    <rect x="380" y="260" width="120" height="70" rx="10" fill="#3c9a5f"/>
+    <text x="440" y="302" fill="#ffffff">GREY</text>
+    <rect x="530" y="260" width="120" height="70" rx="10" fill="#c0392b"/>
+    <text x="590" y="302" fill="#ffffff">GREEN</text>
+  </g>
+
+  <g stroke="#9a92b8" stroke-width="3" fill="none">
+    <line x1="200" y1="125" x2="228" y2="125" marker-end="url(#carrow)"/>
+    <line x1="350" y1="125" x2="378" y2="125" marker-end="url(#carrow)"/>
+    <line x1="500" y1="125" x2="528" y2="125" marker-end="url(#carrow)"/>
+
+    <line x1="528" y1="295" x2="502" y2="295" marker-end="url(#carrow)"/>
+    <line x1="378" y1="295" x2="352" y2="295" marker-end="url(#carrow)"/>
+    <line x1="228" y1="295" x2="202" y2="295" marker-end="url(#carrow)"/>
+
+    <line x1="140" y1="260" x2="140" y2="162" marker-end="url(#carrow)"/>
+    <line x1="590" y1="160" x2="590" y2="258" marker-end="url(#carrow)"/>
+  </g>
+</svg>

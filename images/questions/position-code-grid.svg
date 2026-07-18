@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 520" role="img" aria-labelledby="title desc">
+  <title id="title">Position code grid puzzle</title>
+  <desc id="desc">A 4 column by 6 row grid. Row 2 column 2 holds 2253. Row 3 column 4 holds 4341. Row 6 column 1 holds a question mark. Row 6 column 4 holds 4611.</desc>
+  <rect width="700" height="520" rx="28" fill="#fffaf0"/>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#241d42">
+    <text x="350" y="46" font-size="24" font-weight="700">Which number replaces the ?</text>
+  </g>
+  <!-- grid: 4 cols x 6 rows, cell 140x62, origin x=70 y=80 -->
+  <g>
+    <rect x="70" y="80" width="560" height="372" rx="10" fill="#ffffff" stroke="#b8862b" stroke-width="3"/>
+    <!-- column lines -->
+    <line x1="210" y1="80" x2="210" y2="452" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="350" y1="80" x2="350" y2="452" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="490" y1="80" x2="490" y2="452" stroke="#d8ceb8" stroke-width="2"/>
+    <!-- row lines -->
+    <line x1="70" y1="142" x2="630" y2="142" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="70" y1="204" x2="630" y2="204" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="70" y1="266" x2="630" y2="266" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="70" y1="328" x2="630" y2="328" stroke="#d8ceb8" stroke-width="2"/>
+    <line x1="70" y1="390" x2="630" y2="390" stroke="#d8ceb8" stroke-width="2"/>
+  </g>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" font-weight="800">
+    <!-- row2 col2 = 2253, cell center x=280 y=173 -->
+    <text x="280" y="182" font-size="30" fill="#241d42">2253</text>
+    <!-- row3 col4 = 4341, cell center x=560 y=235 -->
+    <text x="560" y="244" font-size="30" fill="#241d42">4341</text>
+    <!-- row6 col1 = ?, cell center x=140 y=421, highlighted -->
+    <rect x="72" y="390" width="136" height="60" fill="#f7ecc9"/>
+    <text x="140" y="430" font-size="34" fill="#b8862b">?</text>
+    <!-- row6 col4 = 4611, cell center x=560 y=421 -->
+    <text x="560" y="430" font-size="30" fill="#241d42">4611</text>
+  </g>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#9a92b8" font-size="15">
+    <text x="140" y="475">col 1</text>
+    <text x="280" y="475">col 2</text>
+    <text x="420" y="475">col 3</text>
+    <text x="560" y="475">col 4</text>
+  </g>
+</svg>

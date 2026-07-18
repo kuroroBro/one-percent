@@ -150,3 +150,28 @@
       and label it as "Your locked answer."
 - [x] Render every contestant's revealed answer as a distinct green/red
       badge, including "no answer" for a timeout.
+
+## Phase 14 - Image bank expansion
+
+- [x] Research real 1% Club visual puzzles (UK/AU) with source detail
+      precise enough (exact shapes, positions, colors, text) to redraw
+      faithfully without referencing the original broadcast footage.
+- [x] Recreate 11 as original local artwork: 10 hand-authored SVG diagrams
+      (position-code grid, dice-roll board, matchstick digits, binary-tree
+      rebus, glass-cube rebus, colour-chain loop, four-square star, circular
+      maze, pinwheel-tile floor, football-score rebus) plus one AI-generated
+      raster illustration (foil balloon numerals, via the `image-gen`
+      Codex skill — the one candidate that genuinely benefits from rendered
+      art over a flat diagram) downscaled and re-encoded as JPEG.
+- [x] Visually QA every new SVG via headless-browser screenshot before
+      wiring it in; caught and fixed two real bugs this way (a title
+      overflowing its canvas on two images, and bottom-row connector arrows
+      in the colour-chain diagram spanning clean through unrelated boxes
+      instead of stopping at the adjacent one).
+- [x] Append all 11 to `tools/raw-questions.json` and regenerate — 105
+      questions across 17 tiers, 12 now image-backed.
+- [x] Verify live in the real app: full lobby → question → reveal flow
+      renders a new image correctly sized on both screens; confirmed the
+      JPEG loads with correct dimensions via a direct `<img>` check.
+- [x] `node --test` (32/32); update README's question-bank counts and
+      artwork-sourcing description.

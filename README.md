@@ -53,20 +53,26 @@ no backend authority to restore.
 
 ## Question bank
 
-94 questions across 15 difficulty tiers (from THE LINE at ~92% down to 1%),
+105 questions across 17 difficulty tiers (from THE LINE at ~92% down to 1%),
 adapted from publicly reported episode recaps of *The 1% Club* (UK and US),
 each tagged with the difficulty percentage as reported by the source. The
 real show is often free-response and not always 4-option (True/False and
 3-way questions do occur); where a source didn't report the on-screen
 options, distractor answers were authored to match the real answer's
 format. Some questions carry a short logic explanation shown on the reveal
-screen. Questions may also include locally hosted artwork with accessible
-alt text; text-only questions render as before. See `js/questions.js` for
-the per-question `source`, `image`, and `imageAlt` fields,
+screen.
+
+12 questions include artwork — the show's visual puzzles (rebuses, grids,
+mazes, matchstick puzzles, shape patterns, and one AI-illustrated set of
+foil balloon numerals) recreated as original local images, never screenshots
+of the real broadcast, from sources detailed enough to redraw faithfully.
+Every image has accessible alt text; text-only questions render exactly as
+before. See `js/questions.js` for the per-question `source`, `image`, and
+`imageAlt` fields, `images/questions/` for the artwork itself,
 `tools/gen-questions.js`/`tools/raw-questions.json` for the sourcing
 pipeline, and `specs/001-one-percent-club/plan.md`'s Data Model section and
-Changelog for the full methodology (including two data-quality bugs caught
-and fixed while building this).
+Changelog for the full methodology (including several data-quality bugs
+caught and fixed while building this).
 
 If you believe a question shouldn't be reproduced here, open an issue and it
 will be removed.

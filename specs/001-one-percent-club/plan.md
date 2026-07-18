@@ -308,3 +308,39 @@ rematch.
   answering, saw a "running the game" banner instead of choice buttons, and
   the game advanced from reveal to the correct next phase (a wipeout ending,
   in that run) with zero taps after Start.
+- **v4 / Phase 14** (2026-07-18): Expanded the image bank from 1 to 12
+  questions. Researched real, previously-aired 1% Club visual puzzles (UK
+  and AU) with enough source detail — exact shapes, positions, colors,
+  overlaid text — to redraw faithfully from scratch, never by referencing
+  or reproducing the original broadcast image. 10 became hand-authored SVG
+  diagrams matching `cat-a-log.svg`'s existing cream/gold/navy palette
+  (`position-code-grid.svg`, `dice-roll-arrows.svg`, `matchstick-digits.svg`,
+  `badge-binary-tree.svg`, `incubate-cube.svg`, `color-word-chain.svg`,
+  `four-square-star.svg`, `circle-maze.svg`, `floor-tile-pinwheels.svg`,
+  `football-scores-rebus.svg`); one (`balloon-digits.jpg`) was generated via
+  the `image-gen` skill (Codex's `image_gen` tool) instead, since glossy
+  foil-balloon numerals are a case where rendered illustration genuinely
+  beats a flat vector — the skill's own guidance is to prefer SVG for
+  diagrams/charts, which is why the other 10 stayed hand-authored; the PNG
+  output was downscaled (1536×1024 → 700×466) and re-encoded as JPEG
+  (1.5MB → 62KB) before committing.
+
+  Visual QA mattered here as much as it did for the reveal/over bug in v1:
+  a Playwright script screenshotted every new SVG standalone before wiring
+  any of them in, which caught two real authoring bugs no amount of reading
+  the markup would have — a title string wide enough to overflow its own
+  canvas on two images (fixed by wrapping to two lines / shrinking), and
+  the colour-chain diagram's bottom-row connector arrows using endpoint
+  coordinates that spanned clean through an unrelated box instead of
+  stopping at the adjacent one (visually garbling that box's text; fixed by
+  giving each arrow its correct short span). All 11 new entries went
+  through the same `tools/raw-questions.json` → `gen-questions.js` pipeline
+  as the text-only bank (105 questions across 17 tiers afterward); no
+  engine changes were needed since `image`/`imageAlt` propagation already
+  existed from the original image-support work. Verified live: a real
+  two-browser game rendered a new image (the circular maze) correctly
+  sized on both the question and reveal screens; the JPEG was separately
+  confirmed to load at its correct dimensions via a direct `<img>` check,
+  since a blind-guessing Playwright playthrough proved too unreliable at
+  surviving far enough into a real deck to reliably land on every new
+  image organically.

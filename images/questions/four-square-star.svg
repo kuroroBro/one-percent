@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" role="img" aria-labelledby="title desc">
+  <title id="title">A 16 point star made from four overlapping squares</title>
+  <desc id="desc">Four identical square outlines share a center point, each rotated about 22.5 degrees further than the last, so their corners project outward evenly to form a 16-pointed star silhouette with a roughly circular empty space in the middle.</desc>
+  <rect width="700" height="420" rx="28" fill="#fffaf0"/>
+  <text x="350" y="40" font-family="system-ui, sans-serif" text-anchor="middle" font-size="19" font-weight="700" fill="#241d42">How many squares make up this pattern?</text>
+
+  <g fill="none" stroke="#5fb6d9" stroke-width="3">
+    <rect x="230" y="110" width="220" height="220" transform="rotate(0,340,220)"/>
+    <rect x="230" y="110" width="220" height="220" transform="rotate(22.5,340,220)"/>
+    <rect x="230" y="110" width="220" height="220" transform="rotate(45,340,220)"/>
+    <rect x="230" y="110" width="220" height="220" transform="rotate(67.5,340,220)"/>
+  </g>
+</svg>

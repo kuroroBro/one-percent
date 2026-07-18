@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" role="img" aria-labelledby="title desc">
+  <title id="title">Binary branching tree from START to letters A through H</title>
+  <desc id="desc">A tree starts at START at the top and branches left or right three times, ending at eight leaves labeled A through H left to right. LLL reaches A, RRR reaches H. Decode the path LLR LLL LRR RRL RLL to spell a word.</desc>
+  <rect width="700" height="420" rx="28" fill="#fffaf0"/>
+  <text x="350" y="30" font-family="system-ui, sans-serif" text-anchor="middle" font-size="15" fill="#241d42" font-weight="700">LLL = A and RRR = H. What does LLR LLL LRR RRL RLL spell?</text>
+
+  <g stroke="#9a92b8" stroke-width="2.5" fill="none">
+    <line x1="330" y1="60" x2="170" y2="150"/>
+    <line x1="330" y1="60" x2="490" y2="150"/>
+    <line x1="170" y1="150" x2="90" y2="250"/>
+    <line x1="170" y1="150" x2="250" y2="250"/>
+    <line x1="490" y1="150" x2="410" y2="250"/>
+    <line x1="490" y1="150" x2="570" y2="250"/>
+    <line x1="90" y1="250" x2="50" y2="345"/>
+    <line x1="90" y1="250" x2="130" y2="345"/>
+    <line x1="250" y1="250" x2="210" y2="345"/>
+    <line x1="250" y1="250" x2="290" y2="345"/>
+    <line x1="410" y1="250" x2="370" y2="345"/>
+    <line x1="410" y1="250" x2="450" y2="345"/>
+    <line x1="570" y1="250" x2="530" y2="345"/>
+    <line x1="570" y1="250" x2="610" y2="345"/>
+  </g>
+
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#241d42">
+    <circle cx="330" cy="60" r="20" fill="#e8b64c"/>
+    <text x="330" y="65" font-size="12" font-weight="700">START</text>
+  </g>
+
+  <g fill="#c7bfe0" stroke="#9a92b8" stroke-width="1.5">
+    <circle cx="170" cy="150" r="8"/>
+    <circle cx="490" cy="150" r="8"/>
+    <circle cx="90" cy="250" r="8"/>
+    <circle cx="250" cy="250" r="8"/>
+    <circle cx="410" cy="250" r="8"/>
+    <circle cx="570" cy="250" r="8"/>
+  </g>
+
+  <g font-family="system-ui, sans-serif" text-anchor="middle">
+    <g>
+      <circle cx="50" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="50" y="363" font-size="15" font-weight="800" fill="#241d42">A</text>
+    </g>
+    <g>
+      <circle cx="130" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="130" y="363" font-size="15" font-weight="800" fill="#241d42">B</text>
+    </g>
+    <g>
+      <circle cx="210" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="210" y="363" font-size="15" font-weight="800" fill="#241d42">C</text>
+    </g>
+    <g>
+      <circle cx="290" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="290" y="363" font-size="15" font-weight="800" fill="#241d42">D</text>
+    </g>
+    <g>
+      <circle cx="370" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="370" y="363" font-size="15" font-weight="800" fill="#241d42">E</text>
+    </g>
+    <g>
+      <circle cx="450" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="450" y="363" font-size="15" font-weight="800" fill="#241d42">F</text>
+    </g>
+    <g>
+      <circle cx="530" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="530" y="363" font-size="15" font-weight="800" fill="#241d42">G</text>
+    </g>
+    <g>
+      <circle cx="610" cy="358" r="18" fill="#e8b64c" stroke="#b8862b" stroke-width="2"/>
+      <text x="610" y="363" font-size="15" font-weight="800" fill="#241d42">H</text>
+    </g>
+  </g>
+
+  <text x="350" y="405" font-family="system-ui, sans-serif" text-anchor="middle" font-size="20" font-weight="800" fill="#b8862b">LLR LLL LRR RRL RLL</text>
+</svg>

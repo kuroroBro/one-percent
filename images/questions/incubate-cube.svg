@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" role="img" aria-labelledby="title desc">
+  <title id="title">A glassy cube with the numeral 8 on its face</title>
+  <desc id="desc">A single semi-transparent teal glass cube drawn in 3D isometric style, with a large bold numeral 8 printed on its front-right face. IN + CUBE + ATE (sounds like eight).</desc>
+  <rect width="700" height="420" rx="28" fill="#fffaf0"/>
+  <text x="350" y="42" font-family="system-ui, sans-serif" text-anchor="middle" font-size="19" font-weight="700" fill="#241d42">What word is represented by this picture?</text>
+
+  <g stroke="#2a7a76" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="350,90 500,150 350,210 200,150" fill="#bdeee6" opacity="0.9"/>
+    <polygon points="200,150 350,210 350,390 200,330" fill="#8fd6c9" opacity="0.85"/>
+    <polygon points="350,210 500,150 500,330 350,390" fill="#6cc2b6" opacity="0.9"/>
+  </g>
+
+  <text x="420" y="315" font-family="system-ui, sans-serif" text-anchor="middle" font-size="90" font-weight="800" fill="#1d3c3a">8</text>
+
+  <rect x="230" y="120" width="60" height="24" fill="#ffffff" opacity="0.35" transform="skewX(-20)"/>
+</svg>
