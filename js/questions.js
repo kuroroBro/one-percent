@@ -50,7 +50,7 @@ export const QUESTIONS = [
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
     "image": "images/questions/circle-maze.svg",
-    "imageAlt": "A circular ring maze with four labeled arrows. B points straight into a solid wall while A, C, and D point along open paths toward the centre."
+    "imageAlt": "A circular maze backdrop with four color-coded dotted routes. The routes for A, C, and D each wind inward and connect all the way to the highlighted GOAL circle at the centre. The route for B winds inward but stops at a solid dead-end wall, labeled, well short of the centre."
   },
   {
     "tier": 90,

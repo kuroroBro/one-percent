@@ -1,62 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 460" role="img" aria-labelledby="title desc">
-  <title id="title">A circular maze with four labeled arrows</title>
-  <desc id="desc">A circular ring maze with four rings around a small central goal opening. Four arrows mark four people's positions and directions: A points inward through a gap, C and D point along open paths toward the centre, but B points straight down into a solid wall segment, a dead end.</desc>
+  <title id="title">A circular maze with four labeled routes</title>
+  <desc id="desc">A faint circular maze backdrop with four color-coded routes. The routes for A, C, and D each wind inward and connect all the way to the center goal. The route for B winds inward but stops at a solid dead-end wall, well short of the center.</desc>
   <rect width="700" height="460" rx="28" fill="#fffaf0"/>
-  <text x="350" y="36" font-family="system-ui, sans-serif" text-anchor="middle" font-size="19" font-weight="700" fill="#241d42">Four people are heading for the centre. Who is going the wrong way?</text>
+  <text x="350" y="28" font-family="system-ui, sans-serif" text-anchor="middle" font-size="19" font-weight="700" fill="#241d42">Four people are heading for the centre. Who is going the wrong way?</text>
 
-  <g transform="translate(0,20)">
-    <circle cx="350" cy="220" r="220" fill="none" stroke="#241d42" stroke-width="3"/>
-    <circle cx="350" cy="220" r="170" fill="none" stroke="#241d42" stroke-width="3"/>
-    <circle cx="350" cy="220" r="120" fill="none" stroke="#241d42" stroke-width="3"/>
-    <circle cx="350" cy="220" r="70" fill="none" stroke="#241d42" stroke-width="3"/>
+  <g transform="translate(0,28)">
+    <!-- faint decorative maze rings, purely atmospheric -->
+    <g fill="none" stroke="#d8ceb8" stroke-width="2">
+      <circle cx="350" cy="220" r="205"/>
+      <circle cx="350" cy="220" r="170"/>
+      <circle cx="350" cy="220" r="120"/>
+      <circle cx="350" cy="220" r="70"/>
+    </g>
     <circle cx="350" cy="220" r="22" fill="#8fd6c9" stroke="#241d42" stroke-width="3"/>
+    <text x="350" y="225" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1d3c3a">GOAL</text>
 
-    <!-- radial wall segments, various angles -->
-    <g stroke="#241d42" stroke-width="4" stroke-linecap="round">
-      <line x1="350" y1="0" x2="350" y2="50"/>
-      <line x1="480" y1="90" x2="453" y2="132"/>
-      <line x1="520" y1="220" x2="470" y2="220"/>
-      <line x1="480" y1="350" x2="453" y2="308"/>
-      <line x1="350" y1="440" x2="350" y2="390"/>
-      <line x1="220" y1="350" x2="247" y2="308"/>
-      <line x1="180" y1="220" x2="230" y2="220"/>
-      <line x1="220" y1="90" x2="247" y2="132"/>
-      <line x1="350" y1="50" x2="350" y2="100"/>
-      <line x1="440" y1="130" x2="415" y2="160"/>
-      <line x1="470" y1="220" x2="420" y2="220"/>
-      <line x1="260" y1="130" x2="285" y2="160"/>
-      <line x1="230" y1="220" x2="280" y2="220"/>
-      <line x1="203" y1="135" x2="230" y2="160"/>
-      <line x1="350" y1="150" x2="350" y2="198"/>
-      <line x1="203" y1="270" x2="235" y2="245"/>
+    <!-- Route A (blue): winds in and reaches the centre -->
+    <path d="M 488 82 Q 430 130 430 180 Q 430 220 380 235 Q 355 243 350 220"
+          fill="none" stroke="#2f6fb0" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 14"/>
+    <path d="M 488 82 Q 430 130 430 180 Q 430 220 380 235 Q 355 243 350 220"
+          fill="none" stroke="#2f6fb0" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Route C (green): winds in and reaches the centre -->
+    <path d="M 205 220 Q 250 220 260 180 Q 268 148 305 140 Q 335 134 350 220"
+          fill="none" stroke="#3c9a5f" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 14"/>
+    <path d="M 205 220 Q 250 220 260 180 Q 268 148 305 140 Q 335 134 350 220"
+          fill="none" stroke="#3c9a5f" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Route D (magenta): short hop, reaches the centre -->
+    <path d="M 417 287 Q 390 270 375 250 Q 362 235 350 220"
+          fill="none" stroke="#c9508f" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 14"/>
+    <path d="M 417 287 Q 390 270 375 250 Q 362 235 350 220"
+          fill="none" stroke="#c9508f" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Route B (red): winds in but hits a dead-end wall, never reaches the centre -->
+    <path d="M 212 82 Q 260 110 265 150 Q 268 178 240 190"
+          fill="none" stroke="#e0505f" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 14"/>
+    <g transform="translate(240,190) rotate(20)">
+      <rect x="-5" y="-22" width="10" height="44" rx="3" fill="#241d42"/>
     </g>
+    <text x="270" y="170" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#e0505f">dead end</text>
 
-    <!-- A: r=170, angle 30deg, pointing inward (down-right blocked to open) -->
-    <g transform="translate(435,73)">
-      <circle r="16" fill="#e0505f"/>
-      <text x="0" y="5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="800" fill="#fff">A</text>
-      <path d="M -30 20 L -14 34 L -30 42 Z" fill="#2f6fb0" transform="rotate(45)"/>
-    </g>
-
-    <!-- B: r=170, angle 300deg, pointing straight down into a wall -->
-    <g transform="translate(203,135)">
-      <circle r="16" fill="#e0505f"/>
-      <text x="0" y="5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="800" fill="#fff">B</text>
-      <path d="M -8 24 L 8 24 L 0 42 Z" fill="#2f6fb0"/>
-    </g>
-
-    <!-- C: r=120, angle 270deg, pointing down through gap -->
-    <g transform="translate(230,220)">
-      <circle r="16" fill="#e0505f"/>
-      <text x="0" y="5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="800" fill="#fff">C</text>
-      <path d="M -8 22 L 8 22 L 0 40 Z" fill="#2f6fb0"/>
-    </g>
-
-    <!-- D: r=70, angle 150deg, pointing up-right toward centre -->
-    <g transform="translate(385,281)">
-      <circle r="16" fill="#e0505f"/>
-      <text x="0" y="5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="800" fill="#fff">D</text>
-      <path d="M -30 20 L -14 34 L -30 42 Z" fill="#2f6fb0" transform="rotate(-135)"/>
+    <!-- Labeled start markers -->
+    <g font-family="system-ui, sans-serif" text-anchor="middle">
+      <g transform="translate(488,82)"><circle r="17" fill="#2f6fb0" stroke="#241d42" stroke-width="2"/><text y="5" font-size="15" font-weight="800" fill="#fff">A</text></g>
+      <g transform="translate(212,82)"><circle r="17" fill="#e0505f" stroke="#241d42" stroke-width="2"/><text y="5" font-size="15" font-weight="800" fill="#fff">B</text></g>
+      <g transform="translate(205,220)"><circle r="17" fill="#3c9a5f" stroke="#241d42" stroke-width="2"/><text y="5" font-size="15" font-weight="800" fill="#fff">C</text></g>
+      <g transform="translate(417,287)"><circle r="17" fill="#c9508f" stroke="#241d42" stroke-width="2"/><text y="5" font-size="15" font-weight="800" fill="#fff">D</text></g>
     </g>
   </g>
 </svg>
