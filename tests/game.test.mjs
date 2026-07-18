@@ -29,7 +29,7 @@ const POOL = [
 // first-player-becomes-host behavior, but the two are no longer coupled.
 function roomWith(names, hostId = "p1") {
   const room = g.createRoom("TEST", hostId);
-  names.forEach((name, i) => g.addPlayer(room, `p${i + 1}`, name));
+  names.forEach((name, i) => g.addPlayer(room, `p${i + 1}`, name, `token-${i + 1}`));
   return room;
 }
 
@@ -37,7 +37,7 @@ function startedRoom(names, opts = {}) {
   const room = roomWith(names);
   g.startGame(room, room.hostId, {
     pool: POOL,
-    ladderLength: "full",
+    questionCount: 15,
     timerSeconds: 0,
     usedKeys: new Set(),
     rng: seeded(1),
@@ -59,7 +59,7 @@ test("a spectator Host (never added as a player) can still start and run the gam
   g.addPlayer(room, "p2", "Ben");
   assert.strictEqual(room.players.length, 2); // the Host isn't among them
   const res = g.startGame(room, "display", {
-    pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
+    pool: POOL, questionCount: 15, timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
   });
   assert.deepStrictEqual(res, {});
   assert.strictEqual(room.phase, "question");
@@ -74,7 +74,7 @@ test("a spectator Host (never added as a player) can still start and run the gam
 test("startGame with a spectator Host and zero players still requires at least one player", () => {
   const room = g.createRoom("TEST", "display");
   const res = g.startGame(room, "display", {
-    pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
+    pool: POOL, questionCount: 15, timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
   });
   assert.ok(res.error);
 });
@@ -87,10 +87,64 @@ test("room caps at MAX_PLAYERS and rejects duplicate names", () => {
   assert.ok(g.addPlayer(small, "px", "ana").error);
 });
 
-test("buildDeck picks one question per distinct tier, descending, skipping empty tiers", () => {
-  const deck = g.buildDeck(POOL, "full", new Set(), seeded(1));
-  assert.strictEqual(deck.length, 4); // tiers: 92, 70, 30, 1
-  assert.deepStrictEqual(deck.map((q) => q.tier), [92, 70, 30, 1]);
+test("a disconnected player can reclaim the same seat with its private token", () => {
+  const room = roomWith(["Ana", "Ben"]);
+  const original = g.getPlayer(room, "p2");
+  original.alive = false;
+  g.removePlayer(room, "p2");
+  assert.strictEqual(original.connected, false);
+  assert.strictEqual(g.rejoinPlayer(room, "p2-new", "wrong-token").error, "No saved seat found");
+  const res = g.rejoinPlayer(room, "p2-new", "token-2");
+  assert.strictEqual(res.player, original);
+  assert.strictEqual(original.id, "p2-new");
+  assert.strictEqual(original.connected, true);
+  assert.strictEqual(original.alive, false); // rejoin restores identity, not eligibility
+});
+
+test("rejoining mid-question preserves a locked answer under the new peer id", () => {
+  const room = startedRoom(["Ana", "Ben"]);
+  const choiceIndex = g.currentQuestion(room).correctIndex;
+  g.submitAnswer(room, "p2", choiceIndex, 1001);
+  g.removePlayer(room, "p2");
+  g.rejoinPlayer(room, "p2-new", "token-2");
+  const player = g.getPlayer(room, "p2-new");
+  assert.strictEqual(player.choiceIndex, choiceIndex);
+  assert.strictEqual(player.alive, true);
+  const state = g.toPublicState(room, "p2-new", 1002);
+  assert.strictEqual(state.players.find((p) => p.id === "p2-new").myChoice, choiceIndex);
+});
+
+test("rejoin tokens stay private in public state", () => {
+  const room = roomWith(["Ana"]);
+  const state = g.toPublicState(room, "p1", 0);
+  assert.strictEqual(state.players[0].resumeToken, undefined);
+  assert.strictEqual(state.players[0].connected, true);
+});
+
+test("an offline unanswered player does not block connected players from resolving", () => {
+  const room = startedRoom(["Ana", "Ben"]);
+  const q = g.currentQuestion(room);
+  g.removePlayer(room, "p2");
+  g.submitAnswer(room, "p1", q.correctIndex, 1001);
+  assert.strictEqual(g.allAnswered(room), true);
+  g.resolveQuestion(room, 1002);
+  assert.strictEqual(g.getPlayer(room, "p2").alive, false);
+});
+
+test("a fully offline room resolves only when every player had already locked in", () => {
+  const room = startedRoom(["Ana", "Ben"]);
+  g.submitAnswer(room, "p1", 0, 1001);
+  g.removePlayer(room, "p1");
+  g.removePlayer(room, "p2");
+  assert.strictEqual(g.allAnswered(room), false);
+  g.getPlayer(room, "p2").choiceIndex = 1;
+  assert.strictEqual(g.allAnswered(room), true);
+});
+
+test("buildDeck uses every fresh question when fewer than the six-round minimum remain", () => {
+  const deck = g.buildDeck(POOL, 15, new Set(), seeded(1));
+  assert.strictEqual(deck.length, 5);
+  assert.deepStrictEqual(deck.map((q) => q.tier), [92, 92, 70, 30, 1]);
   for (const entry of deck) {
     assert.strictEqual(entry.choices.length, 4);
     assert.ok(entry.correctIndex >= 0 && entry.correctIndex < 4);
@@ -99,33 +153,46 @@ test("buildDeck picks one question per distinct tier, descending, skipping empty
 
 test("buildDeck skips already-used questions via usedKeys", () => {
   const used = new Set([g.questionKey(POOL[0]), g.questionKey(POOL[1])]);
-  const deck = g.buildDeck(POOL, "full", used, seeded(1));
+  const deck = g.buildDeck(POOL, 15, used, seeded(1));
   assert.strictEqual(deck.some((q) => q.tier === 92), false);
 });
 
 test("buildDeck carries optional question image metadata without affecting text-only questions", () => {
-  const deck = g.buildDeck(POOL, "full", new Set([g.questionKey(POOL[1])]), seeded(1));
+  const deck = g.buildDeck(POOL, 15, new Set([g.questionKey(POOL[1])]), seeded(1));
   assert.strictEqual(deck[0].image, "images/questions/test.svg");
   assert.strictEqual(deck[0].imageAlt, "A test diagram");
   assert.strictEqual(deck.find((q) => q.tier === 70).image, null);
 });
 
-test("buildDeck 'quick' spreads across available tiers within LADDER_TARGET_LENGTH", () => {
+test("buildDeck returns the selected question count spread from easiest to hardest", () => {
   const bigPool = [];
   for (let t = 1; t <= 20; t++) {
     bigPool.push({ tier: t * 5, q: `Q${t}`, a: "R", d: ["W1", "W2", "W3"] });
   }
-  const deck = g.buildDeck(bigPool, "quick", new Set(), seeded(2));
-  assert.ok(deck.length <= g.LADDER_TARGET_LENGTH);
+  const deck = g.buildDeck(bigPool, 6, new Set(), seeded(2));
+  assert.strictEqual(deck.length, 6);
   assert.strictEqual(deck[0].tier, 100); // easiest kept
   assert.strictEqual(deck[deck.length - 1].tier, 5); // hardest kept
+  assert.deepStrictEqual(deck.map((q) => q.tier), [...deck.map((q) => q.tier)].sort((a, b) => b - a));
+});
+
+test("buildDeck fills all 15 rounds even when fewer than 15 distinct tiers remain", () => {
+  const repeatedTierPool = [];
+  for (let tier = 1; tier <= 10; tier++) {
+    for (let n = 0; n < 2; n++) {
+      repeatedTierPool.push({ tier: tier * 10, q: `Q${tier}-${n}`, a: "R", d: ["W"] });
+    }
+  }
+  const deck = g.buildDeck(repeatedTierPool, 15, new Set(), seeded(3));
+  assert.strictEqual(deck.length, 15);
+  assert.deepStrictEqual(deck.map((q) => q.tier), [...deck.map((q) => q.tier)].sort((a, b) => b - a));
 });
 
 test("startGame requires the host and at least one player", () => {
   const room = roomWith(["Ana"]);
-  const asNonHost = g.startGame(room, "not-the-host", { pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
+  const asNonHost = g.startGame(room, "not-the-host", { pool: POOL, questionCount: 15, timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
   assert.ok(asNonHost.error);
-  const res = g.startGame(room, "p1", { pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
+  const res = g.startGame(room, "p1", { pool: POOL, questionCount: 15, timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
   assert.deepStrictEqual(res, {});
   assert.strictEqual(room.phase, "question");
   assert.strictEqual(room.qIndex, 0);
@@ -134,7 +201,7 @@ test("startGame requires the host and at least one player", () => {
 test("startGame errors when the pool has no fresh questions", () => {
   const room = roomWith(["Ana"]);
   const allUsed = new Set(POOL.map((q) => g.questionKey(q)));
-  const res = g.startGame(room, "p1", { pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: allUsed, rng: seeded(1), now: 0 });
+  const res = g.startGame(room, "p1", { pool: POOL, questionCount: 15, timerSeconds: 0, usedKeys: allUsed, rng: seeded(1), now: 0 });
   assert.ok(res.error);
 });
 
@@ -155,7 +222,7 @@ test("submitAnswer rejects eliminated players and invalid choices", () => {
 test("questions may have as few as 2 choices (e.g. True/False) — validated per-question, not a fixed count", () => {
   const twoChoicePool = [{ tier: 50, q: "True or False?", a: "True", d: ["False"] }];
   const room = roomWith(["Ana"]);
-  g.startGame(room, room.hostId, { pool: twoChoicePool, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
+  g.startGame(room, room.hostId, { pool: twoChoicePool, questionCount: 15, timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0 });
   const q = g.currentQuestion(room);
   assert.strictEqual(q.choices.length, 2);
   assert.ok(g.submitAnswer(room, "p1", 2, 1001).error); // out of range for this 2-choice question
@@ -205,8 +272,8 @@ test("everyone wrong on the same question still reveals the answer before ending
 
 test("surviving the final question in the ladder wins, ties can share the win", () => {
   const room = startedRoom(["Ana", "Ben"]);
-  // Full ladder from POOL has 4 tiers: walk through all of them correctly.
-  for (let i = 0; i < 4; i++) {
+  const rounds = room.deck.length;
+  for (let i = 0; i < rounds; i++) {
     const q = g.currentQuestion(room);
     g.submitAnswer(room, "p1", q.correctIndex, 2000 + i);
     g.submitAnswer(room, "p2", q.correctIndex, 2000 + i);
@@ -230,9 +297,9 @@ test("advanceQuestion is host-only and only valid from 'reveal'", () => {
   assert.strictEqual(room.qIndex, 1);
 });
 
-test("resetToLobby drops players who left mid-game and clears the deck", () => {
+test("resetToLobby drops players still offline and clears the deck", () => {
   const room = startedRoom(["Ana", "Ben", "Cy"]);
-  g.removePlayer(room, "p3"); // mid-game leave -> marked left
+  g.removePlayer(room, "p3"); // seat remains available to rejoin until rematch
   const q = g.currentQuestion(room);
   g.submitAnswer(room, "p1", q.correctIndex, 1001);
   g.submitAnswer(room, "p2", q.correctIndex, 1001);

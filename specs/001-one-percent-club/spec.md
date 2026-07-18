@@ -46,10 +46,13 @@ As the Host, I want to choose how long the ladder is and how much time each
 question gets, so the session fits my group and how much time we have.
 
 Acceptance criteria:
-- The Host picks a ladder length — **Quick** (questions spread evenly across
-  the available difficulty tiers, capped at `LADDER_TARGET_LENGTH`) or
-  **Full** (every distinct difficulty tier with a fresh question left) —
-  and a per-question timer (off, 20s, 30s, 45s, or 60s) before starting.
+- The Host picks an exact question count from 6 through 15 (default 15) and
+  a per-question timer (off, 20s, 30s, 45s, or 60s) before starting.
+- When enough fresh questions exist, the dealt deck matches that count and
+  is ordered from the easiest reported percentage to the hardest. Questions
+  are spread across the full available difficulty range; multiple questions
+  from a tier are allowed when fewer distinct tiers remain than the selected
+  count.
 - Starting requires at least one player (solo ladder attempts are allowed).
 - The deck is built from questions not already used on this device in a
   previous game (see US-6); if none remain, starting fails with a clear
@@ -157,6 +160,29 @@ Acceptance criteria:
   intervention, once at least one other player has joined and the Host taps
   Start.
 
+### US-9: Rejoin a player seat
+
+As a player, I want to return to the same seat after refreshing, closing the
+tab, or briefly losing my connection, so I can continue the current game.
+
+Acceptance criteria:
+- After a successful join, the browser stores a private, unguessable rejoin
+  token and player name for that room code in `localStorage`.
+- Reloading the room URL automatically rejoins; manually joining the same
+  room from that browser also reclaims the existing seat, even though PeerJS
+  assigns the new connection a different peer id.
+- Rejoining preserves the seat's alive/eliminated status and any answer that
+  was already locked in; it never revives an eliminated player.
+- The rejoin token remains Host-private and is never included in public room
+  state. A visible player name alone cannot reclaim a seat.
+- Offline seats remain visible. If at least one connected player remains,
+  offline unanswered seats do not block question resolution and count as
+  wrong when the question resolves. If nobody remains connected and no timer
+  is active, the question waits for someone to rejoin.
+- A rematch drops seats that are still offline. The Host itself cannot resume
+  after closing because its in-memory room is the authority and no backend
+  exists.
+
 ## Functional Requirements
 
 - **FR-1** Static site only: must run from GitHub Pages (no backend, no
@@ -175,6 +201,8 @@ Acceptance criteria:
 - **FR-6** A question may include an optional locally hosted image. The same
   image is visible while answering and on reveal, scales without cropping,
   and has meaningful alt text. Text-only questions show no placeholder.
+- **FR-7** Player reconnection uses a per-room capability token persisted in
+  `localStorage`; tokens must not be broadcast by `toPublicState()`.
 
 ## Key Entities
 
@@ -188,11 +216,12 @@ Acceptance criteria:
 - **DeckEntry**: one `QuestionEntry` resolved into a dealt question — `tier`,
   `question`, `choices` (2–4 texts, shuffled), `correctIndex`, `explain`,
   `image`, `imageAlt`, `key` (dedupe key), `source`.
-- **Player**: `id`, `name`, `alive`, `left`, `choiceIndex` (pending answer,
-  hidden from everyone but that player pre-reveal).
+- **Player**: `id`, `name`, `alive`, `left`, `connected`, private
+  `resumeToken`, and `choiceIndex` (pending answer, hidden from everyone but
+  that player pre-reveal).
 - **Room**: `code`, `phase` (`lobby` \| `question` \| `reveal` \| `over`),
   `hostId` (fixed at creation, independent of `players` — see US-8),
-  `players`, `deck`, `qIndex`, `timerSeconds`, `ladderLength`,
+  `players`, `deck`, `qIndex`, `timerSeconds`, `questionCount`,
   `revealAdvanceSeconds`, `revealStartedAt`, `lastResult`, `winnerIds`.
 
 ## Non-goals
@@ -208,5 +237,5 @@ Acceptance criteria:
   (reached the 1% or didn't).
 - No remote or player-uploaded images — artwork is curated with the question
   bank and served as a local static asset.
-- No reconnection/session-resume support — a dropped connection means
-  rejoin fresh.
+- No Host reconnection or cross-device player resume — the room lives only
+  in the Host's memory, and a player's rejoin token is local to one browser.

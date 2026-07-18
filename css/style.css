@@ -117,6 +117,7 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
 .pchip.me { border-color: var(--gold-dark); }
 .pchip.me .pname { color: var(--gold); }
 .pchip.out { opacity: 0.35; }
+.pchip.disconnected { border-style: dashed; opacity: 0.55; }
 .pchip .pname { font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ready-dot { font-size: 0.7rem; color: var(--muted); }
 .ready-dot.in { color: var(--green); }

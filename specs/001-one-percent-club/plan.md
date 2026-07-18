@@ -7,7 +7,7 @@
 | Runtime | Vanilla ES modules, HTML, CSS | Static GitHub Pages compatible, no build step. |
 | Sync | PeerJS over WebRTC, full-participant model | Same pattern as `attack-attack`'s P2P conversion — every player is a peer, not just Host+Display. |
 | State | Host-authoritative in memory | Non-host clients render whatever snapshot they last received. |
-| Tests | `node --test` | Pure rules engine tests in `tests/game.test.mjs`. |
+| Tests | `node --test` | Pure engine and local-storage tests in `tests/*.test.mjs`. |
 | Manual validation | Playwright against a real PeerJS broker | See Validation section — two real browser contexts over live WebRTC, not mocked. |
 
 ## File Structure
@@ -21,7 +21,7 @@ images/questions/         locally hosted question artwork
 js/main.js                DOM rendering, host-authoritative event handling, P2P glue
 js/room.js                PeerJS wrapper (full-participant, adapted from attack-attack)
 js/storage.js             local settings + used-question dedupe
-tests/game.test.mjs       engine behavior tests
+tests/*.test.mjs          engine behavior + local-storage tests
 tools/gen-questions.js    normalizes researched raw question data into js/questions.js
 specs/001-...             SDD spec, plan, tasks
 vendor/peerjs.min.js      vendored PeerJS client
@@ -49,19 +49,19 @@ static files; text-only generated entries omit both fields.
 
 ## Rules Engine
 
-`buildDeck(pool, ladderLength, usedKeys, rng)` (in `js/game.js`) does the
+`buildDeck(pool, questionCount, usedKeys, rng)` (in `js/game.js`) does the
 deck construction:
 
 1. Filter out any question whose `tier::q` key is in `usedKeys` (this
    device's play history — see `js/storage.js`).
-2. Collect the distinct tiers still available and sort descending (easiest
-   first). "Full" plays every tier with a fresh question; "Quick" spreads
-   `LADDER_TARGET_LENGTH` (8) tiers evenly across that range, always keeping
-   the easiest and hardest endpoints.
-3. For each selected tier, pick one unused question at random (`rng`
-   injected for deterministic tests) and shuffle its choices (2-4 options —
-   some sourced questions are True/False or 3-way, not always 4), recording
-   `correctIndex`.
+2. Clamp the Host's requested count to 6–15 and spread tier slots evenly
+   across the full available difficulty range, retaining the easiest and
+   hardest endpoints.
+3. Pick one random unused question per selected tier. If fewer distinct
+   tiers remain than requested rounds, make additional evenly spread passes
+   through tiers with unused candidates until the exact count is reached.
+4. Sort the selected questions by tier descending, then shuffle each one's
+   choices (2–4 options), recording `correctIndex`.
 
 The ladder always runs in descending-difficulty order — unlike
 `guess-antok-phrases`'s shuffled-together deck, tier order is the entire
@@ -130,6 +130,24 @@ same authoritative function. The manual "Next question" button stays
 visible and clickable even with auto-advance on, so the Host can skip the
 pause early.
 
+### Player rejoin
+
+PeerJS connection ids are ephemeral, so they cannot serve as durable player
+identity. After a successful join, `js/storage.js` stores a random capability
+token under the room code. The Host retains the same token on the private
+`Player` object. A later `joinRoom` intent presents the token and
+`rejoinPlayer()` replaces the old peer id with the new connection id while
+preserving the rest of the seat.
+
+`toPublicState()` explicitly omits `resumeToken`; only `connected` is public
+so the roster can mark an offline seat. `removePlayer()` now marks the seat
+offline rather than deleting or immediately eliminating it. `allAnswered()`
+waits only on connected alive players when at least one exists, so an offline
+non-answer cannot hold the group indefinitely; `resolveQuestion()` still
+includes every alive seat and therefore eliminates that missing answer. With
+zero connected players and no timer, the question intentionally stays open
+for rejoin. Starting a new ladder or rematch drops seats still offline.
+
 ## Networking
 
 Adapted near-verbatim from `attack-attack/js/room.js` (full-participant
@@ -169,10 +187,9 @@ rematch.
 
 ## Validation
 
-- `node --test tests/game.test.mjs` — 17 engine tests covering deck
-  building (tier selection, dedupe, quick-vs-full spread), start/host
-  gating, answer submission, timer expiry, wipeout vs. survival endings,
-  ties, disconnect handling on rematch, and state redaction.
+- `node --test tests/*.test.mjs` — engine and storage tests covering deck
+  building, authority, answer/timer flow, endings, rejoin identity/privacy,
+  disconnect resolution, room-scoped persistence, and state redaction.
 - Live two-browser Playwright smoke test against the real public PeerJS
   broker (not a mock): create room → join by code → both see the lobby
   roster → start → both see the question and tier badge → both answer →
@@ -184,6 +201,18 @@ rematch.
   the configured timer elapses, without any client-side action.
 
 ## Changelog
+
+- **v7** (2026-07-18): Replaced Quick/Full with an explicit 6–15 questions
+  setting, defaulting to the full 15-round ladder. Deck building now returns
+  the requested count whenever enough fresh questions remain, even if prior
+  play has exhausted an entire tier, by making evenly spread extra passes
+  through tiers before sorting the final deck easiest-to-hardest.
+
+- **v6** (2026-07-18): Added same-browser player rejoin. A private per-room
+  token in `localStorage` lets a new PeerJS connection reclaim its Host-side
+  seat while preserving eligibility and locked answers. Offline status is
+  visible but the token is never broadcast. Disconnect-aware resolution and
+  rematch cleanup prevent abandoned seats from stalling active players.
 
 - **v5** (2026-07-18): Expanded the bank from 79 questions across 12 tiers
   to 94 questions across 15 tiers using 2025 US episode guides and 2026 US

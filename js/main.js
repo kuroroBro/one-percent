@@ -9,7 +9,16 @@
 import * as game from "./game.js";
 import { QUESTIONS } from "./questions.js";
 import { hostRoom, joinRoom } from "./room.js";
-import { loadSettings, saveSettings, loadUsedQuestionKeys, markQuestionsUsed, resetUsedQuestionKeys } from "./storage.js";
+import {
+  createResumeToken,
+  loadPlayerSession,
+  loadSettings,
+  loadUsedQuestionKeys,
+  markQuestionsUsed,
+  resetUsedQuestionKeys,
+  savePlayerSession,
+  saveSettings,
+} from "./storage.js";
 
 const HOST_ID = "host"; // stable local id for the Host's own player entry
 
@@ -22,6 +31,7 @@ let clockOffset = 0; // hostNow - myNow, so my countdown matches the Host's cloc
 let timerHandle = null;
 let revealTimerHandle = null;
 let selectedChoice = null; // my pending pick this question, before I submit
+let activeResumeToken = null;
 
 const $ = (id) => document.getElementById(id);
 const screens = {
@@ -59,12 +69,19 @@ function renderPlayerChip(p) {
   const chip = document.createElement("div");
   chip.className = "pchip";
   if (!p.alive) chip.classList.add("out");
+  if (!p.connected) chip.classList.add("disconnected");
   if (p.id === myId) chip.classList.add("me");
   const name = document.createElement("span");
   name.className = "pname";
   name.textContent = p.name + (p.id === state.hostId ? " ★" : "");
   chip.appendChild(name);
-  if (state.phase === "question" && p.alive) {
+  if (!p.connected) {
+    const status = document.createElement("span");
+    status.className = "ready-dot";
+    status.textContent = "offline — can rejoin";
+    chip.appendChild(status);
+  }
+  if (state.phase === "question" && p.alive && p.connected) {
     const dot = document.createElement("span");
     dot.className = "ready-dot" + (p.answered ? " in" : "");
     dot.textContent = p.answered ? "locked in" : "thinking…";
@@ -295,10 +312,14 @@ function handleEvent(playerId, event, payload) {
   payload = payload || {};
   switch (event) {
     case "joinRoom": {
-      const res = game.addPlayer(room, playerId, payload.name);
+      let res = game.rejoinPlayer(room, playerId, payload.resumeToken);
+      const rejoined = !res.error;
+      if (res.error === "No saved seat found") {
+        res = game.addPlayer(room, playerId, payload.name, payload.resumeToken);
+      }
       if (res.error) return { error: res.error };
       broadcastState();
-      return { code: room.code, playerId, hostNow: Date.now(), state: game.toPublicState(room, playerId, Date.now()) };
+      return { code: room.code, playerId, rejoined, hostNow: Date.now(), state: game.toPublicState(room, playerId, Date.now()) };
     }
     case "rename": {
       const res = game.renamePlayer(room, playerId, payload.name);
@@ -311,7 +332,7 @@ function handleEvent(playerId, event, payload) {
       const usedKeys = new Set(loadUsedQuestionKeys());
       const res = game.startGame(room, playerId, {
         pool: QUESTIONS,
-        ladderLength: payload.ladderLength || "quick",
+        questionCount: Number(payload.questionCount) || game.MAX_QUESTIONS_PER_GAME,
         timerSeconds: Number(payload.timerSeconds) || 0,
         revealAdvanceSeconds: Number(payload.revealAdvanceSeconds) || 0,
         usedKeys,
@@ -394,6 +415,7 @@ function handlePeerClose(playerId) {
   // only ever ends when the Host's own device closes.
   game.removePlayer(room, playerId);
   broadcastState();
+  tryResolve();
 }
 
 function handleNetClose(message) {
@@ -410,7 +432,10 @@ function enterRoom(res) {
   applyState(res.state, res.hostNow);
   history.replaceState(null, "", `?room=${res.code}`);
   const my = me();
-  if (my) saveSettings({ ...loadSettings(), name: my.name });
+  if (my) {
+    saveSettings({ ...loadSettings(), name: my.name });
+    if (activeResumeToken) savePlayerSession(res.code, { resumeToken: activeResumeToken, name: my.name });
+  }
 }
 
 function resetToHome() {
@@ -456,10 +481,12 @@ $("create-btn").addEventListener("click", async () => {
 async function join(code, name) {
   $("join-btn").disabled = true;
   try {
+    const savedSession = loadPlayerSession(code);
+    activeResumeToken = savedSession ? savedSession.resumeToken : createResumeToken();
     const joined = await joinRoom(code, { onPush: handlePush, onClose: handleNetClose });
     net = joined;
     isHost = false;
-    const res = await net.send("joinRoom", { name });
+    const res = await net.send("joinRoom", { name, resumeToken: activeResumeToken });
     if (res.error) {
       net.close();
       net = null;
@@ -467,6 +494,7 @@ async function join(code, name) {
     }
     myId = joined.id;
     enterRoom(res);
+    if (res.rejoined) toast("Rejoined your previous seat");
   } catch (err) {
     resetToHome();
     toast(err.message || "Could not join that room");
@@ -492,11 +520,11 @@ $("copy-link-btn").addEventListener("click", () => {
 });
 
 $("start-btn").addEventListener("click", () => {
-  const ladderLength = $("ladder-select").value;
+  const questionCount = Number($("question-count-select").value);
   const timerSeconds = Number($("timer-select").value);
   const revealAdvanceSeconds = Number($("reveal-advance-select").value);
-  saveSettings({ ...loadSettings(), ladderLength, timerSeconds, revealAdvanceSeconds });
-  callAction("startGame", { ladderLength, timerSeconds, revealAdvanceSeconds }).then(
+  saveSettings({ ...loadSettings(), questionCount, timerSeconds, revealAdvanceSeconds });
+  callAction("startGame", { questionCount, timerSeconds, revealAdvanceSeconds }).then(
     (res) => { if (res.error) toast(res.error); },
     (err) => toast(err.message)
   );
@@ -535,12 +563,28 @@ $("rename-btn").addEventListener("click", () => {
 const saved = loadSettings();
 if (saved.name) $("name-input").value = saved.name;
 $("spectator-checkbox").checked = !!saved.spectatorHost;
-$("ladder-select").value = saved.ladderLength;
+$("question-count-select").value = String(saved.questionCount);
 $("timer-select").value = String(saved.timerSeconds);
 $("reveal-advance-select").value = String(saved.revealAdvanceSeconds);
 $("rename-input").value = saved.name;
 
 const urlRoom = new URLSearchParams(location.search).get("room");
-if (urlRoom) $("code-input").value = urlRoom;
+let savedUrlSession = null;
+if (urlRoom) {
+  $("code-input").value = urlRoom;
+  savedUrlSession = loadPlayerSession(urlRoom);
+  if (savedUrlSession && savedUrlSession.name) {
+    $("name-input").value = savedUrlSession.name;
+    $("rename-input").value = savedUrlSession.name;
+    $("join-btn").textContent = "Rejoin";
+  }
+}
 
 render();
+
+// A room invite remains in the URL after joining. On reload, a remembered
+// seat can therefore reconnect immediately without making the player retype
+// anything or race another player for the same display name.
+if (urlRoom && savedUrlSession && savedUrlSession.name) {
+  join(urlRoom, savedUrlSession.name);
+}

@@ -20,8 +20,7 @@ with friends. See "Question bank" below for sourcing notes.
    running this on a shared screen/laptop and don't want to play yourself,
    check **"Run as a display only"** first — no name needed.
 2. **Everyone joins** on their own phone with the same code.
-3. The Host picks a **ladder length** (Quick spreads across the available
-   tiers; Full plays every tier that still has a fresh question), a
+3. The Host picks **6–15 questions** (15 by default), a
    **timer per question**, and what happens **after each reveal** — tap
    **Next question** yourself (default), or auto-advance after 5/8/12
    seconds so no one has to manage the pace — then taps **Start the
@@ -44,6 +43,13 @@ By default the Host plays too, right alongside everyone else. Check "Run as
 a display only" at room creation to run the Host as a hands-off spectator
 instead — combined with auto-advance, a whole game can run from a single
 initial tap of Start with no one managing the pace.
+
+If a player's tab reloads or their connection drops, the saved room URL
+automatically reconnects from the same browser and reclaims their seat (the
+Home screen also offers **Rejoin**). The private rejoin
+token and room-specific name are kept in `localStorage`; eliminated players
+remain eliminated, and closing the Host still ends the room because there is
+no backend authority to restore.
 
 ## Question bank
 
@@ -70,7 +76,7 @@ will be removed.
 ```bash
 python3 -m http.server 8000
 # open http://localhost:8000
-node --test tests/game.test.mjs
+node --test tests/*.test.mjs
 ```
 
 ## Design docs (SDD)

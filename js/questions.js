@@ -99,14 +99,14 @@ export const QUESTIONS = [
   {
     "tier": 80,
     "q": "Which of these symbols can be drawn without ever lifting your pen from the paper: %, !, &, or =?",
-    "a": "!",
+    "a": "&",
     "d": [
       "%",
-      "&",
+      "!",
       "="
     ],
-    "explain": "exclamation mark",
-    "source": "https://moviedelic.com/the-1-club-episode-5-recap/"
+    "explain": "ampersand; it can be drawn as one continuous stroke",
+    "source": "https://www.comingsoon.net/guides/features/1987178-1-percent-club-questions-answers-season-2-2025-solutions-joel-mchale"
   },
   {
     "tier": 80,

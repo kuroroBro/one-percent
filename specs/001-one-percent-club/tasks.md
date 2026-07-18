@@ -13,8 +13,8 @@
 
 - [x] `createRoom`, `addPlayer`, `renamePlayer`, `removePlayer` (lobby edits,
       mid-game leave marks eliminated + "left").
-- [x] `buildDeck`: tier-descending deck construction, Quick vs Full ladder
-      length, used-question exclusion, deterministic via injected `rng`.
+- [x] `buildDeck`: tier-descending deck construction, configurable question
+      count, used-question exclusion, deterministic via injected `rng`.
 - [x] `startGame`: host-only, builds the deck, resets player state, requires
       at least one fresh question.
 - [x] `submitAnswer` / `allAnswered` / `checkTimerExpired`.
@@ -120,3 +120,26 @@
 - [x] Exclude image-only questions when recap text does not contain enough
       information to recreate the puzzle faithfully.
 - [x] Regenerate the bank: 94 questions across 15 tiers; rerun all tests.
+
+## Phase 11 - Player rejoin
+
+- [x] Persist a private per-room rejoin token and player name in
+      `localStorage` with malformed-storage tolerance.
+- [x] Rebind a returning browser's new PeerJS id to its existing Host-side
+      seat without exposing the token in public state.
+- [x] Preserve alive/eliminated and locked-answer state across rejoin; mark
+      disconnected seats offline in the roster.
+- [x] Let connected players resolve without an offline unanswered player;
+      drop seats still offline when starting/rematching.
+- [x] Add engine and storage tests for token rejoin, privacy, independent
+      room sessions, and disconnect resolution.
+
+## Phase 12 - Configurable 6–15 round ladder
+
+- [x] Replace Quick/Full with a Host setting for 6 through 15 questions;
+      default to 15.
+- [x] Build exactly the requested number when enough fresh questions exist,
+      including after an entire difficulty tier has been exhausted.
+- [x] Keep every dealt deck sorted from easiest reported tier to hardest and
+      spread selections across the full available range.
+- [x] Add coverage for six-round and fifteen-round multi-question-tier decks.

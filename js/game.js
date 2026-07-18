@@ -17,7 +17,8 @@
 export const MIN_PLAYERS = 1;
 export const MAX_PLAYERS = 12;
 export const MAX_CHOICES_PER_QUESTION = 4; // some questions are True/False (2) or 3-way instead
-export const LADDER_TARGET_LENGTH = 8; // how many tiers a "Quick" ladder picks
+export const MIN_QUESTIONS_PER_GAME = 6;
+export const MAX_QUESTIONS_PER_GAME = 15;
 
 // `hostId` is fixed for the lifetime of the room, set at creation time —
 // independent of `players`. This is what makes a spectator Host possible:
@@ -34,7 +35,7 @@ export function createRoom(code, hostId) {
     qIndex: 0,
     questionStartedAt: null, // ms epoch, threaded in via `now` params for testability
     timerSeconds: 0, // 0 = no timer
-    ladderLength: "quick", // "quick" | "full"
+    questionCount: MAX_QUESTIONS_PER_GAME,
     revealAdvanceSeconds: 0, // 0 = manual (Host taps Next); else auto-advance after N seconds
     revealStartedAt: null, // ms epoch, set when phase becomes "reveal"
     lastResult: null, // summary of the most recently resolved question
@@ -53,7 +54,7 @@ export function alivePlayers(room) {
   return room.players.filter((p) => p.alive);
 }
 
-export function addPlayer(room, playerId, name) {
+export function addPlayer(room, playerId, name, resumeToken = null) {
   if (room.phase !== "lobby") return { error: "Game already in progress" };
   if (room.players.length >= MAX_PLAYERS) return { error: `Room is full (${MAX_PLAYERS} players max)` };
   const trimmed = String(name || "").trim().slice(0, 20);
@@ -66,9 +67,24 @@ export function addPlayer(room, playerId, name) {
     name: trimmed,
     alive: true,
     left: false,
+    connected: true,
+    resumeToken: resumeToken || null, // private capability; omitted by toPublicState()
     choiceIndex: null, // pending answer this question, hidden from other players
   };
   room.players.push(player);
+  return { player };
+}
+
+// Rebind a returning browser's new ephemeral PeerJS id to its existing seat.
+// The private resume token is the authority; player names are deliberately
+// not sufficient because they are visible to everyone in the room.
+export function rejoinPlayer(room, playerId, resumeToken) {
+  if (!resumeToken) return { error: "No saved seat found" };
+  const player = room.players.find((p) => p.resumeToken === resumeToken);
+  if (!player) return { error: "No saved seat found" };
+  player.id = playerId;
+  player.connected = true;
+  player.left = false;
   return { player };
 }
 
@@ -84,25 +100,19 @@ export function renamePlayer(room, playerId, name) {
   return {};
 }
 
-// Returns true if the room is now empty of players and should be deleted.
-// This only ever runs for a *non-host* connection dropping (js/room.js only
-// calls it from onPeerClose, which never fires for the Host's own local
-// id) — hostId is fixed for the room's lifetime (see createRoom), so there
-// is nothing to reassign here even if the Host isn't a player at all (a
-// spectator Host). If the Host's own device disconnects, the room itself
-// goes with it (see spec.md US-7).
+// Mark a non-host seat offline but retain it for token-authorized rejoin.
+// The Host owns the room's lifetime; if the Host closes, the room itself
+// disappears with its in-memory state.
 export function removePlayer(room, playerId) {
   const player = getPlayer(room, playerId);
   if (!player) return room.players.length === 0;
-  if (room.phase === "lobby" || room.phase === "over") {
-    room.players = room.players.filter((p) => p.id !== playerId);
-  } else {
-    // Mid-game: leaving means elimination, seat stays visible marked "left"
-    player.alive = false;
-    player.left = true;
-    player.choiceIndex = null;
-  }
-  return room.players.filter((p) => !p.left).length === 0;
+  player.connected = false;
+  player.left = true;
+  // Preserve alive/choice state so the same browser can reclaim the seat.
+  // allAnswered() ignores an offline unanswered player, so a disconnect
+  // cannot stall everyone else indefinitely and resolution still counts a
+  // missing answer as wrong.
+  return room.players.filter((p) => p.connected).length === 0;
 }
 
 // ---------- Deck building ----------
@@ -115,36 +125,61 @@ function distinctTiersDesc(pool) {
   return [...new Set(pool.map((q) => q.tier))].sort((a, b) => b - a);
 }
 
-// A "Quick" ladder spreads LADDER_TARGET_LENGTH tiers evenly across whatever
-// tiers are actually available (always keeping the easiest and hardest
-// endpoints); "Full" plays every distinct tier present in the pool.
-function pickLadderTiers(tiers, ladderLength) {
-  if (ladderLength === "full" || tiers.length <= LADDER_TARGET_LENGTH) return tiers;
+// Spread the requested number of tier slots across the available range,
+// always retaining the easiest and hardest endpoints.
+function pickLadderTiers(tiers, count) {
+  if (count <= 1) return tiers.length > 0 ? [tiers[0]] : [];
+  if (tiers.length <= count) return tiers;
   const picked = [];
-  const step = (tiers.length - 1) / (LADDER_TARGET_LENGTH - 1);
-  for (let i = 0; i < LADDER_TARGET_LENGTH; i++) {
+  const step = (tiers.length - 1) / (count - 1);
+  for (let i = 0; i < count; i++) {
     picked.push(tiers[Math.round(i * step)]);
   }
   return [...new Set(picked)];
 }
 
-// Builds one ladder: one question per selected tier, descending from easiest
-// to hardest, skipping any tier with no unused questions left. `usedKeys` is
-// a Set of questionKey() strings to exclude (see js/storage.js). `rng` is
-// injected for deterministic tests.
-export function buildDeck(pool, ladderLength, usedKeys, rng = Math.random) {
+// Builds one ladder with the requested number of fresh questions, descending
+// from easiest to hardest and spread across the available tier range.
+// `usedKeys` is a Set of questionKey() strings to exclude (see js/storage.js).
+// `rng` is injected for deterministic tests.
+export function buildDeck(pool, questionCount, usedKeys, rng = Math.random) {
   const available = pool.filter((q) => !usedKeys.has(questionKey(q)));
+  const targetCount = Math.min(
+    available.length,
+    Math.max(MIN_QUESTIONS_PER_GAME, Math.min(MAX_QUESTIONS_PER_GAME, Number(questionCount) || MAX_QUESTIONS_PER_GAME))
+  );
   const byTier = new Map();
   for (const q of available) {
     if (!byTier.has(q.tier)) byTier.set(q.tier, []);
     byTier.get(q.tier).push(q);
   }
-  const tiers = pickLadderTiers(distinctTiersDesc(available), ladderLength);
-  const deck = [];
-  for (const tier of tiers) {
+  const allTiers = distinctTiersDesc(available);
+  const selected = [];
+
+  // First take one question from tiers spread across the whole difficulty
+  // range. If fewer distinct tiers remain than the requested round count,
+  // add further questions in evenly spread passes over tiers that still have
+  // unused candidates. This keeps the exact count without sacrificing the
+  // easiest-to-hardest ordering.
+  const takeFromTier = (tier) => {
     const candidates = byTier.get(tier);
-    if (!candidates || candidates.length === 0) continue;
-    const entry = candidates[Math.floor(rng() * candidates.length)];
+    if (!candidates || candidates.length === 0) return false;
+    const index = Math.floor(rng() * candidates.length);
+    selected.push(candidates.splice(index, 1)[0]);
+    return true;
+  };
+
+  for (const tier of pickLadderTiers(allTiers, targetCount)) takeFromTier(tier);
+  while (selected.length < targetCount) {
+    const remainingTiers = allTiers.filter((tier) => byTier.get(tier)?.length);
+    if (remainingTiers.length === 0) break;
+    const slots = Math.min(targetCount - selected.length, remainingTiers.length);
+    for (const tier of pickLadderTiers(remainingTiers, slots)) takeFromTier(tier);
+  }
+
+  selected.sort((a, b) => b.tier - a.tier);
+  const deck = [];
+  for (const entry of selected) {
     const shuffled = [entry.a, ...entry.d]
       .map((c, i) => [rng(), c, i])
       .sort((x, y) => x[0] - y[0]);
@@ -165,12 +200,14 @@ export function buildDeck(pool, ladderLength, usedKeys, rng = Math.random) {
 
 // ---------- Game flow ----------
 
-export function startGame(room, byId, { pool, ladderLength, timerSeconds, revealAdvanceSeconds, usedKeys, rng = Math.random, now }) {
+export function startGame(room, byId, { pool, questionCount, timerSeconds, revealAdvanceSeconds, usedKeys, rng = Math.random, now }) {
   if (room.phase !== "lobby" && room.phase !== "over") return { error: "Game already in progress" };
   if (byId !== room.hostId) return { error: "Only the host can start the game" };
-  if (room.players.length < MIN_PLAYERS) return { error: "Need at least one player" };
+  const connectedPlayers = room.players.filter((p) => p.connected);
+  if (connectedPlayers.length < MIN_PLAYERS) return { error: "Need at least one connected player" };
+  room.players = connectedPlayers;
 
-  const deck = buildDeck(pool, ladderLength, usedKeys, rng);
+  const deck = buildDeck(pool, questionCount, usedKeys, rng);
   if (deck.length === 0) return { error: "No fresh questions left — reset the question bank in settings" };
 
   for (const p of room.players) {
@@ -181,7 +218,7 @@ export function startGame(room, byId, { pool, ladderLength, timerSeconds, reveal
   room.deck = deck;
   room.qIndex = 0;
   room.phase = "question";
-  room.ladderLength = ladderLength;
+  room.questionCount = Math.max(MIN_QUESTIONS_PER_GAME, Math.min(MAX_QUESTIONS_PER_GAME, Number(questionCount) || MAX_QUESTIONS_PER_GAME));
   room.timerSeconds = timerSeconds || 0;
   room.revealAdvanceSeconds = revealAdvanceSeconds || 0;
   room.questionStartedAt = now;
@@ -214,6 +251,10 @@ export function submitAnswer(room, playerId, choiceIndex, now) {
 
 export function allAnswered(room) {
   const alive = alivePlayers(room);
+  const connected = alive.filter((p) => p.connected);
+  if (connected.length > 0) return connected.every((p) => p.choiceIndex !== null);
+  // If everybody dropped only after locking in, the Host can still reveal;
+  // otherwise keep the question open for at least one seat to rejoin.
   return alive.length > 0 && alive.every((p) => p.choiceIndex !== null);
 }
 
@@ -314,7 +355,7 @@ export function advanceQuestion(room, byId, now) {
 export function resetToLobby(room, byId) {
   if (byId !== room.hostId) return { error: "Only the host can reset the room" };
   if (room.phase !== "over") return { error: "Game is not over" };
-  room.players = room.players.filter((p) => !p.left);
+  room.players = room.players.filter((p) => p.connected);
   for (const p of room.players) {
     p.alive = true;
     p.choiceIndex = null;
@@ -344,7 +385,7 @@ export function toPublicState(room, viewerId, now) {
     hostId: room.hostId,
     qIndex: room.qIndex,
     deckLength: room.deck.length,
-    ladderLength: room.ladderLength,
+    questionCount: room.questionCount,
     timerSeconds: room.timerSeconds,
     questionDeadlineAt:
       room.phase === "question" && room.timerSeconds > 0
@@ -374,6 +415,7 @@ export function toPublicState(room, viewerId, now) {
       name: p.name,
       alive: p.alive,
       left: p.left,
+      connected: p.connected,
       answered: p.choiceIndex !== null,
       myChoice: p.id === viewerId ? p.choiceIndex : undefined,
     })),
