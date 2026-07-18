@@ -202,3 +202,24 @@
       (2 through 15) with more weight in the second half than the first —
       the reverse of the original bug. Bank is now 120 questions across 17
       tiers, 17 image-backed. `node --test` 32/32.
+
+## Phase 16 - Home screen hero and portfolio back-link
+
+- [x] Generate a cinematic game-show stage hero image (`image-gen` skill →
+      Codex `image_gen`) matching the game's own dark navy/gold palette —
+      spotlit podium, silhouetted contestants, no text/logos/faces (avoids
+      any resemblance to the real show's actual set). Downscaled and
+      re-encoded as JPEG (1.6MB → 156KB).
+- [x] Wire it into `#screen-home` only via `body:has(#screen-home:not
+      (.hidden))`, same technique as `attack-attack`'s and
+      `guess-antok-phrases`' home hero images — gradient overlay into
+      `--bg` for text legibility, other screens keep the plain radial
+      gradient.
+- [x] Add a "← GONAPPS" back-link to `https://gondoit.work/`, adapted from
+      `gondoit.work/mapcode`'s same-pattern back-link but restyled to this
+      game's own palette. Placed inside `#screen-home` itself (not a
+      separate visibility rule) so it naturally shows only on the home
+      screen and disappears during actual gameplay.
+- [x] Verified live: hero renders correctly with legible text on the home
+      screen, reverts to the plain gradient with no stray link on every
+      other screen (checked via the lobby). `node --test` still 32/32.

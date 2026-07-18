@@ -25,6 +25,12 @@ body {
   align-items: center;
 }
 
+body:has(#screen-home:not(.hidden)) {
+  background:
+    linear-gradient(180deg, rgba(14, 11, 26, 0.55) 0%, rgba(14, 11, 26, 0.92) 85%),
+    url('../images/one-percent-hero.jpg') center top / cover no-repeat;
+}
+
 #app { width: 100%; max-width: 640px; padding: 24px 16px 8px; }
 .screen { display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .hidden { display: none !important; }
@@ -234,3 +240,20 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
 }
 
 .credits { color: #5b5478; font-size: 0.72rem; padding: 18px 0 14px; text-align: center; max-width: 440px; }
+
+.home-link {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(26, 21, 48, 0.85);
+  color: var(--muted);
+  padding: 0.45rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  text-decoration: none;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--line);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+.home-link:hover { background: rgba(36, 29, 66, 0.95); color: var(--gold); border-color: var(--gold-dark); }
