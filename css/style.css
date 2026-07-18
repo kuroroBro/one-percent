@@ -122,7 +122,10 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
 }
 .pchip.me { border-color: var(--gold-dark); }
 .pchip.me .pname { color: var(--gold); }
-.pchip.out { opacity: 0.35; }
+/* Not eligible to win anymore, but still an active player — kept at full
+   opacity (unlike .disconnected) since they keep answering every question. */
+.pchip.out { border-color: var(--red); }
+.pchip.out .pname::after { content: " (out)"; color: var(--muted); font-weight: 400; }
 .pchip.disconnected { border-style: dashed; opacity: 0.55; }
 .pchip .pname { font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ready-dot { font-size: 0.7rem; color: var(--muted); }
@@ -224,6 +227,7 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
 }
 .result-row.correct { border-color: var(--green); }
 .result-row.wrong { border-color: var(--red); }
+.result-row.already-out { opacity: 0.6; }
 .result-player { min-width: 0; overflow-wrap: anywhere; }
 .result-answer {
   flex: 0 1 auto; max-width: 65%; border-radius: 999px; padding: 5px 10px;

@@ -2,17 +2,24 @@
 // unit-testable. See specs/001-one-percent-club/plan.md for the full design.
 //
 // Rules, modeled on the TV format:
-// - 1..MAX_PLAYERS players. Everyone who is still "alive" answers the same
-//   multiple-choice question (2-4 options) at once, in secret (no one sees anyone else's pick
-//   until the question resolves).
+// - 1..MAX_PLAYERS players. Everyone still connected answers the same
+//   multiple-choice question (2-4 options) at once, in secret (no one sees
+//   anyone else's pick until the question resolves) — including players
+//   who have already been eliminated. Elimination ("alive" flips to false)
+//   only ever removes a player from win *eligibility*; it never stops them
+//   from playing out the rest of the ladder alongside everyone else.
 // - The ladder runs from the easiest tier (~90%+, "the line") down to the
 //   hardest available tier (as low as 1%). Anyone who answers wrong, or
-//   doesn't answer before the timer runs out, is eliminated.
-// - If everyone still alive gets a question wrong together, the game ends
-//   immediately with no winner — the whole group "fell off the line".
-// - Whoever is still alive after the final question in the ladder clears
-//   has reached the 1% and wins (ties split the win — more than one player
-//   can clear the ladder together).
+//   doesn't answer before the timer runs out, becomes permanently
+//   ineligible to win (their `alive` flag can only ever go true -> false,
+//   never back).
+// - If every player still eligible to win gets a question wrong together,
+//   the game ends immediately with no winner — the whole remaining group
+//   "fell off the line" — even if some already-eliminated players also
+//   answered that same question.
+// - Whoever is still eligible after the final question in the ladder
+//   clears has reached the 1% and wins (ties split the win — more than one
+//   player can clear the ladder together).
 
 export const MIN_PLAYERS = 1;
 export const MAX_PLAYERS = 12;
@@ -50,8 +57,19 @@ export function getPlayer(room, playerId) {
   return room.players.find((p) => p.id === playerId) || null;
 }
 
+// Still eligible to win — used only for the ending/winner decision, never
+// for who gets to answer (see activePlayers()).
 export function alivePlayers(room) {
   return room.players.filter((p) => p.alive);
+}
+
+// Everyone still taking part, whether or not they're still eligible to
+// win — eliminated players keep answering every question for the rest of
+// the ladder. Deliberately unfiltered by connection state: `allAnswered()`
+// handles the "nobody's currently connected" fallback itself, the same way
+// it already did when this was keyed off alivePlayers().
+export function activePlayers(room) {
+  return room.players;
 }
 
 export function addPlayer(room, playerId, name, resumeToken = null) {
@@ -236,7 +254,8 @@ export function submitAnswer(room, playerId, choiceIndex, now) {
   if (room.phase !== "question") return { error: "No question is open right now" };
   const player = getPlayer(room, playerId);
   if (!player) return { error: "You are not in this game" };
-  if (!player.alive) return { error: "You have been eliminated" };
+  // Eliminated players keep answering — losing win-eligibility doesn't stop
+  // them playing out the rest of the ladder for fun.
   const q = currentQuestion(room);
   // Choice count varies per question (2-4) — the real show isn't always a
   // 4-option format (some questions are True/False or 3-way), so validate
@@ -250,12 +269,12 @@ export function submitAnswer(room, playerId, choiceIndex, now) {
 }
 
 export function allAnswered(room) {
-  const alive = alivePlayers(room);
-  const connected = alive.filter((p) => p.connected);
+  const active = activePlayers(room);
+  const connected = active.filter((p) => p.connected);
   if (connected.length > 0) return connected.every((p) => p.choiceIndex !== null);
   // If everybody dropped only after locking in, the Host can still reveal;
   // otherwise keep the question open for at least one seat to rejoin.
-  return alive.length > 0 && alive.every((p) => p.choiceIndex !== null);
+  return active.length > 0 && active.every((p) => p.choiceIndex !== null);
 }
 
 export function checkTimerExpired(room, now) {
@@ -280,20 +299,23 @@ export function checkRevealExpired(room, now) {
 }
 
 // Resolve the current question. Call when allAnswered(room) or
-// checkTimerExpired(room, now). Eliminates everyone who answered wrong or
-// didn't answer, then always moves to "reveal" so the correct answer is
-// shown — even on a total wipeout — before the host advances the game.
-// Whether that advance lands on the next question or ends the game is
-// decided in advanceQuestion(), not here. Returns the round summary (also
-// stored on room.lastResult).
+// checkTimerExpired(room, now). Every active player answers and is scored
+// (including already-eliminated players, who keep playing for fun) — a
+// wrong answer sets `alive` to false, which is a one-way flip, so scoring
+// an already-eliminated player never re-qualifies them. Always moves to
+// "reveal" so the correct answer is shown — even on a total wipeout —
+// before the host advances the game. Whether that advance lands on the
+// next question or ends the game is decided in advanceQuestion(), not
+// here. Returns the round summary (also stored on room.lastResult).
 export function resolveQuestion(room, now) {
   const q = currentQuestion(room);
-  const actors = alivePlayers(room);
+  const actors = activePlayers(room);
   const results = actors.map((p) => ({
     id: p.id,
     name: p.name,
     choiceIndex: p.choiceIndex,
     correct: p.choiceIndex === q.correctIndex,
+    wasEligible: p.alive, // eligibility going into this question, for the reveal UI
   }));
 
   for (const p of actors) {

@@ -71,10 +71,14 @@ Acceptance criteria:
   resolves — only whether they've locked in yet.
 - After submitting, a player continues to see their own chosen button
   highlighted and explicitly labeled as their locked answer.
-- A question resolves the instant every still-alive player has answered, or
-  when the timer runs out (whichever comes first). Not answering in time
-  counts as wrong.
-- An eliminated player sees the question play out but cannot answer.
+- A question resolves the instant every connected player has answered
+  (including already-eliminated ones — see below), or when the timer runs
+  out (whichever comes first). Not answering in time counts as wrong.
+- An eliminated player keeps answering every remaining question exactly
+  like everyone else — elimination only removes future win eligibility, it
+  never stops a player from participating in the rest of the ladder. Once a
+  player is eliminated they can never become eligible to win again, even if
+  every subsequent answer is correct.
 
 ### US-4: See the result and keep going
 As a player, I want to see the correct answer and who got it right before
@@ -82,14 +86,18 @@ the ladder continues, so eliminations feel earned, not sudden.
 
 Acceptance criteria:
 - Resolving a question **always** shows a reveal screen with the correct
-  answer and each player's pick, even when every remaining player got it
-  wrong together (a full wipeout) — the game never jumps straight to a
-  result screen without showing the answer first.
+  answer and every connected player's pick — including already-eliminated
+  players who answered along with everyone else — even when every player
+  still eligible to win got it wrong together (a full wipeout) — the game
+  never jumps straight to a result screen without showing the answer first.
 - Each contestant's submitted answer is visually separated from their name
   as a prominent green or red answer badge; a timeout shows "no answer."
+  A player who was already ineligible to win going into this question is
+  marked distinctly in the results list, since their answer no longer
+  affects who can still win.
 - Only the Host can advance from the reveal screen. Advancing either deals
-  the next question, or — if that was a wipeout or the last tier in the
-  ladder — ends the game.
+  the next question, or — if every player eligible to win just fell off
+  together, or that was the last tier in the ladder — ends the game.
 - The Host's advance button is labeled differently depending on which of
   those two outcomes is coming next.
 
@@ -97,11 +105,12 @@ Acceptance criteria:
 As a group, we want a clear result: who (if anyone) reached the 1%.
 
 Acceptance criteria:
-- If every remaining player is eliminated on the same question, the game
-  ends with no winner.
-- If at least one player survives the final question in the built ladder,
-  every survivor is a winner — ties are allowed; the win is not exclusive
-  to a single player.
+- If every player still eligible to win is eliminated on the same question,
+  the game ends immediately with no winner — even if some already-eliminated
+  players also answered that question alongside them.
+- If at least one player is still eligible to win after the final question
+  in the built ladder resolves, every eligible player is a winner — ties are
+  allowed; the win is not exclusive to a single player.
 - The Host can start a rematch ("Play again") that returns to the lobby with
   the same players (anyone who disconnected mid-game is dropped), a fresh
   join-editable roster, and a newly built deck.
@@ -127,7 +136,8 @@ Acceptance criteria:
 - Leaving mid-game marks that player eliminated (seat stays visible, marked
   "left") rather than removing them.
 - A question can't wait forever on a player who is gone — if a disconnect
-  leaves every remaining alive player answered, resolution proceeds.
+  leaves every remaining connected player answered, resolution proceeds
+  (whether or not those remaining players are still eligible to win).
 - If the Host disconnects, the room cannot continue — same accepted
   limitation as `attack-attack`'s P2P model.
 

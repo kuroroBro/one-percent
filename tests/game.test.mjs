@@ -211,11 +211,11 @@ test("submitAnswer accepts a valid choice and reports when everyone is in", () =
   assert.deepStrictEqual(g.submitAnswer(room, "p2", 1, 1002), { done: true });
 });
 
-test("submitAnswer rejects eliminated players and invalid choices", () => {
+test("submitAnswer lets an already-eliminated player keep answering, still validates choice range", () => {
   const room = startedRoom(["Ana", "Ben"]);
   const ana = g.getPlayer(room, "p1");
   ana.alive = false;
-  assert.ok(g.submitAnswer(room, "p1", 0, 1001).error);
+  assert.deepStrictEqual(g.submitAnswer(room, "p1", 0, 1001), { done: false });
   assert.ok(g.submitAnswer(room, "p2", 9, 1001).error);
 });
 
@@ -243,6 +243,55 @@ test("resolveQuestion eliminates wrong answers and advances to 'reveal' mid-ladd
   assert.strictEqual(g.getPlayer(room, "p2").alive, false);
   assert.strictEqual(g.getPlayer(room, "p3").alive, true);
   assert.strictEqual(room.phase, "reveal");
+});
+
+test("an eliminated player keeps answering future questions but never regains win eligibility, even after answering correctly", () => {
+  const room = startedRoom(["Ana", "Ben", "Cy"]);
+  const q1 = g.currentQuestion(room);
+  const wrongIdx = (q1.correctIndex + 1) % 4;
+  g.submitAnswer(room, "p1", wrongIdx, 1001); // Ana wrong -> eliminated
+  g.submitAnswer(room, "p2", q1.correctIndex, 1001);
+  g.submitAnswer(room, "p3", q1.correctIndex, 1001);
+  g.resolveQuestion(room, 1002);
+  assert.strictEqual(g.getPlayer(room, "p1").alive, false);
+  g.advanceQuestion(room, room.hostId, 1003);
+
+  // Ana (eliminated) is still required to answer before this next question resolves.
+  g.submitAnswer(room, "p2", g.currentQuestion(room).correctIndex, 1004);
+  g.submitAnswer(room, "p3", g.currentQuestion(room).correctIndex, 1004);
+  assert.strictEqual(g.allAnswered(room), false); // waiting on Ana
+  const q2 = g.currentQuestion(room);
+  const res = g.submitAnswer(room, "p1", q2.correctIndex, 1004); // Ana answers correctly anyway
+  assert.deepStrictEqual(res, { done: true });
+  const summary = g.resolveQuestion(room, 1005);
+  assert.strictEqual(summary.results.find((r) => r.id === "p1").correct, true);
+  assert.strictEqual(summary.results.find((r) => r.id === "p1").wasEligible, false);
+  assert.strictEqual(g.getPlayer(room, "p1").alive, false); // still not eligible, despite the correct answer
+});
+
+test("a wipeout is judged only by players still eligible to win, even if an already-eliminated player answers the same question", () => {
+  const room = startedRoom(["Ana", "Ben"]);
+  const q1 = g.currentQuestion(room);
+  const wrongIdx = (q1.correctIndex + 1) % 4;
+  g.submitAnswer(room, "p1", wrongIdx, 1001); // Ana wrong -> eliminated
+  g.submitAnswer(room, "p2", q1.correctIndex, 1001); // Ben still eligible
+  g.resolveQuestion(room, 1002);
+  g.advanceQuestion(room, room.hostId, 1003);
+  assert.strictEqual(room.phase, "question"); // game continues — Ben is still eligible
+
+  // Next question: Ben (the only still-eligible player) also gets it wrong,
+  // while Ana (already eliminated) answers correctly. This should still be
+  // a wipeout, ending the game — Ana's answer doesn't count toward keeping
+  // the game alive since she was never eligible going in.
+  const q2 = g.currentQuestion(room);
+  const wrongIdx2 = (q2.correctIndex + 1) % 4;
+  g.submitAnswer(room, "p1", q2.correctIndex, 1004); // Ana right, but irrelevant
+  g.submitAnswer(room, "p2", wrongIdx2, 1004); // Ben wrong -> now zero eligible
+  g.resolveQuestion(room, 1005);
+  assert.strictEqual(room.phase, "reveal");
+  g.advanceQuestion(room, room.hostId, 1006);
+  assert.strictEqual(room.phase, "over");
+  assert.deepStrictEqual(room.winnerIds, []);
 });
 
 test("a player who never answers before resolution counts as wrong", () => {

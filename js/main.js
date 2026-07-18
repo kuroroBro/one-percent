@@ -81,7 +81,7 @@ function renderPlayerChip(p) {
     status.textContent = "offline — can rejoin";
     chip.appendChild(status);
   }
-  if (state.phase === "question" && p.alive && p.connected) {
+  if (state.phase === "question" && p.connected) {
     const dot = document.createElement("span");
     dot.className = "ready-dot" + (p.answered ? " in" : "");
     dot.textContent = p.answered ? "locked in" : "thinking…";
@@ -150,7 +150,7 @@ function renderQuestion() {
   const my = me();
   const isPlayer = !!my;
   const alive = isPlayer && my.alive;
-  $("out-banner").classList.toggle("hidden", !isPlayer || !!alive);
+  $("out-banner").classList.toggle("hidden", !isPlayer || alive);
   $("spectator-banner").classList.toggle("hidden", isPlayer);
 
   const box = $("question-choices");
@@ -161,7 +161,7 @@ function renderQuestion() {
       const btn = document.createElement("button");
       btn.className = "btn choice-btn";
       btn.textContent = choiceText;
-      btn.disabled = !alive || my.answered;
+      btn.disabled = my.answered;
       const isChosen = chosenIndex === i;
       btn.setAttribute("aria-pressed", String(isChosen));
       if (isChosen) {
@@ -222,13 +222,15 @@ function renderReveal() {
   for (const res of r.results) {
     const row = document.createElement("div");
     row.className = "result-row" + (res.correct ? " correct" : " wrong");
+    if (!res.wasEligible) row.classList.add("already-out");
     const pickedText =
       res.choiceIndex === null || res.choiceIndex === undefined
         ? "no answer"
         : r.choices[res.choiceIndex];
     const player = document.createElement("span");
     player.className = "result-player";
-    player.textContent = `${res.correct ? "✅" : "❌"} ${res.name}`;
+    const tag = res.wasEligible ? "" : " (not eligible to win)";
+    player.textContent = `${res.correct ? "✅" : "❌"} ${res.name}${tag}`;
     const answer = document.createElement("strong");
     answer.className = "result-answer";
     answer.textContent = pickedText;
@@ -237,11 +239,14 @@ function renderReveal() {
     list.appendChild(row);
   }
   const stillIn = state.players.filter((p) => p.alive);
+  // Mirrors game.js's resolveQuestion(): the next advance ends the game
+  // either because every eligible player just fell off (a wipeout, which
+  // can happen mid-ladder) or because this was the last question either way.
   const isEnding = stillIn.length === 0 || state.qIndex === state.deckLength - 1;
   $("reveal-status").textContent =
     stillIn.length === 0
-      ? "Everyone fell off the line."
-      : `${stillIn.length} still in: ${stillIn.map((p) => p.name).join(", ")}`;
+      ? "Everyone fell off the line — no one can win this game anymore."
+      : `${stillIn.length} still eligible to win: ${stillIn.map((p) => p.name).join(", ")}`;
   const iAmHost = myId === state.hostId;
   $("next-btn").textContent = isEnding ? "See final results →" : "Next question →";
   $("next-btn").classList.toggle("hidden", !iAmHost);
@@ -314,7 +319,7 @@ function callAction(event, payload) {
 
 function pickChoice(i) {
   const my = me();
-  if (!my || !my.alive || my.answered) return;
+  if (!my || my.answered) return;
   selectedChoice = i;
   renderQuestion();
   callAction("answer", { choiceIndex: i }).then(

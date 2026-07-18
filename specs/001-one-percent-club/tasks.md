@@ -269,3 +269,44 @@
       guessing. Bank is now 144 questions across 17 tiers, 16 image-backed,
       still 0 tiers at 100% image (tier 90 has 4 remaining). `node --test`
       32/32.
+
+## Phase 19 - Eliminated players keep answering, but can never win
+
+- [x] Reworked elimination semantics: `alive` now means "still eligible to
+      win," not "still allowed to answer." `submitAnswer()` no longer
+      rejects eliminated players; a new `activePlayers()` (everyone ever
+      added to the room, connected or not — mirrors how `alivePlayers()`
+      always worked) replaces `alivePlayers()` as the "who must answer this
+      round" set in `allAnswered()` and as the scored `actors` in
+      `resolveQuestion()`.
+- [x] Confirmed by construction (the flip is a straight-line `if
+      (!correct) p.alive = false`, never set back to true) that a wrong
+      answer is permanent and an eliminated player answering correctly
+      later never restores eligibility.
+- [x] Kept the wipeout-ends-the-game rule exactly as before, but re-scoped
+      to *eligible* players: the game only ends early when
+      `alivePlayers(room).length === 0` after resolving, which now
+      correctly ignores whatever already-eliminated players also answered
+      that same question — verified with a dedicated test where an
+      eliminated player answers correctly on the same question that wipes
+      out the last eligible player, and the wipeout still fires.
+- [x] UI: eliminated players keep full, enabled answer buttons and a
+      roster "locked in / thinking…" status (previously gated behind
+      `alive`); the elimination banner copy changed from "watch the rest
+      play it out" to "not eligible to win anymore — but keep answering!";
+      the reveal results list marks already-ineligible respondents
+      distinctly so it's clear their answer no longer affects standings.
+- [x] First pass introduced a real bug: a new `activePlayers()` filtered on
+      `!p.left`, but `removePlayer()`/`rejoinPlayer()` toggle `left` and
+      `connected` together, so once every seat went offline the "resolve
+      using already-locked-in answers" fallback saw an empty set instead
+      of the frozen roster it needs — caught by the existing disconnect
+      test suite, fixed by making `activePlayers()` unfiltered (matching
+      how `alivePlayers()` always behaved structurally).
+- [x] Added 2 new engine tests (permanent ineligibility despite later
+      correct answers; wipeout judged only by eligible players even when
+      an eliminated player answers the same question) plus rewrote the
+      "eliminated players are rejected" test into "eliminated players keep
+      answering." All 34 tests pass. Verified live: an eliminated player's
+      buttons stay enabled, they can lock in an answer, and the roster/
+      reveal reflect their ineligibility correctly.

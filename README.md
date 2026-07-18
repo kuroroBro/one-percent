@@ -30,11 +30,13 @@ with friends. See "Question bank" below for sourcing notes.
    not what they picked.
 5. When everyone's answered (or the timer runs out), the answer is revealed
    along with everyone's pick. Answer wrong, or don't answer in time, and
-   you're eliminated — but you stick around to watch the rest of the game.
-6. Only the Host can advance past the reveal screen. If your whole group
-   gets a question wrong together, the game ends right there with no
-   winner. Survive every question in the ladder and you've reached the 1% —
-   more than one player can clear it together.
+   you're no longer eligible to win — but you keep answering every question
+   for the rest of the game right alongside everyone else, no benching.
+6. Only the Host can advance past the reveal screen. If everyone still
+   eligible to win gets a question wrong together, the game ends right there
+   with no winner, even if an already-eliminated player also answered.
+   Survive every question in the ladder and you've reached the 1% — more
+   than one player can clear it together.
 7. **Play again** puts everyone back in the same lobby with a freshly built
    ladder (this device won't reuse a question it's already dealt until you
    reset its history from the lobby).
@@ -47,9 +49,10 @@ initial tap of Start with no one managing the pace.
 If a player's tab reloads or their connection drops, the saved room URL
 automatically reconnects from the same browser and reclaims their seat (the
 Home screen also offers **Rejoin**). The private rejoin
-token and room-specific name are kept in `localStorage`; eliminated players
-remain eliminated, and closing the Host still ends the room because there is
-no backend authority to restore.
+token and room-specific name are kept in `localStorage`; a rejoin restores
+your seat and any locked-in answer, but never restores win eligibility once
+lost, and closing the Host still ends the room because there is no backend
+authority to restore.
 
 ## Question bank
 

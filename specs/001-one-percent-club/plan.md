@@ -388,3 +388,44 @@ rematch.
   project — always verify via `<img>`, since that's the only way these
   assets are actually consumed, not by opening the file directly. Bank is
   now 120 questions across 17 tiers, 17 image-backed, all 32 tests passing.
+- **v6 / Phase 19** (2026-07-19): Requested rule change: eliminated players
+  should keep answering every question rather than sitting out, but should
+  never be able to win. Reframed `alive` as "still eligible to win" rather
+  than "still allowed to play" — `submitAnswer()` no longer rejects an
+  eliminated player, and a new `activePlayers()` (the full roster,
+  connected or not — deliberately unfiltered, matching how
+  `alivePlayers()` always behaved structurally) replaces `alivePlayers()`
+  as the "who must answer" set in both `allAnswered()` and
+  `resolveQuestion()`'s scored `actors`. The wipeout-ends-the-game rule
+  itself is unchanged (still `alivePlayers(room).length === 0` after
+  resolving) but is now correctly scoped to *eligible* survivors — an
+  already-eliminated player answering correctly on the same question that
+  wipes out the last eligible player does not keep the game alive, since
+  eligibility is a one-way flip (`if (!correct) p.alive = false`, never
+  reset true) enforced purely by never writing `alive = true` again after
+  `startGame()`'s reset.
+
+  First implementation attempt introduced a real regression: the new
+  `activePlayers()` filtered on `!p.left`, but `removePlayer()` and
+  `rejoinPlayer()` toggle `left` and `connected` in lockstep (there's no
+  "temporarily offline vs. gone for good" distinction in this data model —
+  `left` really just means "not connected right now"), so once every seat
+  went offline mid-question, `activePlayers()` returned empty instead of
+  the frozen roster the "resolve using already-locked-in answers" fallback
+  needs. Caught immediately by the existing disconnect-handling tests
+  (`a fully offline room resolves only when every player had already
+  locked in`, `resetToLobby drops players still offline...`), fixed by
+  making `activePlayers()` return the unfiltered roster, exactly mirroring
+  how `alivePlayers()` was always structured.
+
+  UI: eliminated players' answer buttons are no longer disabled and their
+  roster "locked in / thinking…" indicator no longer requires `alive`; the
+  elimination banner copy changed from "watch the rest play it out" (no
+  longer true) to "not eligible to win anymore — but keep answering!"; the
+  reveal results list flags already-ineligible respondents (`wasEligible`,
+  captured in `resolveQuestion()` before scoring) so it's visually clear
+  their pick no longer affects who can still win. Added 2 new engine tests
+  and rewrote the old "eliminated players are rejected" test into its
+  opposite; all 34 tests pass. Verified live: an eliminated player's
+  buttons stayed fully enabled, they successfully locked in an answer, and
+  the roster/reveal UI correctly reflected their ineligibility throughout.
