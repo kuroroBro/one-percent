@@ -50,7 +50,7 @@ export const QUESTIONS = [
     "explain": null,
     "source": "https://www.comingsoon.net/guides/features/1911071-1-percent-club-questions-answers-uk-season-4-series-2025",
     "image": "images/questions/circle-maze.svg",
-    "imageAlt": "A circular maze backdrop with four color-coded dotted routes. The routes for A, C, and D each wind inward and connect all the way to the highlighted GOAL circle at the centre. The route for B winds inward but stops at a solid dead-end wall, labeled, well short of the centre."
+    "imageAlt": "A solid dark circular maze block with light winding tunnels carved through it. The tunnels for A, C, and D each wind inward and open directly into the teal GOAL chamber at the centre. The tunnel for B winds inward but ends at a small dead-end marker, clearly short of the goal chamber."
   },
   {
     "tier": 90,
