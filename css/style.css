@@ -167,6 +167,15 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
   background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
   padding: 20px; width: 100%;
 }
+.question-image {
+  display: block;
+  width: 100%;
+  max-height: min(38vh, 360px);
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
 .question-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .choice-btn { padding: 16px 10px; text-align: center; font-size: 0.95rem; }
 .choice-btn.selected { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }

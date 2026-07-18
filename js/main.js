@@ -103,6 +103,19 @@ function tierLabel(tier, isLine) {
   return `${tier}% got this right`;
 }
 
+function renderQuestionImage(elementId, image, imageAlt) {
+  const el = $(elementId);
+  if (image) {
+    el.src = image;
+    el.alt = imageAlt || "Question illustration";
+    el.classList.remove("hidden");
+  } else {
+    el.removeAttribute("src");
+    el.alt = "";
+    el.classList.add("hidden");
+  }
+}
+
 function stopTimerLoop() {
   if (timerHandle) cancelAnimationFrame(timerHandle);
   timerHandle = null;
@@ -114,6 +127,7 @@ function renderQuestion() {
   $("question-tier").textContent = tierLabel(q.tier, q.isLine);
   $("question-tier").classList.toggle("line", q.isLine);
   $("question-text").textContent = q.question;
+  renderQuestionImage("question-image", q.image, q.imageAlt);
   renderRoster($("question-roster"));
 
   const my = me();
@@ -170,6 +184,7 @@ function renderReveal() {
   const r = state.lastResult;
   $("reveal-tier").textContent = tierLabel(r.tier, r.isLine);
   $("reveal-question").textContent = r.question;
+  renderQuestionImage("reveal-image", r.image, r.imageAlt);
   $("reveal-answer").textContent = r.choices[r.correctIndex];
   $("reveal-explain").textContent = r.explain || "";
   $("reveal-explain").classList.toggle("hidden", !r.explain);
