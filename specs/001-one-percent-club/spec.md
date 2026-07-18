@@ -15,9 +15,12 @@ wrong — or don't answer before the timer runs out — and you're eliminated.
 Whoever is still standing when the ladder runs out has reached the 1%.
 
 Unlike the Host+Display sibling games (`guess-antok-phrases`), and like
-`attack-attack`'s P2P conversion, every player here is a full participant on
-their own device — there is no separate "shared screen" spectator role. One
-player's device becomes the room's authoritative Host; the Host also plays.
+`attack-attack`'s P2P conversion, players are full participants on their own
+devices, not passive render-only Displays. One player's device becomes the
+room's authoritative Host. By default the Host also plays, but the Host can
+instead create the room as a spectator ("run as a display only") — see US-8
+— and choose to have the game auto-advance through reveals without any taps
+at all, so the whole ladder can run hands-off once started.
 
 This is an unofficial, non-commercial fan project. It is not affiliated with
 or endorsed by ITV Studios, Lee Mack, Fox, or any 1% Club rights holder — see
@@ -121,6 +124,39 @@ Acceptance criteria:
 - If the Host disconnects, the room cannot continue — same accepted
   limitation as `attack-attack`'s P2P model.
 
+### US-8: Fully automated Host
+
+As a Host, I want to run the game as a hands-off shared display instead of
+playing, and have the ladder advance itself between questions, so a group
+can play without anyone managing the pace.
+
+Acceptance criteria:
+- On the Home screen, the room creator can check "Run as a display only — I
+  won't play" before creating a room. That device becomes the room's Host
+  (still authoritative — still the only device that can start the game,
+  advance the ladder, or trigger a rematch) without being added as a player:
+  it never answers questions and never appears in any roster, results list,
+  or winner list.
+- A spectator Host does not need to enter a name.
+- Everyone in the lobby (not just the Host) can see that the Host is running
+  the room as a display rather than playing.
+- The Host can leave "Run as a display" unchecked to play normally, exactly
+  as before this feature — this is opt-in, not a behavior change to the
+  default flow.
+- Independently of spectator mode, the Host picks how the reveal screen
+  advances: **manual** (default — a Host tap is required, as today) or
+  **auto-advance** after a configurable pause (5, 8, or 12 seconds) once a
+  question resolves. Auto-advance applies to every reveal in that game,
+  including the one that ends the game (a wipeout or the final tier) — the
+  Host's device still performs that transition, just on a timer instead of a
+  tap, so `advanceQuestion`'s host-only authority check is unchanged.
+- A Host using auto-advance can still tap "Next question" early if they want
+  to skip the pause.
+- Combining both settings (spectator Host + auto-advance) lets an entire
+  game run from start to a single initial tap with no further manual
+  intervention, once at least one other player has joined and the Host taps
+  Start.
+
 ## Functional Requirements
 
 - **FR-1** Static site only: must run from GitHub Pages (no backend, no
@@ -141,23 +177,29 @@ Acceptance criteria:
 
 - **QuestionEntry** (source pool, `js/questions.js`): `tier` (difficulty
   percentage, 1–99), `q` (question text), `a` (correct answer text), `d`
-  (array of 3 distractor answer texts), optional `source` (attribution URL).
+  (array of 1–3 distractor answer texts — some real questions are True/False
+  or 3-way, not always 4-option), optional `explain` (a short logic
+  explanation shown on the reveal screen), optional `source` (attribution
+  URL).
 - **DeckEntry**: one `QuestionEntry` resolved into a dealt question — `tier`,
-  `question`, `choices` (the 4 texts, shuffled), `correctIndex`, `key`
-  (dedupe key), `source`.
+  `question`, `choices` (2–4 texts, shuffled), `correctIndex`, `explain`,
+  `key` (dedupe key), `source`.
 - **Player**: `id`, `name`, `alive`, `left`, `choiceIndex` (pending answer,
   hidden from everyone but that player pre-reveal).
 - **Room**: `code`, `phase` (`lobby` \| `question` \| `reveal` \| `over`),
-  `hostId`, `players`, `deck`, `qIndex`, `timerSeconds`, `ladderLength`,
-  `lastResult`, `winnerIds`.
+  `hostId` (fixed at creation, independent of `players` — see US-8),
+  `players`, `deck`, `qIndex`, `timerSeconds`, `ladderLength`,
+  `revealAdvanceSeconds`, `revealStartedAt`, `lastResult`, `winnerIds`.
 
 ## Non-goals
 
 - No free-text answer input — every question is multiple choice (2-4
   options), even where the original show used a free-response format (see
   plan.md Data Model for how distractors were sourced).
-- No shared "big screen" Display role in this version — every player,
-  including the Host, plays from their own device.
+- No dedicated big-screen Display *layout* — the spectator Host (US-8) reuses
+  the same phone-sized screens as everyone else rather than a TV-optimized
+  view; it's an opt-in Host role, not a second app surface like
+  `guess-antok-phrases`'s Display.
 - No real-money or points-based scoring — outcome is binary per game
   (reached the 1% or didn't).
 - No visual/image-based puzzles — the question bank is text-only.

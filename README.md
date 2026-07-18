@@ -16,11 +16,16 @@ with friends. See "Question bank" below for sourcing notes.
 ## How to play
 
 1. **Create a room** — pick a name, tap **Create a room**, and share the
-   4-letter code (or the copied invite link) with your group.
+   4-letter code (or the copied invite link) with your group. If you're
+   running this on a shared screen/laptop and don't want to play yourself,
+   check **"Run as a display only"** first — no name needed.
 2. **Everyone joins** on their own phone with the same code.
 3. The Host picks a **ladder length** (Quick spreads across the available
-   tiers; Full plays every tier that still has a fresh question) and a
-   **timer per question**, then taps **Start the ladder**.
+   tiers; Full plays every tier that still has a fresh question), a
+   **timer per question**, and what happens **after each reveal** — tap
+   **Next question** yourself (default), or auto-advance after 5/8/12
+   seconds so no one has to manage the pace — then taps **Start the
+   ladder**.
 4. Everyone answers the same multiple-choice question (2-4 options, some are
    even True/False) at once, in secret — you can see who's "locked in" but
    not what they picked.
@@ -35,8 +40,10 @@ with friends. See "Question bank" below for sourcing notes.
    ladder (this device won't reuse a question it's already dealt until you
    reset its history from the lobby).
 
-The Host plays too — there's no separate "big screen" spectator mode in this
-version, just everyone on their own device.
+By default the Host plays too, right alongside everyone else. Check "Run as
+a display only" at room creation to run the Host as a hands-off spectator
+instead — combined with auto-advance, a whole game can run from a single
+initial tap of Start with no one managing the pace.
 
 ## Question bank
 

@@ -52,6 +52,11 @@ body {
   gap: 10px;
 }
 .panel label { font-size: 0.85rem; color: var(--muted); text-align: left; }
+.checkbox-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; color: var(--muted); cursor: pointer;
+}
+.checkbox-row input { width: auto; accent-color: var(--gold); }
 
 input, select {
   background: var(--bg);

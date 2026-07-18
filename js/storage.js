@@ -9,6 +9,8 @@ export const DEFAULT_SETTINGS = {
   name: "",
   ladderLength: "quick", // "quick" | "full"
   timerSeconds: 30, // 0 = no timer
+  revealAdvanceSeconds: 0, // 0 = manual (Host taps Next question); else auto-advance after N seconds
+  spectatorHost: false, // true = Host runs the room as a display, doesn't play
 };
 
 function read(key, fallback) {

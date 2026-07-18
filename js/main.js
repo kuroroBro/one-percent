@@ -20,6 +20,7 @@ let state = null; // last known public state
 let myId = null;
 let clockOffset = 0; // hostNow - myNow, so my countdown matches the Host's clock
 let timerHandle = null;
+let revealTimerHandle = null;
 let selectedChoice = null; // my pending pick this question, before I submit
 
 const $ = (id) => document.getElementById(id);
@@ -77,12 +78,21 @@ function renderRoster(container) {
   for (const p of state.players) container.appendChild(renderPlayerChip(p));
 }
 
+// Derived from state, not a locally-tracked flag: the Host is "spectating"
+// whenever hostId doesn't correspond to any entry in players (see
+// game.js createRoom — hostId is fixed independent of the roster). Anyone
+// viewing state can tell, not just the Host's own device.
+function hostIsPlaying() {
+  return state.players.some((p) => p.id === state.hostId);
+}
+
 function renderLobby() {
   $("lobby-code").textContent = state.code;
   renderRoster($("lobby-players"));
   const iAmHost = myId === state.hostId;
   $("start-btn").classList.toggle("hidden", !iAmHost);
   $("lobby-host-settings").classList.toggle("hidden", !iAmHost);
+  $("lobby-spectator-hint").classList.toggle("hidden", hostIsPlaying());
   $("lobby-hint").textContent = iAmHost
     ? "Start whenever your group has joined."
     : "Waiting for the host to start the ladder…";
@@ -107,20 +117,24 @@ function renderQuestion() {
   renderRoster($("question-roster"));
 
   const my = me();
-  const alive = my && my.alive;
-  $("out-banner").classList.toggle("hidden", !!alive);
+  const isPlayer = !!my;
+  const alive = isPlayer && my.alive;
+  $("out-banner").classList.toggle("hidden", !isPlayer || !!alive);
+  $("spectator-banner").classList.toggle("hidden", isPlayer);
 
   const box = $("question-choices");
   box.innerHTML = "";
-  q.choices.forEach((choiceText, i) => {
-    const btn = document.createElement("button");
-    btn.className = "btn choice-btn";
-    btn.textContent = choiceText;
-    btn.disabled = !alive || (my && my.answered);
-    if (selectedChoice === i) btn.classList.add("selected");
-    btn.addEventListener("click", () => pickChoice(i));
-    box.appendChild(btn);
-  });
+  if (isPlayer) {
+    q.choices.forEach((choiceText, i) => {
+      const btn = document.createElement("button");
+      btn.className = "btn choice-btn";
+      btn.textContent = choiceText;
+      btn.disabled = !alive || my.answered;
+      if (selectedChoice === i) btn.classList.add("selected");
+      btn.addEventListener("click", () => pickChoice(i));
+      box.appendChild(btn);
+    });
+  }
 
   stopTimerLoop();
   const bar = $("timer-bar");
@@ -146,7 +160,13 @@ function renderQuestion() {
   }
 }
 
+function stopRevealTimerLoop() {
+  if (revealTimerHandle) cancelAnimationFrame(revealTimerHandle);
+  revealTimerHandle = null;
+}
+
 function renderReveal() {
+  stopRevealTimerLoop();
   const r = state.lastResult;
   $("reveal-tier").textContent = tierLabel(r.tier, r.isLine);
   $("reveal-question").textContent = r.question;
@@ -174,6 +194,28 @@ function renderReveal() {
   const iAmHost = myId === state.hostId;
   $("next-btn").textContent = isEnding ? "See final results →" : "Next question →";
   $("next-btn").classList.toggle("hidden", !iAmHost);
+
+  const bar = $("reveal-timer-bar");
+  const label = $("reveal-timer-label");
+  if (state.revealDeadlineAt) {
+    bar.classList.remove("hidden");
+    const total = state.revealAdvanceSeconds * 1000;
+    const tick = () => {
+      const remainMs = Math.max(0, state.revealDeadlineAt - hostNow());
+      bar.style.setProperty("--pct", `${Math.max(0, (remainMs / total) * 100)}%`);
+      label.textContent = `Next in ${Math.ceil(remainMs / 1000)}s`;
+      if (remainMs <= 0) {
+        stopRevealTimerLoop();
+        if (isHost) maybeAutoAdvance();
+        return;
+      }
+      revealTimerHandle = requestAnimationFrame(tick);
+    };
+    tick();
+  } else {
+    bar.classList.add("hidden");
+    label.textContent = "";
+  }
 }
 
 function renderOver() {
@@ -195,6 +237,7 @@ function render() {
     show("lobby");
     renderLobby();
   } else if (state.phase === "question") {
+    stopRevealTimerLoop();
     show("question");
     renderQuestion();
   } else if (state.phase === "reveal") {
@@ -203,6 +246,7 @@ function render() {
     renderReveal();
   } else if (state.phase === "over") {
     stopTimerLoop();
+    stopRevealTimerLoop();
     show("over");
     renderOver();
   }
@@ -254,6 +298,7 @@ function handleEvent(playerId, event, payload) {
         pool: QUESTIONS,
         ladderLength: payload.ladderLength || "quick",
         timerSeconds: Number(payload.timerSeconds) || 0,
+        revealAdvanceSeconds: Number(payload.revealAdvanceSeconds) || 0,
         usedKeys,
         now,
       });
@@ -304,6 +349,17 @@ function tryResolve() {
   broadcastState();
 }
 
+// Mirrors tryResolve() for the reveal screen: only ever called on the
+// Host's own device (the client-side countdown in renderReveal() gates
+// this behind `if (isHost)`), and advanceQuestion() re-checks phase/host
+// authority itself either way.
+function maybeAutoAdvance() {
+  if (!room || room.phase !== "reveal") return;
+  if (!game.checkRevealExpired(room, Date.now())) return;
+  game.advanceQuestion(room, room.hostId, Date.now());
+  broadcastState();
+}
+
 function applyState(newState, hostNowMs) {
   state = newState;
   clockOffset = hostNowMs !== undefined ? hostNowMs - Date.now() : 0;
@@ -317,14 +373,11 @@ function handlePush(event, payload) {
 
 function handlePeerClose(playerId) {
   if (!room) return;
-  const empty = game.removePlayer(room, playerId);
-  if (empty) {
-    net.close();
-    net = null;
-    room = null;
-    isHost = false;
-    return;
-  }
+  // Note: we don't tear the room down even if this leaves zero players — a
+  // spectator Host (hostId isn't in players at all, see game.js createRoom)
+  // must be able to keep an empty lobby open waiting for joins. The room
+  // only ever ends when the Host's own device closes.
+  game.removePlayer(room, playerId);
   broadcastState();
 }
 
@@ -353,8 +406,9 @@ function resetToHome() {
 }
 
 $("create-btn").addEventListener("click", async () => {
+  const spectator = $("spectator-checkbox").checked;
   const name = $("name-input").value.trim();
-  if (!name) return toast("Enter your name first");
+  if (!spectator && !name) return toast("Enter your name first");
   $("create-btn").disabled = true;
   try {
     const hostNet = await hostRoom({
@@ -362,16 +416,19 @@ $("create-btn").addEventListener("click", async () => {
       onPeerClose: handlePeerClose,
       onError: (msg) => toast(msg),
     });
-    room = game.createRoom(hostNet.code);
-    const res = game.addPlayer(room, HOST_ID, name);
-    if (res.error) {
-      hostNet.close();
-      room = null;
-      return toast(res.error);
+    room = game.createRoom(hostNet.code, HOST_ID);
+    if (!spectator) {
+      const res = game.addPlayer(room, HOST_ID, name);
+      if (res.error) {
+        hostNet.close();
+        room = null;
+        return toast(res.error);
+      }
     }
     isHost = true;
     net = hostNet;
     myId = HOST_ID;
+    saveSettings({ ...loadSettings(), spectatorHost: spectator });
     enterRoom({ code: room.code, playerId: myId, hostNow: Date.now(), state: game.toPublicState(room, myId, Date.now()) });
   } catch (err) {
     resetToHome();
@@ -422,8 +479,9 @@ $("copy-link-btn").addEventListener("click", () => {
 $("start-btn").addEventListener("click", () => {
   const ladderLength = $("ladder-select").value;
   const timerSeconds = Number($("timer-select").value);
-  saveSettings({ ...loadSettings(), ladderLength, timerSeconds });
-  callAction("startGame", { ladderLength, timerSeconds }).then(
+  const revealAdvanceSeconds = Number($("reveal-advance-select").value);
+  saveSettings({ ...loadSettings(), ladderLength, timerSeconds, revealAdvanceSeconds });
+  callAction("startGame", { ladderLength, timerSeconds, revealAdvanceSeconds }).then(
     (res) => { if (res.error) toast(res.error); },
     (err) => toast(err.message)
   );
@@ -461,8 +519,10 @@ $("rename-btn").addEventListener("click", () => {
 
 const saved = loadSettings();
 if (saved.name) $("name-input").value = saved.name;
+$("spectator-checkbox").checked = !!saved.spectatorHost;
 $("ladder-select").value = saved.ladderLength;
 $("timer-select").value = String(saved.timerSeconds);
+$("reveal-advance-select").value = String(saved.revealAdvanceSeconds);
 $("rename-input").value = saved.name;
 
 const urlRoom = new URLSearchParams(location.search).get("room");

@@ -82,6 +82,48 @@ after the last question in the built deck resolves — more than one player
 can win together, matching the real show's format where the whole surviving
 group attempts the final question and any correct answer splits the win.
 
+### Fixed hostId, spectator Host
+
+`createRoom(code, hostId)` takes `hostId` explicitly and never changes it —
+`addPlayer()` no longer assigns it. This decouples "who is authoritative"
+from "who is a player," which is exactly what a spectator Host needs: the
+Host device creating the room can choose whether to also call `addPlayer()`
+for itself. If it doesn't, that device is still `room.hostId` (still the
+only device `startGame`/`advanceQuestion`/`resetToLobby` will accept), it
+just never appears in `players`, so it's automatically excluded from every
+roster, `submitAnswer` call, results list, and winner list — no separate
+"spectator" flag needed anywhere in the engine. Every client (not just the
+Host's own) can detect a spectator Host the same way: `hostId` not present
+in `players`. `js/main.js` uses that to show a lobby-wide hint, and uses
+`!!me()` (whether *this* viewer's own id is in `players`) to decide whether
+to render eliminated-banner-or-answer-buttons versus a spectator banner —
+the same boolean the old "eliminated" check already computed, just no
+longer assuming every viewer is necessarily a player at all.
+
+One consequence: `removePlayer()`'s "room is now empty" return value is no
+longer acted on destructively in `main.js` — with a spectator Host, the
+player roster hitting zero is a normal state (an empty lobby waiting for
+joins), not a signal to tear the room down. The Host's device is what owns
+the room's lifetime; it ends only when that device's own tab/peer closes.
+
+### Reveal auto-advance
+
+`room.revealAdvanceSeconds` (0 = manual) and `room.revealStartedAt` (set by
+`resolveQuestion()`, cleared by `advanceQuestion()`) mirror the existing
+question-timer pattern exactly — `checkRevealExpired(room, now)` is a
+straight copy of `checkTimerExpired()`'s shape for the reveal phase. This
+symmetry means the client-side handling is symmetric too:
+`renderReveal()` runs the same `requestAnimationFrame` countdown loop as
+`renderQuestion()`'s question timer, and when it elapses on the Host's own
+device, calls the same `advanceQuestion()` path a manual "Next question"
+tap would — `maybeAutoAdvance()` mirrors `tryResolve()`. Because
+`advanceQuestion()` still re-checks `byId === room.hostId` and
+`room.phase === "reveal"` itself, auto-advance can't do anything a manual
+tap couldn't; it's purely a client-side decision about *when* to call the
+same authoritative function. The manual "Next question" button stays
+visible and clickable even with auto-advance on, so the Host can skip the
+pause early.
+
 ## Networking
 
 Adapted near-verbatim from `attack-attack/js/room.js` (full-participant
@@ -184,3 +226,24 @@ rematch.
   sub-4-choice questions) and a fresh two-browser Playwright pass against
   the real bank (a genuine 2-choice "line" question from `js/questions.js`
   played correctly end-to-end).
+- **v3** (2026-07-18): Added US-8, a fully automated Host — a spectator Host
+  role (Home screen checkbox, "Run as a display only") and a configurable
+  reveal auto-advance (manual/5s/8s/12s), independently combinable so a
+  whole game can run from one initial "Start" tap. Required decoupling
+  `hostId` from `players` in `game.js` (see Rules Engine section above);
+  this also fixed a latent issue that would otherwise have surfaced with a
+  spectator Host — `main.js`'s `handlePeerClose` used to tear the whole
+  room down whenever `removePlayer()` reported zero players left, which
+  used to be effectively unreachable (the Host was always counted as a
+  player, so that count could never legitimately hit zero while the Host's
+  own device was still running) but would have wrongly killed a spectator
+  Host's room the moment the last real player disconnected from an
+  otherwise-idle lobby. All 22 tests pass (4 new: spectator-Host start/play,
+  spectator-Host-with-zero-players still requires a player, and both
+  manual/auto-advance reveal-expiry cases). Verified live with two
+  Playwright passes: (1) manual mode, non-spectator — confirmed unchanged
+  from v1/v2 behavior; (2) spectator Host + 5s auto-advance with two real
+  players — Host correctly excluded from the lobby roster and from
+  answering, saw a "running the game" banner instead of choice buttons, and
+  the game advanced from reveal to the correct next phase (a wipeout ending,
+  in that run) with zero taps after Start.

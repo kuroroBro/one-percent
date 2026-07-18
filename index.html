@@ -18,6 +18,10 @@
       <div class="panel">
         <label for="name-input">Your name</label>
         <input id="name-input" maxlength="20" placeholder="e.g. Sam" autocomplete="off" />
+        <label class="checkbox-row" for="spectator-checkbox">
+          <input type="checkbox" id="spectator-checkbox" />
+          Run as a display only — I won't play
+        </label>
         <button id="create-btn" class="btn btn-gold">Create a room</button>
         <div class="divider"><span>or join one</span></div>
         <div class="join-row">
@@ -33,7 +37,7 @@
           <li>Answer wrong, or don't answer before the timer runs out, and you're eliminated.</li>
           <li>If everyone still standing gets a question wrong together, the whole group falls off the line and no one wins.</li>
           <li>Survive every question on the ladder — all the way down to the hardest one available — and you've reached the 1%. More than one player can clear it together.</li>
-          <li>No accounts, no ads, no tracking. One device per player, plus a host who also plays and controls the pace.</li>
+          <li>No accounts, no ads, no tracking. One device per player, plus a host who controls the pace — the host can play along too, or run the room as a hands-off shared display.</li>
         </ul>
       </details>
     </section>
@@ -68,9 +72,17 @@
           <option value="45">45 seconds</option>
           <option value="60">60 seconds</option>
         </select>
+        <label for="reveal-advance-select">After each reveal</label>
+        <select id="reveal-advance-select">
+          <option value="0" selected>Manual — I'll tap Next question</option>
+          <option value="5">Auto-advance after 5 seconds</option>
+          <option value="8">Auto-advance after 8 seconds</option>
+          <option value="12">Auto-advance after 12 seconds</option>
+        </select>
         <button id="reset-questions-btn" class="btn btn-small">Reset question history on this device</button>
       </div>
       <p id="lobby-hint" class="hint"></p>
+      <p id="lobby-spectator-hint" class="hint hidden">🖥️ You're running this as a display and won't play.</p>
       <button id="start-btn" class="btn btn-gold hidden">Start the ladder</button>
     </section>
 
@@ -83,6 +95,7 @@
       <div id="timer-bar" class="timer-bar hidden"><div class="timer-fill"></div><span id="timer-label"></span></div>
       <div id="question-text" class="question-text"></div>
       <div id="out-banner" class="banner grim hidden">You're eliminated — watch the rest play it out.</div>
+      <div id="spectator-banner" class="banner hidden">🖥️ Running the game — everyone else is playing.</div>
       <div id="question-choices" class="question-choices"></div>
       <div id="question-roster" class="roster"></div>
     </section>
@@ -95,6 +108,7 @@
       <p id="reveal-explain" class="hint explain hidden"></p>
       <div id="reveal-results" class="reveal-results"></div>
       <p id="reveal-status" class="hint"></p>
+      <div id="reveal-timer-bar" class="timer-bar hidden"><div class="timer-fill"></div><span id="reveal-timer-label"></span></div>
       <button id="next-btn" class="btn btn-gold hidden">Next question →</button>
     </section>
 

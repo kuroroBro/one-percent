@@ -74,3 +74,27 @@
 - [x] Found and fixed the wipeout/reveal-skip bug from the second-phase
       testing above (see plan.md Changelog v1); reran both the unit suite
       and both Playwright scripts to confirm the fix.
+
+## Phase 8 - Fully automated Host (US-8, post-launch)
+
+- [x] Decouple `hostId` from `players` in `game.js` (`createRoom(code,
+      hostId)`); remove the now-dead host-reassignment branch in
+      `removePlayer()`.
+- [x] Add `revealAdvanceSeconds`/`revealStartedAt`/`checkRevealExpired()` to
+      the engine, mirroring the existing question-timer pattern.
+- [x] Home screen: "Run as a display only" checkbox; skip adding the Host as
+      a player when checked, skip requiring a name.
+- [x] Lobby: "After each reveal" select (manual/5s/8s/12s); lobby-wide hint
+      when the Host isn't a player, derived from state, not a local flag.
+- [x] Question/reveal screens: spectator banner + no answer buttons for a
+      non-player viewer; reveal countdown bar + Host-side auto-advance timer
+      that still goes through the same `advanceQuestion()` authority check.
+- [x] Fix `main.js`'s `handlePeerClose` to stop tearing down the room when
+      the player count hits zero (see plan.md Changelog v3 for why this was
+      previously safe but became a real bug with a spectator Host).
+- [x] 4 new engine tests (spectator Host start/play, spectator Host with
+      zero players, manual vs. auto-advance reveal expiry). All 22 tests
+      pass.
+- [x] Live Playwright verification: manual/non-spectator regression check,
+      and a combined spectator-Host + 5s-auto-advance run with two real
+      players confirming zero taps were needed after Start.

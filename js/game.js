@@ -19,17 +19,24 @@ export const MAX_PLAYERS = 12;
 export const MAX_CHOICES_PER_QUESTION = 4; // some questions are True/False (2) or 3-way instead
 export const LADDER_TARGET_LENGTH = 8; // how many tiers a "Quick" ladder picks
 
-export function createRoom(code) {
+// `hostId` is fixed for the lifetime of the room, set at creation time —
+// independent of `players`. This is what makes a spectator Host possible:
+// the device that created the room is always authoritative, whether or not
+// it also joins `players` as a participant (see js/main.js's `addPlayer`
+// call being conditional on "play along" vs "run as display").
+export function createRoom(code, hostId) {
   return {
     code,
     phase: "lobby", // lobby | question | reveal | over
-    hostId: null,
+    hostId,
     players: [], // join order preserved
     deck: [], // built at startGame; array of { tier, question, choices, correctIndex, key, source }
     qIndex: 0,
     questionStartedAt: null, // ms epoch, threaded in via `now` params for testability
     timerSeconds: 0, // 0 = no timer
     ladderLength: "quick", // "quick" | "full"
+    revealAdvanceSeconds: 0, // 0 = manual (Host taps Next); else auto-advance after N seconds
+    revealStartedAt: null, // ms epoch, set when phase becomes "reveal"
     lastResult: null, // summary of the most recently resolved question
     winnerIds: null, // set once phase === "over"; [] means no one cleared it
     _pendingOver: false, // internal: does the next advanceQuestion() end the game?
@@ -62,7 +69,6 @@ export function addPlayer(room, playerId, name) {
     choiceIndex: null, // pending answer this question, hidden from other players
   };
   room.players.push(player);
-  if (!room.hostId) room.hostId = playerId;
   return { player };
 }
 
@@ -78,7 +84,13 @@ export function renamePlayer(room, playerId, name) {
   return {};
 }
 
-// Returns true if the room is now empty and should be deleted.
+// Returns true if the room is now empty of players and should be deleted.
+// This only ever runs for a *non-host* connection dropping (js/room.js only
+// calls it from onPeerClose, which never fires for the Host's own local
+// id) — hostId is fixed for the room's lifetime (see createRoom), so there
+// is nothing to reassign here even if the Host isn't a player at all (a
+// spectator Host). If the Host's own device disconnects, the room itself
+// goes with it (see spec.md US-7).
 export function removePlayer(room, playerId) {
   const player = getPlayer(room, playerId);
   if (!player) return room.players.length === 0;
@@ -89,10 +101,6 @@ export function removePlayer(room, playerId) {
     player.alive = false;
     player.left = true;
     player.choiceIndex = null;
-  }
-  if (room.hostId === playerId) {
-    const next = room.players.find((p) => !p.left);
-    room.hostId = next ? next.id : null;
   }
   return room.players.filter((p) => !p.left).length === 0;
 }
@@ -155,7 +163,7 @@ export function buildDeck(pool, ladderLength, usedKeys, rng = Math.random) {
 
 // ---------- Game flow ----------
 
-export function startGame(room, byId, { pool, ladderLength, timerSeconds, usedKeys, rng = Math.random, now }) {
+export function startGame(room, byId, { pool, ladderLength, timerSeconds, revealAdvanceSeconds, usedKeys, rng = Math.random, now }) {
   if (room.phase !== "lobby" && room.phase !== "over") return { error: "Game already in progress" };
   if (byId !== room.hostId) return { error: "Only the host can start the game" };
   if (room.players.length < MIN_PLAYERS) return { error: "Need at least one player" };
@@ -173,7 +181,9 @@ export function startGame(room, byId, { pool, ladderLength, timerSeconds, usedKe
   room.phase = "question";
   room.ladderLength = ladderLength;
   room.timerSeconds = timerSeconds || 0;
+  room.revealAdvanceSeconds = revealAdvanceSeconds || 0;
   room.questionStartedAt = now;
+  room.revealStartedAt = null;
   room.lastResult = null;
   room.winnerIds = null;
   return {};
@@ -214,6 +224,18 @@ export function checkTimerExpired(room, now) {
   );
 }
 
+// Mirrors checkTimerExpired() for the post-question "reveal" screen: when
+// revealAdvanceSeconds is set, the Host's client auto-calls advanceQuestion()
+// once this elapses instead of waiting for a tap.
+export function checkRevealExpired(room, now) {
+  return (
+    room.phase === "reveal" &&
+    room.revealAdvanceSeconds > 0 &&
+    room.revealStartedAt !== null &&
+    now >= room.revealStartedAt + room.revealAdvanceSeconds * 1000
+  );
+}
+
 // Resolve the current question. Call when allAnswered(room) or
 // checkTimerExpired(room, now). Eliminates everyone who answered wrong or
 // didn't answer, then always moves to "reveal" so the correct answer is
@@ -249,6 +271,7 @@ export function resolveQuestion(room, now) {
   };
   room.lastResult = summary;
   room.phase = "reveal";
+  room.revealStartedAt = now;
 
   const survivors = alivePlayers(room);
   const isLastQuestion = room.qIndex === room.deck.length - 1;
@@ -270,6 +293,7 @@ export function resolveQuestion(room, now) {
 export function advanceQuestion(room, byId, now) {
   if (room.phase !== "reveal") return { error: "No question result to advance from" };
   if (byId !== room.hostId) return { error: "Only the host can advance the ladder" };
+  room.revealStartedAt = null;
   if (room._pendingOver) {
     room.phase = "over";
     room.winnerIds = room._pendingWinners;
@@ -295,6 +319,7 @@ export function resetToLobby(room, byId) {
   room.deck = [];
   room.qIndex = 0;
   room.questionStartedAt = null;
+  room.revealStartedAt = null;
   room.lastResult = null;
   room.winnerIds = null;
   room._pendingOver = false;
@@ -320,6 +345,11 @@ export function toPublicState(room, viewerId, now) {
     questionDeadlineAt:
       room.phase === "question" && room.timerSeconds > 0
         ? room.questionStartedAt + room.timerSeconds * 1000
+        : null,
+    revealAdvanceSeconds: room.revealAdvanceSeconds,
+    revealDeadlineAt:
+      room.phase === "reveal" && room.revealAdvanceSeconds > 0
+        ? room.revealStartedAt + room.revealAdvanceSeconds * 1000
         : null,
     now,
     winnerIds: room.winnerIds,

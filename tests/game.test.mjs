@@ -23,8 +23,12 @@ const POOL = [
   { tier: 1, q: "One Percent Q1", a: "Right4", d: ["Wrong4a", "Wrong4b", "Wrong4c"] },
 ];
 
-function roomWith(names) {
-  const room = g.createRoom("TEST");
+// hostId is fixed at createRoom() time, independent of the player roster —
+// this is what makes a spectator Host possible (see game.js createRoom
+// comment). Tests use "p1" as hostId by default, same as the old
+// first-player-becomes-host behavior, but the two are no longer coupled.
+function roomWith(names, hostId = "p1") {
+  const room = g.createRoom("TEST", hostId);
   names.forEach((name, i) => g.addPlayer(room, `p${i + 1}`, name));
   return room;
 }
@@ -43,10 +47,36 @@ function startedRoom(names, opts = {}) {
   return room;
 }
 
-test("players join in order, first player becomes host", () => {
+test("hostId is fixed at creation, independent of the player roster", () => {
   const room = roomWith(["Ana", "Ben", "Cy"]);
   assert.strictEqual(room.players.length, 3);
   assert.strictEqual(room.hostId, "p1");
+});
+
+test("a spectator Host (never added as a player) can still start and run the game", () => {
+  const room = g.createRoom("TEST", "display");
+  g.addPlayer(room, "p1", "Ana");
+  g.addPlayer(room, "p2", "Ben");
+  assert.strictEqual(room.players.length, 2); // the Host isn't among them
+  const res = g.startGame(room, "display", {
+    pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
+  });
+  assert.deepStrictEqual(res, {});
+  assert.strictEqual(room.phase, "question");
+  const q = g.currentQuestion(room);
+  g.submitAnswer(room, "p1", q.correctIndex, 1);
+  g.submitAnswer(room, "p2", q.correctIndex, 1);
+  const summary = g.resolveQuestion(room, 2);
+  assert.strictEqual(summary.results.length, 2); // Host never appears in results
+  assert.deepStrictEqual(g.advanceQuestion(room, "display", 3), {});
+});
+
+test("startGame with a spectator Host and zero players still requires at least one player", () => {
+  const room = g.createRoom("TEST", "display");
+  const res = g.startGame(room, "display", {
+    pool: POOL, ladderLength: "full", timerSeconds: 0, usedKeys: new Set(), rng: seeded(1), now: 0,
+  });
+  assert.ok(res.error);
 });
 
 test("room caps at MAX_PLAYERS and rejects duplicate names", () => {
@@ -227,6 +257,30 @@ test("toPublicState never leaks the correct answer while a question is open", ()
   assert.strictEqual(stateForP1.players.find((p) => p.id === "p1").myChoice, 2);
   assert.strictEqual(stateForP2.players.find((p) => p.id === "p1").myChoice, undefined);
   assert.strictEqual(stateForP2.players.find((p) => p.id === "p1").answered, true);
+});
+
+test("revealAdvanceSeconds: 0 means manual advance, no auto-expiry ever", () => {
+  const room = startedRoom(["Ana", "Ben"], { revealAdvanceSeconds: 0 });
+  const q = g.currentQuestion(room);
+  g.submitAnswer(room, "p1", q.correctIndex, 1001);
+  g.submitAnswer(room, "p2", q.correctIndex, 1001);
+  g.resolveQuestion(room, 1002);
+  assert.strictEqual(g.checkRevealExpired(room, 1002 + 999999), false);
+});
+
+test("revealAdvanceSeconds > 0 auto-expires after the configured pause and resets on advance", () => {
+  const room = startedRoom(["Ana", "Ben"], { revealAdvanceSeconds: 5 });
+  const q = g.currentQuestion(room);
+  g.submitAnswer(room, "p1", q.correctIndex, 1001);
+  g.submitAnswer(room, "p2", q.correctIndex, 1001);
+  g.resolveQuestion(room, 2000);
+  assert.strictEqual(g.checkRevealExpired(room, 2000 + 4999), false);
+  assert.strictEqual(g.checkRevealExpired(room, 2000 + 5000), true);
+  const state = g.toPublicState(room, "p1", 2000 + 5000);
+  assert.strictEqual(state.revealDeadlineAt, 2000 + 5000);
+  g.advanceQuestion(room, room.hostId, 2000 + 5000);
+  assert.strictEqual(room.revealStartedAt, null);
+  assert.strictEqual(g.checkRevealExpired(room, 2000 + 999999), false); // now in 'question' phase
 });
 
 test("toPublicState reveals the answer only after resolveQuestion, via lastResult", () => {
