@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1% Club — Party Edition</title>
+  <meta name="description" content="A free, ad-free party trivia game inspired by The 1% Club — climb the difficulty ladder from the line down to the 1% question, playable from your own phones." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <main id="app">
+
+    <!-- Home -->
+    <section id="screen-home" class="screen">
+      <h1 class="title">1<span>%</span> Club</h1>
+      <p class="tagline">Party Edition — unofficial fan-made trivia, not affiliated with ITV Studios, Lee Mack, or Fox.</p>
+      <div class="panel">
+        <label for="name-input">Your name</label>
+        <input id="name-input" maxlength="20" placeholder="e.g. Sam" autocomplete="off" />
+        <button id="create-btn" class="btn btn-gold">Create a room</button>
+        <div class="divider"><span>or join one</span></div>
+        <div class="join-row">
+          <input id="code-input" maxlength="4" placeholder="CODE" autocomplete="off" />
+          <button id="join-btn" class="btn">Join</button>
+        </div>
+      </div>
+      <details class="rules">
+        <summary>How to play</summary>
+        <ul>
+          <li>Everyone answers the same multiple-choice question (2-4 options) at once, in secret — no one can see anyone else's pick until it's revealed.</li>
+          <li>Each question shows the percentage of people who supposedly got it right when it was surveyed. The first question is <strong>The Line</strong>, usually the easiest.</li>
+          <li>Answer wrong, or don't answer before the timer runs out, and you're eliminated.</li>
+          <li>If everyone still standing gets a question wrong together, the whole group falls off the line and no one wins.</li>
+          <li>Survive every question on the ladder — all the way down to the hardest one available — and you've reached the 1%. More than one player can clear it together.</li>
+          <li>No accounts, no ads, no tracking. One device per player, plus a host who also plays and controls the pace.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Lobby -->
+    <section id="screen-lobby" class="screen hidden">
+      <h2 class="subtitle">Gathering the club…</h2>
+      <div class="room-code-box">
+        <span>Room code</span>
+        <strong id="lobby-code">----</strong>
+        <button id="copy-link-btn" class="btn btn-small">Copy invite link</button>
+      </div>
+      <div id="lobby-players" class="roster"></div>
+      <div class="customize">
+        <label for="rename-input">Your name</label>
+        <div class="join-row">
+          <input id="rename-input" maxlength="20" autocomplete="off" />
+          <button id="rename-btn" class="btn btn-small">Rename</button>
+        </div>
+      </div>
+      <div id="lobby-host-settings" class="customize hidden">
+        <label for="ladder-select">Ladder length</label>
+        <select id="ladder-select">
+          <option value="quick">Quick — spread across the tiers</option>
+          <option value="full">Full — every difficulty tier available</option>
+        </select>
+        <label for="timer-select">Time per question</label>
+        <select id="timer-select">
+          <option value="0">No timer</option>
+          <option value="20">20 seconds</option>
+          <option value="30" selected>30 seconds</option>
+          <option value="45">45 seconds</option>
+          <option value="60">60 seconds</option>
+        </select>
+        <button id="reset-questions-btn" class="btn btn-small">Reset question history on this device</button>
+      </div>
+      <p id="lobby-hint" class="hint"></p>
+      <button id="start-btn" class="btn btn-gold hidden">Start the ladder</button>
+    </section>
+
+    <!-- Question -->
+    <section id="screen-question" class="screen hidden">
+      <header class="game-header">
+        <span id="question-progress">Question 1 of 8</span>
+        <span id="question-tier" class="tier-badge"></span>
+      </header>
+      <div id="timer-bar" class="timer-bar hidden"><div class="timer-fill"></div><span id="timer-label"></span></div>
+      <div id="question-text" class="question-text"></div>
+      <div id="out-banner" class="banner grim hidden">You're eliminated — watch the rest play it out.</div>
+      <div id="question-choices" class="question-choices"></div>
+      <div id="question-roster" class="roster"></div>
+    </section>
+
+    <!-- Reveal -->
+    <section id="screen-reveal" class="screen hidden">
+      <span id="reveal-tier" class="tier-badge"></span>
+      <div id="reveal-question" class="question-text"></div>
+      <div class="answer-box">Correct answer: <strong id="reveal-answer"></strong></div>
+      <p id="reveal-explain" class="hint explain hidden"></p>
+      <div id="reveal-results" class="reveal-results"></div>
+      <p id="reveal-status" class="hint"></p>
+      <button id="next-btn" class="btn btn-gold hidden">Next question →</button>
+    </section>
+
+    <!-- Over -->
+    <section id="screen-over" class="screen hidden">
+      <h2 id="over-title" class="subtitle"></h2>
+      <p id="over-detail" class="hint"></p>
+      <button id="again-btn" class="btn btn-gold hidden">Play again — same lobby</button>
+    </section>
+
+  </main>
+  <div id="toast" class="toast hidden"></div>
+  <footer class="credits">
+    Unofficial fan project inspired by <em>The 1% Club</em>. Not affiliated with or endorsed by ITV Studios, Lee Mack, or Fox. Questions are sourced/adapted from publicly reported episode recaps — see README for sourcing notes.
+  </footer>
+  <script src="vendor/peerjs.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

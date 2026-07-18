@@ -1,0 +1,76 @@
+# Tasks: 1% Club — Party Edition
+
+## Phase 1 - Scaffold
+
+- [x] Copy the proven P2P full-participant room structure from `attack-attack`
+      (`js/room.js`), renaming the PeerJS ID prefix.
+- [x] Copy the pure-rules-engine + `node --test` harness convention from
+      `guess-antok-phrases`/`attack-attack`.
+- [x] Set up `specs/001-one-percent-club/`, `LICENSE`, `.nojekyll`,
+      `vendor/peerjs.min.js`.
+
+## Phase 2 - Rules engine
+
+- [x] `createRoom`, `addPlayer`, `renamePlayer`, `removePlayer` (lobby edits,
+      mid-game leave marks eliminated + "left").
+- [x] `buildDeck`: tier-descending deck construction, Quick vs Full ladder
+      length, used-question exclusion, deterministic via injected `rng`.
+- [x] `startGame`: host-only, builds the deck, resets player state, requires
+      at least one fresh question.
+- [x] `submitAnswer` / `allAnswered` / `checkTimerExpired`.
+- [x] `resolveQuestion`: eliminate wrong/non-answers, always land on
+      `reveal`, compute (but don't yet apply) the pending game-over outcome.
+- [x] `advanceQuestion`: host-only, applies the pending outcome — next
+      question or `over` with precomputed `winnerIds`.
+- [x] `resetToLobby`: host-only rematch, drops players who left mid-game.
+- [x] `toPublicState`: per-viewer redaction (own pending choice only, no
+      correct-answer leak pre-reveal).
+
+## Phase 3 - Networking + client
+
+- [x] `js/room.js`: PeerJS hostRoom/joinRoom, full-participant (adapted from
+      `attack-attack`, distinct ID prefix `onepct-room-`).
+- [x] `js/main.js`: `handleEvent`/`callAction`/`broadcastState` host-authority
+      split; screens for Home, Lobby, Question, Reveal, Over.
+- [x] Countdown timer bar synced to the Host's clock via `hostNow` offset,
+      auto-resolves on the Host when it elapses.
+- [x] `js/storage.js`: saved name/settings, used-question-key dedupe with a
+      Host-visible "reset question history" control.
+
+## Phase 4 - Question bank
+
+- [x] Research real/published *1% Club* questions (UK + US) with reported
+      difficulty tiers via web search across multiple recap sources.
+- [x] Normalize into `js/questions.js`'s `{ tier, q, a, d, source }` shape,
+      inventing plausible distractors only where the source didn't report
+      the show's own multiple-choice options (flagged during research).
+- [x] Exclude any question that fundamentally requires an image/diagram
+      (text-only game).
+- [x] Record sourcing/attribution in the README.
+
+## Phase 5 - Styling
+
+- [x] Shared dark/gold visual language with sibling games (`--gold`,
+      `--panel`, `.btn-gold`, etc. from `attack-attack/css/style.css`).
+- [x] Tier badge styling, distinct treatment for THE LINE.
+- [x] Countdown bar, question choice grid, reveal result rows, roster chips
+      with "locked in" status.
+
+## Phase 6 - Documentation
+
+- [x] SDD spec, plan (including the reveal/over bug fix writeup), and this
+      task list.
+- [x] README with how-to-play, local dev, question-bank sourcing/disclaimer,
+      and SDD links.
+
+## Phase 7 - Validation
+
+- [x] `node --test tests/game.test.mjs` (17/17 passing).
+- [x] Live two-browser Playwright run over the real public PeerJS broker:
+      full lobby → question → reveal → over → play-again loop, including a
+      full-wipeout ending.
+- [x] Live Playwright run of the timer-expiry auto-resolve path (solo
+      player, no answer, timer elapses).
+- [x] Found and fixed the wipeout/reveal-skip bug from the second-phase
+      testing above (see plan.md Changelog v1); reran both the unit suite
+      and both Playwright scripts to confirm the fix.

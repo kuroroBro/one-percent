@@ -1,0 +1,144 @@
+// Normalizes raw researched question data (tools/raw-questions.json) into
+// js/questions.js. Run with: node tools/gen-questions.js
+//
+// Raw entry shape (from research): { tier, question, answer, choices,
+// choicesInvented, source }. `tier` may be the string "line" (folded to 92,
+// the reported percentage the show's own "line" questions tend to sit at)
+// or an integer 1-99. `choices` may have as few as 2 entries — the real
+// show isn't always 4-option (True/False and 3-way questions do occur) — so
+// this only requires at least 1 usable distractor, not exactly 3.
+//
+// Both `answer` and every `choices` entry sometimes carry a trailing
+// parenthetical annotation scraped from the source (e.g. "V (all the given
+// letters rhyme with…)", or worse, "The 0.5% Club (correct, same as Half a
+// %)" — an annotation that would leak the answer if left inside a choice's
+// button text). Every parenthetical is stripped from every choice, not just
+// the answer, before anything is compared or written out.
+//
+// Output entry shape (js/questions.js, consumed by js/game.js buildDeck()):
+// { tier: number, q, a, d: [1-3 distractors], explain: string|null, source }.
+
+import { readFileSync, writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const RAW_PATH = join(__dirname, "raw-questions.json");
+const OUT_PATH = join(__dirname, "..", "js", "questions.js");
+
+const ENTITIES = { "&amp;": "&", "&#39;": "'", "&apos;": "'", "&quot;": '"', "&lt;": "<", "&gt;": ">", "&nbsp;": " " };
+
+function decodeEntities(s) {
+  return String(s).replace(/&(amp|#39|apos|quot|lt|gt|nbsp);/g, (m) => ENTITIES[m] ?? m);
+}
+
+function clean(s) {
+  return decodeEntities(String(s || "")).trim().replace(/\s+/g, " ");
+}
+
+function normalizeTier(tier) {
+  if (tier === "line" || tier === "Line" || tier === "THE LINE") return 92;
+  const n = Number(tier);
+  if (!Number.isFinite(n)) return null;
+  return Math.max(1, Math.min(99, Math.round(n)));
+}
+
+// Splits a trailing " (explanation)" off a piece of text, e.g.
+// "V (all the given letters rhyme with 'ee'...)" -> { clean: "V", explain: "…" }.
+// Applied to every choice too, so a leaked annotation never reaches a button.
+function splitExplain(text) {
+  const m = clean(text).match(/^(.*?)\s*\(([^()]*)\)\s*$/);
+  if (m && m[1]) return { clean: m[1].trim(), explain: m[2].trim() };
+  return { clean: clean(text), explain: null };
+}
+
+function findAnswerIndex(cleanAnswer, choices) {
+  const lower = cleanAnswer.toLowerCase();
+  let idx = choices.findIndex((c) => c.toLowerCase() === lower);
+  if (idx !== -1) return idx;
+  idx = choices.findIndex(
+    (c) => lower.startsWith(c.toLowerCase()) || c.toLowerCase().startsWith(lower)
+  );
+  return idx;
+}
+
+const skipped = [];
+
+function normalizeEntry(raw) {
+  const tier = normalizeTier(raw.tier);
+  const q = clean(raw.question);
+  const rawAnswer = clean(raw.answer);
+  if (!tier || !q || !rawAnswer) {
+    skipped.push({ reason: "missing tier/question/answer", q });
+    return null;
+  }
+
+  const { clean: cleanAnswer, explain: answerExplain } = splitExplain(rawAnswer);
+  // Strip any parenthetical from EVERY choice too — some raw choices carry
+  // their own leaked annotation (e.g. "(correct, same as …)") that must
+  // never reach a button's visible text.
+  const choices = [...new Set((raw.choices || []).map((c) => splitExplain(c).clean).filter(Boolean))];
+  if (choices.length < 2) {
+    skipped.push({ reason: "fewer than 2 distinct choices", q });
+    return null;
+  }
+
+  const idx = findAnswerIndex(cleanAnswer, choices);
+  if (idx === -1) {
+    skipped.push({ reason: "answer text not found among choices", q, cleanAnswer, choices });
+    return null;
+  }
+
+  const a = choices[idx];
+  const d = choices.filter((_, i) => i !== idx).slice(0, 3);
+  if (d.length < 1) {
+    skipped.push({ reason: "no usable distractors", q });
+    return null;
+  }
+
+  return { tier, q, a, d, explain: answerExplain, source: raw.source || null };
+}
+
+function dedupeByQuestion(entries) {
+  const seen = new Set();
+  const out = [];
+  for (const e of entries) {
+    const key = e.q.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(e);
+  }
+  return out;
+}
+
+const raw = JSON.parse(readFileSync(RAW_PATH, "utf8"));
+const normalized = dedupeByQuestion(raw.map(normalizeEntry).filter(Boolean));
+normalized.sort((a, b) => b.tier - a.tier);
+
+const byTier = new Map();
+for (const e of normalized) byTier.set(e.tier, (byTier.get(e.tier) || 0) + 1);
+const byChoiceCount = new Map();
+for (const e of normalized) {
+  const n = e.d.length + 1;
+  byChoiceCount.set(n, (byChoiceCount.get(n) || 0) + 1);
+}
+
+const header = `// Question bank for 1% Club (Party Edition), adapted from publicly reported
+// episode recaps of The 1% Club (UK/US) — see specs/001-one-percent-club/plan.md
+// Data Model for sourcing methodology, and README.md for the disclaimer.
+// Generated by tools/gen-questions.js from tools/raw-questions.json — do not
+// hand-edit this file directly; edit the raw data and regenerate instead.
+// tier = reported percentage of the public who answered correctly (higher = easier).
+`;
+
+const body = `export const QUESTIONS = ${JSON.stringify(normalized, null, 2)};\n`;
+
+writeFileSync(OUT_PATH, header + body);
+
+console.log(`Wrote ${normalized.length} questions across ${byTier.size} tiers to ${OUT_PATH}`);
+console.log("Tier distribution:", [...byTier.entries()].sort((a, b) => b[0] - a[0]));
+console.log("Choice-count distribution:", [...byChoiceCount.entries()].sort((a, b) => a[0] - b[0]));
+if (skipped.length > 0) {
+  console.log(`\nSkipped ${skipped.length} raw entries:`);
+  for (const s of skipped) console.log(" -", s.reason, "|", s.q?.slice(0, 70));
+}

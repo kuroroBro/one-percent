@@ -1,0 +1,165 @@
+# Feature Specification: 1% Club — Party Edition
+
+**Feature branch**: `001-one-percent-club`
+**Status**: Draft
+**Created**: 2026-07-18
+
+## Overview
+
+1% Club (Party Edition) is a browser-only elimination trivia game inspired by
+the TV format *The 1% Club*: every player answers the same multiple-choice logic
+question at once, in secret. Each question is labeled with the percentage of
+the public who supposedly answered it correctly when it was surveyed. The
+opening question is **the line**, usually the easiest on the ladder. Answer
+wrong — or don't answer before the timer runs out — and you're eliminated.
+Whoever is still standing when the ladder runs out has reached the 1%.
+
+Unlike the Host+Display sibling games (`guess-antok-phrases`), and like
+`attack-attack`'s P2P conversion, every player here is a full participant on
+their own device — there is no separate "shared screen" spectator role. One
+player's device becomes the room's authoritative Host; the Host also plays.
+
+This is an unofficial, non-commercial fan project. It is not affiliated with
+or endorsed by ITV Studios, Lee Mack, Fox, or any 1% Club rights holder — see
+`README.md` for the sourcing/attribution note on the question bank.
+
+## User Stories
+
+### US-1: Create or join a room
+As a player, I want to create a room or join one with a 4-character code, so
+my group can play together from our own phones.
+
+Acceptance criteria:
+- Creating a room picks a free room code and opens a lobby; the creator is
+  the Host and first player.
+- Joining requires a name (unique in the room, 1–20 chars) and enters the
+  same lobby.
+- Up to `MAX_PLAYERS` (12) players per room.
+- If the room code doesn't resolve to a reachable Host peer, joining fails
+  with a plain-language error.
+
+### US-2: Configure and start the ladder
+As the Host, I want to choose how long the ladder is and how much time each
+question gets, so the session fits my group and how much time we have.
+
+Acceptance criteria:
+- The Host picks a ladder length — **Quick** (questions spread evenly across
+  the available difficulty tiers, capped at `LADDER_TARGET_LENGTH`) or
+  **Full** (every distinct difficulty tier with a fresh question left) —
+  and a per-question timer (off, 20s, 30s, 45s, or 60s) before starting.
+- Starting requires at least one player (solo ladder attempts are allowed).
+- The deck is built from questions not already used on this device in a
+  previous game (see US-6); if none remain, starting fails with a clear
+  error and a way to reset the question history.
+- Non-host players see a waiting hint instead of the start control.
+
+### US-3: Answer a question
+As a player, I want to pick one of four answers in secret and see whether
+everyone else has locked in, so no one can copy an answer mid-round.
+
+Acceptance criteria:
+- The current question shows its difficulty tier (and is marked **THE LINE**
+  if it's the first question), the question text, and its choices (2-4
+  options depending on the question).
+- Other players' chosen answer is never visible before the question
+  resolves — only whether they've locked in yet.
+- A question resolves the instant every still-alive player has answered, or
+  when the timer runs out (whichever comes first). Not answering in time
+  counts as wrong.
+- An eliminated player sees the question play out but cannot answer.
+
+### US-4: See the result and keep going
+As a player, I want to see the correct answer and who got it right before
+the ladder continues, so eliminations feel earned, not sudden.
+
+Acceptance criteria:
+- Resolving a question **always** shows a reveal screen with the correct
+  answer and each player's pick, even when every remaining player got it
+  wrong together (a full wipeout) — the game never jumps straight to a
+  result screen without showing the answer first.
+- Only the Host can advance from the reveal screen. Advancing either deals
+  the next question, or — if that was a wipeout or the last tier in the
+  ladder — ends the game.
+- The Host's advance button is labeled differently depending on which of
+  those two outcomes is coming next.
+
+### US-5: End of the ladder
+As a group, we want a clear result: who (if anyone) reached the 1%.
+
+Acceptance criteria:
+- If every remaining player is eliminated on the same question, the game
+  ends with no winner.
+- If at least one player survives the final question in the built ladder,
+  every survivor is a winner — ties are allowed; the win is not exclusive
+  to a single player.
+- The Host can start a rematch ("Play again") that returns to the lobby with
+  the same players (anyone who disconnected mid-game is dropped), a fresh
+  join-editable roster, and a newly built deck.
+
+### US-6: Don't repeat questions on the same device
+As a returning player, I want a fresh set of questions each time I host, so
+repeat games don't reuse the exact same ladder.
+
+Acceptance criteria:
+- Each question used in a built deck is recorded in this device's local
+  storage and excluded from future decks built on that device.
+- The Host can clear that history from the lobby to bring the full bank back
+  into rotation.
+- This is a per-device convenience, not cross-device sync — there is no
+  account system.
+
+### US-7: Disconnect handling
+As a player, I want the game to keep working sensibly if someone's
+connection drops, so one dropped phone doesn't stall the room.
+
+Acceptance criteria:
+- Leaving during the lobby removes that seat entirely.
+- Leaving mid-game marks that player eliminated (seat stays visible, marked
+  "left") rather than removing them.
+- A question can't wait forever on a player who is gone — if a disconnect
+  leaves every remaining alive player answered, resolution proceeds.
+- If the Host disconnects, the room cannot continue — same accepted
+  limitation as `attack-attack`'s P2P model.
+
+## Functional Requirements
+
+- **FR-1** Static site only: must run from GitHub Pages (no backend, no
+  build step required to serve).
+- **FR-2** Game logic stays a pure, testable module (`js/game.js`) with no
+  DOM or network code.
+- **FR-3** Host-authoritative networking over PeerJS: only the Host mutates
+  room state; every other player's client sends intents and renders
+  whatever snapshot it last received.
+- **FR-4** No secret field is ever broadcast to non-Host clients before it's
+  supposed to be public: another player's pending answer choice, and a
+  question's correct-answer index while that question is still open, are
+  both excluded from every outbound message until the question resolves.
+- **FR-5** No ads, no analytics, no tracking, no accounts, no real-money
+  stakes.
+
+## Key Entities
+
+- **QuestionEntry** (source pool, `js/questions.js`): `tier` (difficulty
+  percentage, 1–99), `q` (question text), `a` (correct answer text), `d`
+  (array of 3 distractor answer texts), optional `source` (attribution URL).
+- **DeckEntry**: one `QuestionEntry` resolved into a dealt question — `tier`,
+  `question`, `choices` (the 4 texts, shuffled), `correctIndex`, `key`
+  (dedupe key), `source`.
+- **Player**: `id`, `name`, `alive`, `left`, `choiceIndex` (pending answer,
+  hidden from everyone but that player pre-reveal).
+- **Room**: `code`, `phase` (`lobby` \| `question` \| `reveal` \| `over`),
+  `hostId`, `players`, `deck`, `qIndex`, `timerSeconds`, `ladderLength`,
+  `lastResult`, `winnerIds`.
+
+## Non-goals
+
+- No free-text answer input — every question is multiple choice (2-4
+  options), even where the original show used a free-response format (see
+  plan.md Data Model for how distractors were sourced).
+- No shared "big screen" Display role in this version — every player,
+  including the Host, plays from their own device.
+- No real-money or points-based scoring — outcome is binary per game
+  (reached the 1% or didn't).
+- No visual/image-based puzzles — the question bank is text-only.
+- No reconnection/session-resume support — a dropped connection means
+  rejoin fresh.
