@@ -16,7 +16,7 @@ with friends. See "Question bank" below for sourcing notes.
 ## How to play
 
 1. **Create a room** — pick a name, tap **Create a room**, and share the
-   4-letter code (or the copied invite link) with your group. If you're
+   4-letter code, scan the QR code shown in the lobby, or use the copied invite link with your group. If you're
    running this on a shared screen/laptop and don't want to play yourself,
    check **"Run as a display only"** first — no name needed.
 2. **Everyone joins** on their own phone with the same code.

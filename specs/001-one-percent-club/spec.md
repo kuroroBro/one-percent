@@ -37,6 +37,9 @@ Acceptance criteria:
   the Host and first player.
 - Joining requires a name (unique in the room, 1–20 chars) and enters the
   same lobby.
+- The lobby displays a QR code encoding the public room URL; scanning it on
+  another device opens the join form with the room code prefilled. The QR
+  payload must not contain a player's private rejoin token.
 - Up to `MAX_PLAYERS` (12) players per room.
 - If the room code doesn't resolve to a reachable Host peer, joining fails
   with a plain-language error.

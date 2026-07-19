@@ -112,6 +112,9 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
 }
 .room-code-box span { font-size: 0.8rem; color: var(--muted); }
 .room-code-box strong { font-size: 2.2rem; letter-spacing: 0.35em; color: var(--gold); }
+.room-qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 4px 0; }
+.room-qr { width: 180px; height: 180px; border-radius: 8px; background: #fff; padding: 6px; box-sizing: border-box; }
+.room-qr-hint { font-size: 0.75rem; color: var(--muted); }
 
 .roster { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
 .pchip {

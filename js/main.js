@@ -105,6 +105,12 @@ function hostIsPlaying() {
 
 function renderLobby() {
   $("lobby-code").textContent = state.code;
+  const inviteUrl = `${location.origin}${location.pathname}?room=${encodeURIComponent(state.code)}`;
+  const qr = $("lobby-qr");
+  // Keep the QR payload to the public room URL only. Player resume tokens are
+  // deliberately stored privately in localStorage and never put in invites.
+  qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(inviteUrl)}`;
+  qr.alt = `QR code to join room ${state.code}`;
   renderRoster($("lobby-players"));
   const iAmHost = myId === state.hostId;
   $("start-btn").classList.toggle("hidden", !iAmHost);
@@ -536,7 +542,7 @@ $("join-btn").addEventListener("click", () => {
 });
 
 $("copy-link-btn").addEventListener("click", () => {
-  const url = `${location.origin}${location.pathname}?room=${state.code}`;
+  const url = `${location.origin}${location.pathname}?room=${encodeURIComponent(state.code)}`;
   navigator.clipboard.writeText(url).then(
     () => toast("Invite link copied"),
     () => toast(url)

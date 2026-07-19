@@ -310,3 +310,6 @@
       answering." All 34 tests pass. Verified live: an eliminated player's
       buttons stay enabled, they can lock in an answer, and the roster/
       reveal reflect their ineligibility correctly.
+- [x] Added a lobby QR code that encodes only the public `?room=CODE` invite
+      URL, with scan guidance and accessible alt text. Private rejoin tokens
+      remain in local storage and are never included in the QR payload.
