@@ -9,6 +9,7 @@
 import * as game from "./game.js";
 import { QUESTIONS } from "./questions.js";
 import { hostRoom, joinRoom } from "./room.js";
+import { unlockAudio, playGameStart } from "./sound.js";
 import {
   createResumeToken,
   loadPlayerSession,
@@ -32,6 +33,7 @@ let timerHandle = null;
 let revealTimerHandle = null;
 let selectedChoice = null; // my pending pick this question, before I submit
 let activeResumeToken = null;
+let lastPhase = null; // previous state.phase, so we can tell lobby -> question apart from a mid-game re-render
 
 const $ = (id) => document.getElementById(id);
 const screens = {
@@ -293,8 +295,14 @@ function renderOver() {
 }
 
 function render() {
-  if (!state) return show("home");
+  if (!state) { lastPhase = null; return show("home"); }
   selectedChoice = null;
+  // The ladder actually begins the moment everyone leaves the lobby for the
+  // first question — fires once per game (including replays via "Play
+  // again", which resets to "lobby" first), never on the timer-driven
+  // re-renders that already happen throughout "question".
+  if (state.phase === "question" && lastPhase === "lobby") playGameStart();
+  lastPhase = state.phase;
   if (state.phase === "lobby") {
     show("lobby");
     renderLobby();
@@ -476,6 +484,7 @@ function resetToHome() {
 }
 
 $("create-btn").addEventListener("click", async () => {
+  unlockAudio(); // must happen on a real click — the game-start sound fires later, without one
   const spectator = $("spectator-checkbox").checked;
   const name = $("name-input").value.trim();
   if (!spectator && !name) return toast("Enter your name first");
@@ -534,6 +543,7 @@ async function join(code, name) {
 }
 
 $("join-btn").addEventListener("click", () => {
+  unlockAudio(); // must happen on a real click — the game-start sound fires later, without one
   const name = $("name-input").value.trim();
   const code = $("code-input").value.trim().toUpperCase();
   if (!name) return toast("Enter your name first");
