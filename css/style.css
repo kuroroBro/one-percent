@@ -97,7 +97,7 @@ input:focus, select:focus { outline: 2px solid var(--gold-dark); border-color: t
   color: var(--muted); font-size: 0.8rem; margin: 4px 0;
 }
 .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.join-row { display: flex; gap: 8px; }
+.join-row { display: flex; flex-direction: column; gap: 8px; }
 .join-row input { flex: 1; }
 
 .rules { max-width: 440px; color: var(--muted); font-size: 0.9rem; }
