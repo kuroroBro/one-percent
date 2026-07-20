@@ -20,6 +20,7 @@ import {
   savePlayerSession,
   saveSettings,
 } from "./storage.js";
+import { recordShowResult } from "./leaderboard.js";
 
 const HOST_ID = "host"; // stable local id for the Host's own player entry
 
@@ -290,6 +291,24 @@ function renderOver() {
     names.length > 0
       ? `${names.join(" & ")} climbed the whole ladder.`
       : "The whole group fell off before the ladder ran out. Give it another go!";
+  // Full final standings, not just the winner line -- every player's own
+  // result should be visible on this screen, not only the survivors'.
+  const list = $("over-results");
+  list.innerHTML = "";
+  const ordered = [...state.players].sort((a, b) => Number(winners.includes(b.id)) - Number(winners.includes(a.id)));
+  for (const p of ordered) {
+    const won = winners.includes(p.id);
+    const row = document.createElement("div");
+    row.className = "result-row" + (won ? " correct" : " wrong");
+    const player = document.createElement("span");
+    player.className = "result-player";
+    player.textContent = `${won ? "✅" : "❌"} ${p.name}`;
+    const status = document.createElement("strong");
+    status.className = "result-answer";
+    status.textContent = won ? "Reached the 1%" : "Eliminated";
+    row.append(player, status);
+    list.appendChild(row);
+  }
   const iAmHost = myId === state.hostId;
   $("again-btn").classList.toggle("hidden", !iAmHost);
 }
@@ -391,6 +410,7 @@ function handleEvent(playerId, event, payload) {
     case "advance": {
       const res = game.advanceQuestion(room, playerId, Date.now());
       if (res.error) return { error: res.error };
+      if (room.phase === "over") recordShow();
       broadcastState();
       return {};
     }
@@ -431,7 +451,25 @@ function maybeAutoAdvance() {
   if (!room || room.phase !== "reveal") return;
   if (!game.checkRevealExpired(room, Date.now())) return;
   game.advanceQuestion(room, room.hostId, Date.now());
+  if (room.phase === "over") recordShow();
   broadcastState();
+}
+
+// Records the finished show for the cross-game Leader Board, from the same
+// final state renderOver() shows the players -- see
+// leader-board/specs/001-leader-board/. Host-only (both call sites above
+// only ever run on the Host device). This game has no numeric score --
+// it's last-one-standing -- so each player's recorded "score" is 1 if
+// they reached the 1% (survived to the end) and 0 if eliminated, matching
+// the win/loss the over screen now shows for every player.
+function recordShow() {
+  const winners = room.winnerIds || [];
+  recordShowResult({
+    game: "one-percent", gameName: "The One Percent Club",
+    players: room.players.map((p) => ({ name: p.name, score: winners.includes(p.id) ? 1 : 0 })),
+    winners: room.players.filter((p) => winners.includes(p.id)).map((p) => p.name),
+    meta: { questions: room.deck?.length },
+  });
 }
 
 function applyState(newState, hostNowMs) {

@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Leader Board bridge</title>
+<script>
+// Serves THIS origin's leaderboard entries to the Leader Board site over
+// postMessage. Allow-listed origins only; exposes only the leaderboard key
+// -- never resume tokens, settings, or anything else on this origin.
+(function () {
+  var KEY = 'partyGames.leaderboard.v1';
+  var ALLOWED = [
+    'https://leaderboard.gondoit.work',
+    /^http:\/\/localhost(:\d+)?$/,
+    /^http:\/\/127\.0\.0\.1(:\d+)?$/,
+  ];
+  function allowed(origin) {
+    return ALLOWED.some(function (a) { return a instanceof RegExp ? a.test(origin) : a === origin; });
+  }
+  function entries() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(raw) ? raw : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  window.addEventListener('message', function (event) {
+    if (!allowed(event.origin) || !event.data || typeof event.data.type !== 'string') return;
+    if (event.data.type === 'lb:clear') {
+      try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+    } else if (event.data.type !== 'lb:request') {
+      return;
+    }
+    var list = entries();
+    event.source.postMessage({ type: 'lb:entries', game: list[0] ? list[0].game : null, entries: list }, event.origin);
+  });
+})();
+</script>
